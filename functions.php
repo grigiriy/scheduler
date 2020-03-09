@@ -88,35 +88,67 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 function get_schedule($post_id) {
   $post =  get_post($post_id);
   $post_scheduler = get_post_custom($post_id)['frequency'][0];
-  $user_timeRange = unserialize(get_user_meta($post->post_author)['from_range'][0]);
+  $user_timeRange = [
+    strtotime(get_user_meta($post->post_author)['mrng_practice'][0]),
+    strtotime(get_user_meta($post->post_author)['daily_practice'][0]),
+    strtotime(get_user_meta($post->post_author)['evng_practice'][0])
+  ];
 
   return [$post_scheduler, $user_timeRange,$post_id];
+}
+
+
+function remove_scheduleMail($arr){
+  $post_scheduler = $arr[0];
+  $user_timeRange = $arr[1];
+
+  $post_id = $arr[2];
+  
+  wp_clear_scheduled_hook( 'send_notify',[$post_id] );
+  set_scheduleMail($arr);
 }
 
 function set_scheduleMail($arr) {
   $post_scheduler = $arr[0];
   $user_timeRange = $arr[1];
+
   $post_id = $arr[2];
 
-  
+  $_day = 60 * 60 * 24;
+	$schedules['light'] = [
+    $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[1]),
+    $_day * 4 - (strtotime("now")+180*60 - $user_timeRange[2])
+  ];
+	$schedules['norm'] = [
+    $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[0]),
+    $_day * 3 - (strtotime("now")+180*60 - $user_timeRange[1]),
+    $_day * 5 - (strtotime("now")+180*60 - $user_timeRange[1])
+  ];
+	$schedules['zombo'] = [
+    5*60*60,
+    $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[2]),
+    $_day * 7 - (strtotime("now")+180*60 - $user_timeRange[2])
+  ];
+
   switch ($post_scheduler) {
-    case 'Ежедневно':
-      $timer =  "daily";
-        break;
-         case 'Раз в два дня':
-      $timer = "two_days";
-        break;
-        case 'Раз в три дня':
-      $timer =  "three_days";
-        break;
-        case 'Еженедельно':
-      $timer =  "weekly";
-        break;
+    case 'На лайте':
+      $timer =  $schedules["light"];
+      break;
+    case 'Норм':
+      $timer = $schedules["norm"];
+      break;
+    case 'Зомборежим':
+      $timer =  $schedules["zombo"];
+      break;
 }
 
 
+
   if( !wp_next_scheduled('send_notify') )
-    wp_schedule_event( strtotime("now"), $timer, 'send_notify',[$post_id]);
+    foreach($timer as $_timer){
+      wp_schedule_single_event( strtotime("now") + $_timer, 'send_notify',[$post_id] );
+    }
+
   return true;
 }
 
@@ -127,7 +159,7 @@ function send_notify($post_id) {
   $headers = ['Content-type: text/html; charset=utf-8','From: Шедлер <notify@sche.cq77457.tmweb.ru>'];
   $post =  get_post($post_id);
 
-  $author_mail = get_user_meta($post->post_author)['nickname'][0];
+  $author_mail = get_userdata($post->post_author)->user_email;;
   $post_name = get_the_title($post_id);
   $post_link = '<html><head></head><body><h3>Добрый день!</h3><p>Напоминаем, что на сегодня у вас запланировано повторение урока "<a href="' . get_the_permalink($post_id) . '">' . get_the_title($post_id) . '</a>".</p></body></html>';
   wp_mail($author_mail, 'Напоминание о повторении урока '. $post_name, $post_link,$headers);
@@ -147,6 +179,7 @@ add_action('auto-draft_to_publish' ,'send_emails_on_new_event');
  */
 function send_emails_on_new_event($post) {
   set_scheduleMail(get_schedule($post->ID));
+  
 }
 
 

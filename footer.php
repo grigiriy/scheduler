@@ -22,7 +22,7 @@ $(document).ready(function() {
                 post_id: $post_id
             }, // можно также передать в виде объекта
             success: function(data) {
-                $('#submit_lesson').html('вроде ок');
+                $('#submit_lesson').html(data);
                 console.log(data);
             },
             error: function(errorThrown) {
