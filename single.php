@@ -9,6 +9,8 @@ while ( have_posts() ) :
 <div class="container">
     <?php
     $yt_code = get_post_custom()['yt_code'][0];
+    preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
+    $yt_code = $matches[0];
     ?>
     <h1><?php the_title(); ?></h1>
     <iframe width="100%" height="505px" src="https://www.youtube.com/embed/<?= $yt_code ?>/" frameborder="0"
@@ -18,7 +20,10 @@ while ( have_posts() ) :
     <div class="jumbotron">
         <h3>Ручка</h3>
         <button id="submit_lesson" class="btn btn-success">
-            <h4>Отправить в очередь</h4>
+            <h4>Посмотрел! планируем дальше</h4>
+        </button>
+        <button id="update_lesson" class="btn btn-success">
+            <h4>Обновить таймеры</h4>
         </button>
     </div>
 </div>
