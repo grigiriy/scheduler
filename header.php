@@ -17,6 +17,7 @@
                 <?php
                   wp_nav_menu([
                     'container' => '',
+                    'theme_location' => 'header_menu',
                     'items_wrap' => '<ul class="nav">%3$s</ul>'
                   ]); 
                 ?>
