@@ -1,0 +1,20 @@
+body {
+  background: rgb(255, 199, 237);
+  background: linear-gradient(
+    356deg,
+    rgba(255, 199, 237, 1) 0%,
+    rgba(217, 246, 245, 1) 100%
+  );
+}
+nav {
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+nav a {
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+nav a[aria-current='page'] {
+  color: darkblue;
+  background: #fff;
+}
