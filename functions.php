@@ -61,6 +61,7 @@ add_action(
     register_nav_menus(
       [
         'header_menu' => 'Header Menu',
+        'user_menu' => 'User Menu',
         'footer_menu' => 'Footer Menu',
       ]
     );
@@ -74,129 +75,174 @@ function special_nav_class($classes, $item){
     return $classes;
 }
 
+add_action( 'carbon_fields_register_fields', 'crb_register_custom_fields' );
+function crb_register_custom_fields() {
+    include_once __DIR__ . '/theme-helpers/custom-fields/lessons.php';
+}
+
+add_action( 'after_setup_theme', 'crb_load' );
+function crb_load() {
+    require_once( 'vendor/autoload.php' );
+    \Carbon_Fields\Carbon_Fields::boot();
+}
 
 
+
+
+
+// AJAX FUNCTION TO MARK LESSON AS COMPLETED (NOT READY YET)
 function lesson_passed() {
+// IDK VAT 4 IZ IT
   $post_id = $_POST['post_id'];
-  set_scheduleMail(get_schedule($post_id));
+  $user_id = $_POST['user_id'];
+  // set_scheduleMail(get_schedule($post_id));
+  set_cf(get_schedule($post_id),$user_id);
   wp_die();
   return true;
 }
-
 add_action('wp_ajax_lesson_passed', 'lesson_passed'); 
+// AJAX FUNCTION TO MARK LESSON AS COMPLETED (NOT READY YET)
 
-function get_schedule($post_id) {
-  $post =  get_post($post_id);
-  $post_scheduler = get_post_custom($post_id)['frequency'][0];
-  $user_timeRange = [
-    strtotime(get_user_meta($post->post_author)['mrng_practice'][0]),
-    strtotime(get_user_meta($post->post_author)['daily_practice'][0]),
-    strtotime(get_user_meta($post->post_author)['evng_practice'][0])
-  ];
 
-  return [$post_scheduler, $user_timeRange,$post_id];
+
+
+// AJAX FUNCTION TO UPDATE USERS LESSON TIMERS (NOT READY YET)
+function lesson_changed() {
+  $post_id = intval($_POST['post_id']);
+  $user_id = intval($_POST['user_id']);
+  $frequency = $_POST['frequency'];
+
+  $timer = get_schedule($frequency,$user_id);
+  set_cf($timer,$user_id,$post_id);
+  update_scheduleMail($timer,$user_id,$post_id);
+  wp_die();
+  return true;
 }
+add_action('wp_ajax_lesson_changed', 'lesson_changed'); 
+// AJAX FUNCTION TO UPDATE USERS LESSON TIMERS (NOT READY YET)
 
 
-function remove_scheduleMail($arr){
-  $post_scheduler = $arr[0];
-  $user_timeRange = $arr[1];
 
-  $post_id = $arr[2];
+
+
+// GET USER SPECIFIED TIME BY ID
+function get_schedule($frequency,$user_id) {
   
-  wp_clear_scheduled_hook( 'send_notify',[$post_id] );
-  set_scheduleMail($arr);
-}
-
-function set_scheduleMail($arr) {
-  $post_scheduler = $arr[0];
-  $user_timeRange = $arr[1];
-
-  $post_id = $arr[2];
+  $user_timeRange = [
+    strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0]) : strtotime(get_user_meta(1)['mrng_practice'][0]),
+    strtotime(get_user_meta($user_id)['daily_practice'][0]) ? strtotime(get_user_meta($user_id)['daily_practice'][0]) : strtotime(get_user_meta(1)['daily_practice'][0]),
+    strtotime(get_user_meta($user_id)['evng_practice'][0]) ? strtotime(get_user_meta($user_id)['evng_practice'][0]) : strtotime(get_user_meta(1)['evng_practice'][0])
+  ];
 
   $_day = 60 * 60 * 24;
 	$schedules['light'] = [
-    $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[1]),
-    $_day * 4 - (strtotime("now")+180*60 - $user_timeRange[2])
+    strtotime("now") + $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[1]),
+    strtotime("now") + $_day * 4 - (strtotime("now")+180*60 - $user_timeRange[2])
   ];
 	$schedules['norm'] = [
-    $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[0]),
-    $_day * 3 - (strtotime("now")+180*60 - $user_timeRange[1]),
-    $_day * 5 - (strtotime("now")+180*60 - $user_timeRange[1])
+    strtotime("now") + $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[0]),
+    strtotime("now") + $_day * 3 - (strtotime("now")+180*60 - $user_timeRange[1]),
+    strtotime("now") + $_day * 5 - (strtotime("now")+180*60 - $user_timeRange[1])
   ];
 	$schedules['zombo'] = [
-    5*60*60,
-    $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[2]),
-    $_day * 7 - (strtotime("now")+180*60 - $user_timeRange[2])
+    strtotime("now") + 5*60*60,
+    strtotime("now") + $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[2]),
+    strtotime("now") + $_day * 7 - (strtotime("now")+180*60 - $user_timeRange[2])
   ];
 
-  switch ($post_scheduler) {
-    case 'На лайте':
-      $timer =  $schedules["light"];
-      break;
-    case 'Норм':
-      $timer = $schedules["norm"];
-      break;
-    case 'Зомборежим':
-      $timer =  $schedules["zombo"];
-      break;
+  $timer = $schedules[$frequency];
+
+  return [$frequency, $timer];
 }
+// GET USER SPECIFIED TIME BY ID
 
 
+
+
+
+
+// FILL USERS CUSTOM FIELDS WITH TIMERS
+function set_cf($arr,$user_id,$post_id){
+  $list = carbon_get_user_meta( $user_id, 'schedule' );
+  $var=0;
+  foreach ( $list as $key=>$el ) {
+    if(intval($el['lesson_id']) === $post_id){
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/cource_frequency', $arr[0] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/first_reminder', $arr[1][0] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', $arr[1][1] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', $arr[1][2] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/fourth_reminder', $arr[1][3] );
+      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/lesson_id', null );
+      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/cource_frequency', null );
+      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/first_reminder', null );
+      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', null );
+      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', null );
+      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/fourth_reminder', null );
+      $var=1;
+      return[$arr,$user_id,$post_id];
+    }
+  }
+  if($var===0){
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/lesson_id', $post_id );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/cource_frequency', $arr[0] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/first_reminder', $arr[1][0] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/second_reminder', $arr[1][1] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/third_reminder', $arr[1][2] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/fourth_reminder', $arr[1][3] );
+  }
+  return[$arr,$user_id,$post_id];
+ };
+// FILL USERS CUSTOM FIELDS WITH TIMERS
+
+
+
+// DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
+function update_scheduleMail($arr,$user_id,$post_id){
+  
+  wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] ); // Удаляет все крон-задачи прикрепленные к указанному хуку и имеющие указанные параметры.
+  set_scheduleMail($arr,$user_id,$post_id);
+}
+// DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
+
+
+
+
+
+
+// PARSE SCHEDULE RULES (LIGHT,NORM ETC)
+// AND SET TIMERS
+// AND CALL A FUNCTION TO SEND LETTERS
+function set_scheduleMail($arr,$user_id,$post_id) {
 
   if( !wp_next_scheduled('send_notify') )
-    foreach($timer as $_timer){
-      wp_schedule_single_event( strtotime("now") + $_timer, 'send_notify',[$post_id] );
-    }
-
+  foreach($arr[1] as $_timer){
+    wp_schedule_single_event( $_timer, 'send_notify',[$post_id,$user_id,$_timer] );
+  }
   return true;
 }
+// PARSE SCHEDULE RULES (LIGHT,NORM ETC)
+// AND SET TIMERS
+// AND CALL A FUNCTION TO SEND LETTERS
 
+
+
+
+
+
+
+
+
+// SENDING EMAIL FUNCTION
 add_action('send_notify', 'send_notify');
 
+function send_notify($post_id,$user_id) {
 
-function send_notify($post_id) {
+  remove_lesson($post_id,$user_id);
   $headers = ['Content-type: text/html; charset=utf-8','From: Шедлер <notify@sche.cq77457.tmweb.ru>'];
-  $post =  get_post($post_id);
 
-  $author_mail = get_userdata($post->post_author)->user_email;;
+  $author_mail = get_userdata($user_id)->user_email;
   $post_name = get_the_title($post_id);
   $post_link = '<html><head></head><body><h3>Добрый день!</h3><p>Напоминаем, что на сегодня у вас запланировано повторение урока "<a href="' . get_the_permalink($post_id) . '">' . get_the_title($post_id) . '</a>".</p></body></html>';
-  wp_mail($author_mail, 'Напоминание о повторении урока '. $post_name, $post_link,$headers);
+  wp_mail($author_mail, 'Напоминание о повторении урока '. $post_name, $post_link, $headers);
 }
-
-
-
-add_action('future_to_publish', 'send_emails_on_new_event');
-add_action('new_to_publish', 'send_emails_on_new_event');
-add_action('draft_to_publish' ,'send_emails_on_new_event');
-add_action('auto-draft_to_publish' ,'send_emails_on_new_event');
- 
-/**
- * Send emails on event publication
- *
- * @param WP_Post $post
- */
-function send_emails_on_new_event($post) {
-  set_scheduleMail(get_schedule($post->ID));
-  
-}
-
-
-add_filter( 'cron_schedules', 'cron_add_custom_intervals' );
-function cron_add_custom_intervals( $schedules ) {
-  $_day = 60 * 60 * 24;
-	$schedules['two_days'] = array(
-		'interval' =>  $_day * 2,
-		'display'  => 'Каждые 2 дня'
-  );
-	$schedules['three_days'] = array(
-		'interval' => $_day * 3,
-		'display'  => 'Каждые 3 дня'
-  );
-	$schedules['weekly'] = array(
-		'interval' => $_day * 7,
-		'display'  => 'Еженедельно'
-	);
-	return $schedules;
-}
+// SENDING EMAIL FUNCTION
