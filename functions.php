@@ -137,19 +137,20 @@ function get_schedule($frequency,$user_id) {
   ];
 
   $_day = 60 * 60 * 24;
+  $timeZone_msc = 180*60;
 	$schedules['light'] = [
-    strtotime("now") + $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[1]),
-    strtotime("now") + $_day * 4 - (strtotime("now")+180*60 - $user_timeRange[2])
+    strtotime("now") + $_day * 1 - (strtotime("now")+$timeZone_msc - $user_timeRange[1]),
+    strtotime("now") + $_day * 4 - (strtotime("now")+$timeZone_msc - $user_timeRange[2])
   ];
 	$schedules['norm'] = [
-    strtotime("now") + $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[0]),
-    strtotime("now") + $_day * 3 - (strtotime("now")+180*60 - $user_timeRange[1]),
-    strtotime("now") + $_day * 5 - (strtotime("now")+180*60 - $user_timeRange[1])
+    strtotime("now") + $_day * 1 - (strtotime("now")+$timeZone_msc - $user_timeRange[0]),
+    strtotime("now") + $_day * 3 - (strtotime("now")+$timeZone_msc - $user_timeRange[1]),
+    strtotime("now") + $_day * 5 - (strtotime("now")+$timeZone_msc - $user_timeRange[1])
   ];
 	$schedules['zombo'] = [
     strtotime("now") + 5*60*60,
-    strtotime("now") + $_day * 1 - (strtotime("now")+180*60 - $user_timeRange[2]),
-    strtotime("now") + $_day * 7 - (strtotime("now")+180*60 - $user_timeRange[2])
+    strtotime("now") + $_day * 1 - (strtotime("now")+$timeZone_msc - $user_timeRange[2]),
+    strtotime("now") + $_day * 7 - (strtotime("now")+$timeZone_msc - $user_timeRange[2])
   ];
 
   $timer = $schedules[$frequency];
