@@ -92,13 +92,15 @@ function crb_load() {
 
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED (NOT READY YET)
 function lesson_passed() {
+  // wp_logout();
 // IDK VAT 4 IZ IT
   $post_id = $_POST['post_id'];
   $user_id = $_POST['user_id'];
-  // set_scheduleMail(get_schedule($post_id));
-  set_cf(get_schedule($post_id),$user_id);
-  wp_die();
-  return true;
+  // // set_scheduleMail(get_schedule($post_id));
+  // set_cf(get_schedule($post_id),$user_id);
+  // wp_die();
+  // return true;
+  move_cf_to_cf_archive($post_id,$user_id);
 }
 add_action('wp_ajax_lesson_passed', 'lesson_passed'); 
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED (NOT READY YET)
@@ -178,6 +180,7 @@ function set_cf($arr,$user_id,$post_id){
       // carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', null );
       // carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', null );
       // carbon_set_user_meta( $user_id, 'schedule['.$key.']/fourth_reminder', null );
+      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/', [] );
       $var=1;
       return[$arr,$user_id,$post_id];
     }
@@ -199,7 +202,10 @@ function set_cf($arr,$user_id,$post_id){
 // DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
 function update_scheduleMail($arr,$user_id,$post_id){
   
-  wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] ); // Удаляет все крон-задачи прикрепленные к указанному хуку и имеющие указанные параметры.
+  // foreach([0,1,2,3] as $key){
+    wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] );
+    // Удаляет все крон-задачи прикрепленные к указанному хуку и имеющие указанные параметры.
+  // }
   set_scheduleMail($arr,$user_id,$post_id);
 }
 // DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
@@ -215,8 +221,8 @@ function update_scheduleMail($arr,$user_id,$post_id){
 function set_scheduleMail($arr,$user_id,$post_id) {
 
   if( !wp_next_scheduled('send_notify') )
-  foreach($arr[1] as $_timer){
-    wp_schedule_single_event( $_timer, 'send_notify',[$post_id,$user_id,$_timer] );
+  foreach($arr[1] as $key=>$_timer){
+    wp_schedule_single_event( $_timer, 'send_notify',[$post_id,$user_id] );
   }
   return true;
 }
@@ -227,9 +233,46 @@ function set_scheduleMail($arr,$user_id,$post_id) {
 
 
 
+//MOVING LESSON FROM CF TO CF ARCHIVE_LIST
+function move_cf_to_cf_archive($post_id,$user_id){
+    // wp_logout();
+  $list = carbon_get_user_meta( $user_id, 'schedule' );
+  foreach ( $list as $key=>$el ) {
+    if(intval($el['lesson_id']) === $post_id){
+      switch ($el['cource_frequency']) {
+        case 'light':
+          $last_lesson = $el['second_reminder'];
+          break;
+        case 'norm':
+          $last_lesson = $el['third_reminder'];
+          break;
+        case 'zombo':
+          $last_lesson = $el['third_reminder'];
+          break;
+      }
+      if($last_lesson <= strtotime("now") ) {
+        cource_deletion($post_id,$user_id,$key);
+      }
+    }
+  }
+
+  $cur = carbon_get_user_meta( intval($user_id), 'passed_lessons' );
+  $arr = implode(",",array_unique(explode(",", $cur.','.$post_id)));
+  carbon_set_user_meta( intval($user_id), 'passed_lessons', $arr );
+}
+//MOVING LESSON FROM CF TO CF ARCHIVE_LIST
 
 
-
+//DELETION COURCE
+function cource_deletion($user_id,$key){
+  delete_user_meta( intval($user_id), '_schedule|||'.intval($key).'|value');
+  delete_user_meta( intval($user_id), '_schedule|lesson_id|'.intval($key).'|0|value');
+  delete_user_meta( intval($user_id), '_schedule|cource_frequency|'.intval($key).'|0|value');
+  delete_user_meta( intval($user_id), '_schedule|first_reminder|'.intval($key).'|0|value');
+  delete_user_meta( intval($user_id), '_schedule|second_reminder|'.intval($key).'|0|value');
+  delete_user_meta( intval($user_id), '_schedule|third_reminder|'.intval($key).'|0|value');
+}
+//DELETION COURCE
 
 
 // SENDING EMAIL FUNCTION
@@ -237,7 +280,9 @@ add_action('send_notify', 'send_notify');
 
 function send_notify($post_id,$user_id) {
 
-  remove_lesson($post_id,$user_id);
+  move_cf_to_cf_archive($post_id,$user_id);
+
+
   $headers = ['Content-type: text/html; charset=utf-8','From: Шедлер <notify@sche.cq77457.tmweb.ru>'];
 
   $author_mail = get_userdata($user_id)->user_email;

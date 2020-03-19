@@ -12,12 +12,11 @@ Container::make( 'user_meta', 'Календарь' )
         Field::make('text', 'cource_frequency', 'Type')
         ->set_width( 50 ),
         Field::make('text', 'first_reminder', 'First Reminder')
-        ->set_width( 25 ),
+        ->set_width( 30 ),
         Field::make('text', 'second_reminder', 'Second Reminder')
-        ->set_width( 25 ),
+        ->set_width( 30 ),
         Field::make('text', 'third_reminder', 'Third Reminder')
-        ->set_width( 25 ),
-        Field::make('text', 'fourth_reminder', 'Fourth Reminder')
-        ->set_width( 25 ),
-    ])
+        ->set_width( 30 )
+    ]),
+    Field::make( 'text', 'passed_lessons', 'Text' )
 ]);

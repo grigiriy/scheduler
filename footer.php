@@ -20,7 +20,8 @@ $(document).ready(function() {
             type: 'POST',
             data: {
                 action: 'lesson_passed',
-                post_id: $post_id
+                post_id: $post_id,
+                user_id: $user_id,
             }, // можно также передать в виде объекта
             success: function(data) {
                 $('#lesson_passed').html('ОКИ');

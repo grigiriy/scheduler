@@ -31,7 +31,6 @@ while ( have_posts() ) :
         player = new YT.Player('player', {
             height: '500px',
             width: '100%',
-            // videoId: 'M7lc1UVf-VE',
             videoId: yt_code,
             events: {
                 'onReady': onPlayerReady,
@@ -97,13 +96,37 @@ while ( have_posts() ) :
             <h4>Обновить таймеры</h4>
         </button>
     </div>
-    <!-- <div class="jumbotron">
-        <h3>Ручка</h3>
-        <button id="lesson_passed" class="btn btn-success">
-            <h4>Урок пройден!</h4>
-        </button>
+    <?php
+    $user_id = get_current_user_id();
+    $list = carbon_get_user_meta( $user_id, 'schedule' );
+    foreach ( $list as $key=>$el ) {
+    if(intval($el['lesson_id']) === $post->ID){
 
-    </div> -->
+      switch ($el['cource_frequency']) {
+        case 'light':
+          $last_lesson = $el['second_reminder'];
+          break;
+        case 'norm':
+          $last_lesson = $el['third_reminder'];
+          break;
+        case 'zombo':
+          $last_lesson = $el['third_reminder'];
+          break;
+      }
+
+      if($last_lesson <= strtotime("now") ) {
+    ?>
+    <div class="jumbotron">
+        <h3>Поздравляю, вы заканчиваете курс</h3>
+        <h5>Это последнее повторение, но если вы захотите, вы сможете найти его <a href="javascript:void(0)"
+                onclick="alert('пока не найти')">тут</a></h5>
+        <button id="lesson_passed" class="btn btn-success">
+            <h4>Завершить курс</h4>
+        </button>
+    </div>
+    <?php }
+        }
+    } ?>
 </div>
 
 <?php endwhile; ?>
