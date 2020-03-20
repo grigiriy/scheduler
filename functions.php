@@ -292,3 +292,35 @@ function send_notify($post_id,$user_id) {
   wp_mail($author_mail, 'Напоминание о повторении урока '. $post_name, $post_link, $headers);
 }
 // SENDING EMAIL FUNCTION
+
+
+
+// "ADDING NEW COURSE" TIMER
+function adding_timer(){
+  return true;
+}
+// "ADDING NEW COURSE" TIMER
+
+
+// FINCTIONS, TO USE IN LAYOUT
+function display_day($next){
+  if($next['month'] === getdate(strtotime("now"))['month']){
+    if(getdate(strtotime("now"))['mday'] === $next['mday']){
+      $next = 'Today';
+      goto fin;
+    } else if($next['mday'] - getdate(strtotime("now"))['mday'] == 1) {
+      $next = 'Tomorrow';
+      goto fin;
+    } else if($next['mday'] - getdate(strtotime("now"))['mday'] == 7){
+      $next = 'In a week';
+      goto fin;
+    } else {
+      $next = $next['weekday'];
+      goto fin;
+    }
+    $next = $next['weekday'];
+  }
+  fin:
+  echo $next;
+};
+// FINCTIONS, TO USE IN LAYOUT

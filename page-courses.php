@@ -12,18 +12,39 @@ document.location.href = '/';
 
 <?php
 } else {
+if(get_the_title() === 'Current lessons'){
+    $this_page = 'current';
+} else if (get_the_title() === 'Already passed') {
+    $this_page = 'passed';
+} else {
+    $this_page = null;
+}
 
 while ( have_posts() ) :
     the_post();
+    
     $args = array(
-        'orderby'       =>  'post_date',
-        'order'         =>  'DESC'
-        );
+        'orderby' => 'post_date',
+    );
+    if($this_page){
+        $user_id = get_current_user_id();
+        if($this_page==='passed'){
+            $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
+        } else if ($this_page==='current') {
+            $list = carbon_get_user_meta( $user_id, 'schedule' );
+            $selected_posts=[];
+            foreach ( $list as $key=>$el ) {
+                array_push($selected_posts,$el['lesson_id']);
+            }
+        }
+        $args['post__in']=$selected_posts;
+    }
+    
     $lessons_query = new WP_Query($args);
     ?>
 <div class="container">
     <main class="row">
-        <h1>Cources</h1>
+        <h1><?= get_the_title();?></h1>
         <?php
     while($lessons_query->have_posts()) : $lessons_query->the_post();
     ?>

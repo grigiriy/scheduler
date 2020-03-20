@@ -13,32 +13,16 @@ document.location.href = '/';
 <?php
 } else {
 
-function display_day($next){
-    if($next['month'] === getdate(strtotime("now"))['month']){
-        if(getdate(strtotime("now"))['mday'] === $next['mday']){
-            $next = 'Today';
-            goto fin;
-        } else if($next['mday'] - getdate(strtotime("now"))['mday'] == 1) {
-            $next = 'Tomorrow';
-            goto fin;
-        } else if($next['mday'] - getdate(strtotime("now"))['mday'] == 7){
-            $next = 'In a week';
-            goto fin;
-        } else {
-            $next = $next['weekday'];
-            goto fin;
-        }
-        $next = $next['weekday'];
-    }
-    fin:
-    echo $next;
-};
-
 while ( have_posts() ) :
     the_post();
 
     $user_id = get_current_user_id();
 
+    if(
+        !empty(
+            carbon_get_user_meta( $user_id, 'schedule' )
+        )
+    ){
     $list = carbon_get_user_meta( $user_id, 'schedule' );
     $timers=[];
     $selected_posts = [];
@@ -65,18 +49,23 @@ while ( have_posts() ) :
         'posts_per_page' => 5
         );
     $lessons_query = new WP_Query($args);
-    $passed_lessons = carbon_get_user_meta( $user_id, 'passed_lessons' );
-?>
+    $passed_lessons = count(explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' )));
+    } else {
+        $passed_lessons = 0;
+        $lessons_query=null;
+        $i = 0;
+    }
+    ?>
 
 
 <div class="container">
     <main class="row">
         <section class="col-5 card py-3 order-2">
             <div class="row order-2">
-                <div class="bg-success p-3 w-100">
+                <div class="bg-success p-3 col-12">
                     <h3 class="text-">Schedule for next three days</h3>
                 </div>
-                <div class="p-3">
+                <div class="p-3 col-12">
                     <?php
                     if ($lessons_query) {
                     $i = 0;
@@ -97,22 +86,30 @@ while ( have_posts() ) :
                         </div>
                     </div>
                     <?php endwhile;
-                    } ?>
-                    <a href="/account/calendar" class="btn btn-light mt-3">Go to calendar</a>
+                    ?>
+                    <a href="/account/calendar/" class="btn btn-light mt-3">Go to calendar</a>
+                    <?php
+                    } else {
+                    ?>
+
+                    <p class="h3">No courses yet</p>
+                    <p class="h4">Click <a href="/courses/">here</a> to start learning!</p>
+                    <?php
+                        }
+                    ?>
                 </div>
             </div>
-
             <div class=" row order-1">
                 <div class="col-6">
                     <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt="" style="max-width:100%">
-                    <p class="h3 text-center text-warning"><?= count(explode(',',$passed_lessons)); ?></p>
-                    <a href="#" class="btn btn-link d-block">Already passed</a>
+                    <p class="h3 text-center text-warning"><?= $passed_lessons; ?></p>
+                    <a href="/account/passed/" class="btn btn-link d-block">Already passed</a>
                 </div>
                 <div class="col-6">
                     <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt=""
                         style="max-width:100%; transform:scaleX(-1)">
                     <p class="h3 text-center text-warning"><?= $i; ?></p>
-                    <a href="#" class="btn btn-link d-block">Current Lessons</a>
+                    <a href="/account/current/" class="btn btn-link d-block">Current Lessons</a>
                 </div>
             </div>
         </section>
@@ -133,6 +130,11 @@ while ( have_posts() ) :
 
 
             <h1>What do you have to do today?</h1>
+            <?php
+            if(empty(
+                carbon_get_user_meta( $user_id, 'schedule' )
+            )) {
+            ?>
             <div class="card my-3">
                 <div class="card-header d-flex">
                     <p class="card-title h2">Start learn a new material</p>
@@ -146,13 +148,20 @@ while ( have_posts() ) :
                         </figcaption>
                     </figure>
                     <div class="d-flex justify-content-around">
-                        <a href="/cources/" class="btn btn-warning d-block">Choose next material</a>
+                        <a href="/courses/" class="btn btn-warning d-block">Choose next material</a>
                     </div>
                 </div>
             </div>
+            <?php } ?>
+            <?php
+            if(!empty(
+                carbon_get_user_meta( $user_id, 'schedule' )
+            )) {
+            ?>
             <div class="card my-3">
-                <div class="card-header d-flex">
-                    <p class="card-title h2">Repeat this material <?= display_day(getdate($next)); ?></p>
+                <div class="card-header">
+                    <p class="card-title h2 d-flex"><span>Repeat this material</span><span
+                            class="badge badge-warning ml-auto"><?= display_day(getdate($next)); ?></span></p>
                 </div>
                 <div class="card-body">
                     <figure class="figure row">
@@ -170,7 +179,7 @@ while ( have_posts() ) :
                     </figure>
                 </div>
             </div>
-
+            <?php } ?>
         </section>
     </main>
 
