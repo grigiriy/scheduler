@@ -5,7 +5,7 @@ use Carbon_Fields\Field;
 
 Container::make( 'user_meta', 'Календарь' )
 ->add_fields( [
-    Field::make( 'complex', 'schedule', '' )
+    Field::make( 'complex', 'schedule', 'Текущие уроки' )
     ->add_fields( [
         Field::make('text', 'lesson_id', 'ID')
         ->set_width( 50 ),
@@ -18,5 +18,5 @@ Container::make( 'user_meta', 'Календарь' )
         Field::make('text', 'third_reminder', 'Third Reminder')
         ->set_width( 30 )
     ]),
-    Field::make( 'text', 'passed_lessons', 'Text' )
+    Field::make( 'text', 'passed_lessons', 'Пройденные уроки' )
 ]);
