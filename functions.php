@@ -323,4 +323,12 @@ function display_day($next){
   fin:
   echo $next;
 };
+
+
+function n_days_crop($days) {
+  $_day = 60 * 60 * 24;
+  $days *= $_day;
+  // $days *= 0;
+  return (strtotime("now") + $days);
+}
 // FINCTIONS, TO USE IN LAYOUT
