@@ -19,9 +19,7 @@ document.location.href = '/';
     ?>
 <div class="container">
     <main class="row">
-        <div class="bg-success mb-5 p-3 w-100">
-            <h3 class="text-">Your Schedule</h3>
-        </div>
+        <h3>Your Schedule</h3>
         <?php
         foreach ( $list as $key=>$el ) {
             array_push($timers,implode(',',[$el['first_reminder'],$el['lesson_id']]));
@@ -33,23 +31,32 @@ document.location.href = '/';
         <?php }
         sort($timers);
     }
-    foreach($timers as $timer){
-        $timer = explode(',',$timer);
     ?>
-        <div class="row pt-3 m-1 w-100">
-            <div class="col-6">
-                <a href="<?= get_the_permalink($timer[1]);?>"><?= get_the_title($timer[1]) ?></a>
-            </div>
-            <div class="col-3">
-                <?php display_day(getdate($timer[0])); ?>
-            </div>
-            <div class="col-3">
-                <?= getdate($timer[0])['hours'].':'.getdate($timer[0])['minutes'] ?>
-            </div>
-        </div>
-        <?php
+        <table class="table">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">Lesson</th>
+                    <th scope="col">Day</th>
+                    <th scope="col">Time</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php
+                foreach($timers as $key=>$timer){
+                    $timer = explode(',',$timer);
+                ?>
+                <tr class="bg-<?= ($key%2===0)?'light':'white' ?>">
+                    <td><a href="<?= get_the_permalink($timer[1]);?>"
+                            class="text-info"><?= get_the_title($timer[1]) ?></a></td>
+                    <td><?php display_day(getdate($timer[0])); ?></td>
+                    <td><?= getdate($timer[0])['hours'].':'.getdate($timer[0])['minutes'] ?></td>
+                </tr>
+                <?php
     }
     ?>
+            </tbody>
+        </table>
     </main>
 </div>
 
