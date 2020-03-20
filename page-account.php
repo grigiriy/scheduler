@@ -176,7 +176,14 @@ while ( have_posts() ) :
 </main>
 
 </div>
-
+<script>
+const preview = document.querySelector('h1+.card').querySelector('figure');
+if (preview.querySelector('img').naturalHeight < 720) {
+    let oldSrc = preview.querySelector('img').getAttribute('src');
+    let newSrc = oldSrc.replace('maxresdefault', '0');
+    preview.querySelector('img').setAttribute('src', newSrc);
+}
+</script>
 <?php endwhile; 
 }
 get_footer(); ?>
