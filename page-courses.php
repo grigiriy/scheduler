@@ -40,6 +40,7 @@ while ( have_posts() ) :
             foreach ( $list as $key=>$el ) {
               array_push($selected_posts,$el['lesson_id']);
             }
+            $selected_posts = (empty($selected_posts)) ? array(null) : $selected_posts;
           } else if ($this_page==='courses') {
             $list = carbon_get_user_meta( $user_id, 'schedule' );
             $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
@@ -50,7 +51,8 @@ while ( have_posts() ) :
         }
         $args[$fil]=$selected_posts;
     }
-    
+
+
     $lessons_query = new WP_Query($args);
     ?>
 <div class="container">
@@ -66,6 +68,7 @@ while ( have_posts() ) :
                 href="/account/current/">Current Lessons</a>
         </div>
         <?php
+        if($lessons_query->have_posts()){
         while($lessons_query->have_posts()) : $lessons_query->the_post();
         ?>
         <div class="card my-3 w-100">
@@ -85,7 +88,17 @@ while ( have_posts() ) :
                 </figure>
             </div>
         </div>
-        <?php endwhile; ?>
+        <?php endwhile; } else { ?>
+        <div class="card my-3 mx-auto text-center">
+            <div class="card-header bg-info text-light">
+                <p class="h3 mb-0">No courses yet</p>
+            </div>
+            <div class="card-body bg-warning px-5">
+                <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt="" style="max-width:100%">
+                <p class="h4 mt-3">Click <a href="/courses/">here</a> to start learning!</p>
+            </div>
+        </div>
+        <?php } ?>
     </main>
 </div>
 <?php 

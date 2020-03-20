@@ -5,6 +5,7 @@ body {
     rgba(255, 199, 237, 1) 0%,
     rgba(217, 246, 245, 1) 100%
   );
+  min-height: 95vh;
 }
 nav {
   justify-content: space-between;
