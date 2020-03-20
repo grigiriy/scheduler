@@ -17,8 +17,8 @@ if (get_the_title() === 'Current lessons') {
 } else if (get_the_title() === 'Already passed') {
     $this_page = 'passed';
 } else {
-    $this_page = null;
-    // $this_page = 'courses';
+    // $this_page = null;
+    $this_page = 'courses';
 
 }
 
@@ -32,23 +32,39 @@ while ( have_posts() ) :
         $user_id = get_current_user_id();
         if($this_page==='passed'){
             $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
+            $fil = 'post__in';
         } else if ($this_page==='current') {
             $list = carbon_get_user_meta( $user_id, 'schedule' );
             $selected_posts=[];
+            $fil = 'post__in';
             foreach ( $list as $key=>$el ) {
-                array_push($selected_posts,$el['lesson_id']);
+              array_push($selected_posts,$el['lesson_id']);
             }
-        } else if ($this_page==='courses') {
-
+          } else if ($this_page==='courses') {
+            $list = carbon_get_user_meta( $user_id, 'schedule' );
+            $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
+            foreach ( $list as $key=>$el ) {
+              array_push($selected_posts,$el['lesson_id']);
+            }
+            $fil = 'post__not_in';
         }
-        $args['post__in']=$selected_posts;
+        $args[$fil]=$selected_posts;
     }
     
     $lessons_query = new WP_Query($args);
     ?>
 <div class="container">
     <main class="row">
-        <h1 class="w-100"><?= get_the_title();?></h1>
+        <h1 class="mr-auto"><?= get_the_title();?></h1>
+        <div class="btn-group" data-page="<?=$this_page?>">
+            <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold" href="/courses/">Availible
+                Courses</a>
+            <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold"
+                href="/account/passed/">Already
+                Passed</a>
+            <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold"
+                href="/account/current/">Current Lessons</a>
+        </div>
         <?php
         while($lessons_query->have_posts()) : $lessons_query->the_post();
         ?>
@@ -77,12 +93,25 @@ endwhile;
 }
 ?>
 <script>
-const previews = document.querySelector('main').querySelectorAll('.card');
+const main = document.querySelector('main');
+const previews = main.querySelectorAll('.card');
+const nav = main.querySelector('.btn-group');
+const navLinks = nav.querySelectorAll('a');
+const thisPage = nav.getAttribute('data-page');
+// const url = (thisPage === 'courses') ? '/courses/' : (thisPage === 'passed') ? '/passed/' : '/current/';
+
 previews.forEach((e) => {
     if (e.querySelector('img').naturalHeight < 720) {
         let oldSrc = e.querySelector('img').getAttribute('src');
         let newSrc = oldSrc.replace('maxresdefault', 0);
         e.querySelector('img').setAttribute('src', newSrc);
+    }
+});
+
+navLinks.forEach((e) => {
+    if ((e.href.split('/'))[e.href.split('/').length - 2] === thisPage) {
+        e.setAttribute('href', 'javascript:void(0)');
+        e.classList.add('text-primary', 'bg-white');
     }
 });
 </script>
