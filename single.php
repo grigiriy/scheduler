@@ -9,13 +9,24 @@ while ( have_posts() ) :
 <div class="container">
     <?php
     $yt_code = get_post_custom()['yt_code'][0];
+    $pdf = get_post_custom()['PDF'][0];
+    $pdf = get_post_custom($pdf)['_wp_attached_file'][0];
     preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
     $yt_code = $matches[0];
     ?>
 
-    <h1 data-id="<?= $yt_code ?>"><?php the_title(); ?></h1>
+    <h1 data-id="<?= $yt_code ?>"><?= get_the_title(); ?></h1>
 
-    <div id="player"></div>
+    <div id="player" class="mb-5"></div>
+    <div class="pdf">
+        <embed src="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>" width="100%" height="470px" />
+        <div class="d-flex justify-content-between">
+            <a target="_blank" href="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>">Открыть в новом
+                окне</a>
+            <a download="<?= get_the_title(); ?> PDF" target="_blank"
+                href="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>">Скачать</a>
+        </div>
+    </div>
 
     <script>
     var tag = document.createElement('script');
@@ -57,36 +68,19 @@ while ( have_posts() ) :
     }
     </script>
 
-
-
-    <?php
-    // the_content();
-    ?>
-    <style>
-    #lesson_changed p {
-        background: yellow;
-        border-bottom: solid 1px #ccc;
-        transition: all 0.2s;
-        color: blue;
-        margin: 0;
-        padding: 20px 10px;
-        cursor: pointer;
-    }
-
-    #lesson_changed p:hover {
-        background: orange;
-    }
-
-    #lesson_changed p:last-child {
-        border-bottom: none;
-    }
-
-    #lesson_changed p.active {
-        color: black;
-        font-weight: bold;
-    }
-    </style>
-    <div class="jumbotron" id="lesson_changed">
+    <?php if(get_the_author_meta('ID') === get_current_user_id()){?>
+    <div class="card mt-5">
+        <div class="card-header">
+            <h3>Edit lesson info</h3>
+        </div>
+        <div class="card-body lesson_edit">
+            <?= do_shortcode('[public-form]');
+            // the_content();
+            ?>
+        </div>
+    </div>
+    <?php } ?>
+    <div class="jumbotron mt-5" id="lesson_changed">
         <h3>Давайте выберем частотность</h3>
         <?php $VARIANTS = [['light','На лайте'],['norm','Норм'],['zombo','Зомборежим']];
             foreach($VARIANTS as $VARIANT){ ?>

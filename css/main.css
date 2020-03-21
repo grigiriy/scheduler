@@ -19,3 +19,28 @@ nav a[aria-current='page'] {
   color: darkblue;
   background: #fff;
 }
+#lesson_changed p {
+  background: yellow;
+  border-bottom: solid 1px #ccc;
+  transition: all 0.2s;
+  color: blue;
+  margin: 0;
+  padding: 20px 10px;
+  cursor: pointer;
+}
+
+#lesson_changed p:hover {
+  background: orange;
+}
+
+#lesson_changed p:last-child {
+  border-bottom: none;
+}
+
+#lesson_changed p.active {
+  color: black;
+  font-weight: bold;
+}
+.lesson_edit .rcl-custom-fields {
+  display: none;
+}
