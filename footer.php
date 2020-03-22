@@ -4,9 +4,23 @@
     </footer>
 </div>
 <?php wp_footer() ?>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
 <script>
 $(document).ready(function() {
+
+    const pageMain = document.querySelector('main');
+    $(window).on('load', function() {
+        if (pageMain.getAttribute('data-learning') === 'true') {
+            $('#lesson_changed').modal('show');
+        }
+    });
+
+
     $('#nav').find('a').addClass('nav-link');
 
     let $post_id = $('footer').data('post_id');
@@ -41,9 +55,9 @@ $(document).ready(function() {
                 e.target.parentNode.querySelector('.active').classList.remove('active');
             }
             e.target.classList.add('active');
-            let btn = e.target.parentNode.querySelector('button');
+            let btn = e.target.parentNode.parentNode.querySelector('.modal-footer>button');
             btn.classList.remove('btn-secondary');
-            btn.classList.add('btn-danger');
+            btn.classList.add('btn-success');
             btn.removeAttribute('disabled');
             variant = e.target.getAttribute('data-variant');
         } else if (e.target.tagName === 'BUTTON' || e.target.parentNode.tagName === 'BUTTON') {
@@ -59,11 +73,13 @@ $(document).ready(function() {
                         frequency: variant
                     }, // можно также передать в виде объекта
                     success: function(data) {
-                        $('#lesson_changed>button').html('ОКИ');
+                        $('#lesson_changed').find('.modal-footer>button').html('Success!');
                         console.log(data);
                     },
                     error: function(errorThrown) {
-                        $('#lesson_changed').html('не ок - нет пермишена');
+                        $('#lesson_changed').find('.modal-footer>button').html('error...');
+                        $('#lesson_changed').find('.modal-footer>button').removeClass(
+                            'btn-success').addClass('btn-danger');
                         console.log(errorThrown);
                     }
                 });
@@ -76,6 +92,11 @@ $(document).ready(function() {
 
         }
     });
+    $('#popup_frequency').bind('click', function() {
+        $('#lesson_changed').find('.modal-footer>button').html('Save changes');
+        $('#lesson_changed').find('.modal-footer>button').removeClass(
+            'btn-success').addClass('btn-secondary');
+    })
 });
 </script>
 </body>
