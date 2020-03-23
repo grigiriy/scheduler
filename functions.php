@@ -146,16 +146,17 @@ add_action('wp_ajax_leave_course', 'leave_course');
 
 
 $timeZone_msc = 180*60;
-$now_incTZ = strtotime("now")+$timeZone_msc;
+// $now_incTZ = strtotime("now")+$timeZone_msc;
+$now_incTZ = strtotime("now");
 $_day = 60 * 60 * 24;
 
 // GET USER SPECIFIED TIME BY ID
 function get_schedule($frequency,$user_id) {
   
   $user_timeRange = [
-    strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0]) : strtotime(get_user_meta(1)['mrng_practice'][0]),
-    strtotime(get_user_meta($user_id)['daily_practice'][0]) ? strtotime(get_user_meta($user_id)['daily_practice'][0]) : strtotime(get_user_meta(1)['daily_practice'][0]),
-    strtotime(get_user_meta($user_id)['evng_practice'][0]) ? strtotime(get_user_meta($user_id)['evng_practice'][0]) : strtotime(get_user_meta(1)['evng_practice'][0])
+    strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['mrng_practice'][0])+$timeZone_msc,
+    strtotime(get_user_meta($user_id)['daily_practice'][0]) ? strtotime(get_user_meta($user_id)['daily_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['daily_practice'][0])+$timeZone_msc,
+    strtotime(get_user_meta($user_id)['evng_practice'][0]) ? strtotime(get_user_meta($user_id)['evng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['evng_practice'][0])+$timeZone_msc
   ];
 
   global $now_incTZ;
@@ -295,18 +296,26 @@ function cource_deletion($user_id,$key){
 
 
 // SENDING EMAIL FUNCTION
-add_action('send_notify', 'send_notify');
+add_action('send_notify', 'send_notify_fun',10,2);
 
-function send_notify($post_id,$user_id) {
 
-  move_cf_to_cf_archive($post_id,$user_id);
+function send_notify_fun($post_id,$user_id) {
 
-  $headers = ['Content-type: text/html; charset=utf-8','From: Шедлер <notify@sche.cq77457.tmweb.ru>'];
+  // move_cf_to_cf_archive($post_id,$user_id);
+  $headers = ['Content-type: text/html; charset=utf-8','From: Шедлер <notify@cq77457.tmweb.ru>'];
 
-  $author_mail = get_userdata($user_id)->user_email;
-  $post_name = get_the_title($post_id);
-  $post_link = '<html><head></head><body><h3>Добрый день!</h3><p>Напоминаем, что на сегодня у вас запланировано повторение урока "<a href="' . get_the_permalink($post_id) . '">' . get_the_title($post_id) . '</a>".</p></body></html>';
-  wp_mail($author_mail, 'Напоминание о повторении урока '. $post_name, $post_link, $headers);
+  $recepient = get_userdata($user_id)->user_email;
+  // $recepient = 'grigiriy.malyshev@gmail.com';
+  if($post_id === 'starter'){
+    $post_link = '<html><head></head><body><h3>Здравствуйте!</h3><p>Напоминаем, что сегодня вы можете добавить новый урок! "<a href="cq77457.tmweb.ru/cources/">Библиотека уроков</a>".</p></body></html>';
+    $post_header = 'Новый урок!';
+  } else {
+    $post_name = get_the_title($post_id);
+    $post_link = '<html><head></head><body><h3>Здравствуйте!</h3><p>Напоминаем, что у вас запланировано повторение урока "<a href="' . get_the_permalink($post_id) . '">' . get_the_title($post_id) . '</a>".</p></body></html>';
+    $post_header = 'Напоминание о повторении урока '.$post_name;
+  }
+  wp_mail($recepient, $post_header, $post_link, $headers);
+return true;
 }
 // SENDING EMAIL FUNCTION
 
@@ -315,19 +324,20 @@ function send_notify($post_id,$user_id) {
 // "ADDING NEW COURSE" TIMER
 function set_adding_timeout($user_id){
 
-  $user_timeRange = strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0]) : strtotime(get_user_meta(1)['mrng_practice'][0]);
-
+  $user_timeRange = strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['mrng_practice'][0])+$timeZone_msc;
 
   global $now_incTZ;
   global $_day;
   $next_add = $user_timeRange + $_day*2;
+  // $next_add = $now_incTZ + 20;
   carbon_set_user_meta( intval($user_id), 'next_lesson', $next_add );
+  wp_schedule_single_event( $next_add, 'send_notify', ['starter',$user_id] );
 }
 // "ADDING NEW COURSE" TIMER
 
 
 // FINCTIONS, TO USE IN LAYOUT
-function display_day($next){
+function display_day($next) {
   global $now_incTZ;
   if($next['month'] === getdate($now_incTZ)['month']){
     if(getdate($now_incTZ)['mday'] === $next['mday']){
