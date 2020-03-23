@@ -3,6 +3,16 @@
  * Template Name: Single
  */
 get_header();
+
+if( !is_user_logged_in() ) {
+    ?>
+<script>
+document.location.href = '/';
+</script>
+
+<?php
+    } else {
+
 while ( have_posts() ) :
     the_post();
 
@@ -13,10 +23,11 @@ while ( have_posts() ) :
     
     $post_id = $post->ID;
     $user_id = get_current_user_id();
+    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' );
     $list = carbon_get_user_meta( $user_id,'schedule' );
     $vals = [];
     
-    global $timeZone_msc; 
+    global $now_incTZ;
 
     foreach ($list as $key=>$el){
         array_push($vals,intval($el['lesson_id']));
@@ -28,18 +39,20 @@ while ( have_posts() ) :
             }
         }
     }
-
-    $is_learning = (in_array($post_id, $vals)) ? false : true; //bool
+    $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
+    $is_learning = (in_array($post_id, $vals)) ? true : false;
 ?>
 <main class="container" data-learning="<?= $is_learning === true ? 'true' : '' ;?>">
     <div class="row">
         <div class="col-12">
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
+                <?php if($is_time_to_add || $is_learning) { ?>
                 <span class="ml-auto">
                     <button type="button" id="popup_frequency" class="btn btn-primary" data-toggle="modal"
                         data-target="#lesson_changed">Change frequency</button>
                 </span>
+                <?php } ?>
             </h1>
         </div>
         <div id="player" class="mb-5 col-12"></div>
@@ -104,7 +117,7 @@ while ( have_posts() ) :
         </div>
     </div>
     <?php }     
-      if($last_lesson <= strtotime("now")+$timeZone_msc ) {
+      if(isset($last_lesson) && $last_lesson <= $now_incTZ ) {
     ?>
     <div class="card mt-5">
         <div class="card-header">
@@ -120,6 +133,8 @@ while ( have_posts() ) :
     <?php } ?>
 
 
+
+    <?php if($is_time_to_add || $is_learning) { ?>
     <div class="modal fade" id="lesson_changed" tabindex="-1" role="dialog" aria-labelledby="lesson_changed__label"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -147,9 +162,10 @@ while ( have_posts() ) :
             </div>
         </div>
     </div>
+    <?php } ?>
 
 </main>
 
-<?php endwhile; ?>
+<?php endwhile; };?>
 
 <?php get_footer(); ?>

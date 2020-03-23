@@ -14,11 +14,17 @@
 $(document).ready(function() {
 
     const pageMain = document.querySelector('main');
-    $(window).on('load', function() {
-        if (pageMain.getAttribute('data-learning') === 'true') {
-            $('#lesson_changed').modal('show');
+
+    if ((pageMain.getAttribute('data-learning') === 'true') && pageMain.hasAttribute('data-learning')) {
+        $is_learning = true;
+    } else {
+        if (pageMain.hasAttribute('data-learning')) {
+            $(window).on('load', function() {
+                $('#lesson_changed').modal('show');
+            });
         }
-    });
+        $is_learning = false;
+    }
 
 
     $('#nav').find('a').addClass('nav-link');
@@ -26,7 +32,9 @@ $(document).ready(function() {
     let $post_id = $('footer').data('post_id');
     let $user_id = $('footer').data('user_id');
     console.log('$post_id ', $post_id);
-    console.log('$user_id ', $user_id);
+    console.log('$user_id ',
+        $user_id);
+    console.log('$is_learning ', $is_learning);
 
     $('#lesson_passed').click(function() {
         $.ajax({
@@ -70,6 +78,7 @@ $(document).ready(function() {
                         action: 'lesson_changed',
                         post_id: $post_id,
                         user_id: $user_id,
+                        is_learned: $is_learning,
                         frequency: variant
                     }, // можно также передать в виде объекта
                     success: function(data) {

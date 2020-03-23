@@ -18,5 +18,6 @@ Container::make( 'user_meta', 'Календарь' )
         Field::make('text', 'third_reminder', 'Third Reminder')
         ->set_width( 30 )
     ]),
-    Field::make( 'text', 'passed_lessons', 'Пройденные уроки' )
+    Field::make( 'text', 'passed_lessons', 'Пройденные уроки' ),
+    Field::make( 'text', 'next_lesson', 'Cледующий урок' )
 ]);

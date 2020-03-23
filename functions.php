@@ -112,8 +112,10 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 function lesson_changed() {
   $post_id = intval($_POST['post_id']);
   $user_id = intval($_POST['user_id']);
+  $is_learned = $_POST['is_learned'];
   $frequency = $_POST['frequency'];
 
+  set_adding_timeout($user_id,$is_learned);
   $timer = get_schedule($frequency,$user_id);
   set_cf($timer,$user_id,$post_id);
   update_scheduleMail($timer,$user_id,$post_id);
@@ -124,8 +126,9 @@ add_action('wp_ajax_lesson_changed', 'lesson_changed');
 // AJAX FUNCTION TO UPDATE USERS LESSON TIMERS (NOT READY YET)
 
 
-
-
+$timeZone_msc = 180*60;
+$now_incTZ = strtotime("now")+$timeZone_msc;
+$_day = 60 * 60 * 24;
 
 // GET USER SPECIFIED TIME BY ID
 function get_schedule($frequency,$user_id) {
@@ -136,21 +139,22 @@ function get_schedule($frequency,$user_id) {
     strtotime(get_user_meta($user_id)['evng_practice'][0]) ? strtotime(get_user_meta($user_id)['evng_practice'][0]) : strtotime(get_user_meta(1)['evng_practice'][0])
   ];
 
-  $_day = 60 * 60 * 24;
-  $timeZone_msc = 180*60;
+  global $now_incTZ;
+  global $_day;
+
 	$schedules['light'] = [
-    strtotime("now") + $_day * 1 - (strtotime("now")+$timeZone_msc - $user_timeRange[1]),
-    strtotime("now") + $_day * 4 - (strtotime("now")+$timeZone_msc - $user_timeRange[2])
+    $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[1]),
+    $now_incTZ + $_day * 4 - ($now_incTZ - $user_timeRange[2])
   ];
 	$schedules['norm'] = [
-    strtotime("now") + $_day * 1 - (strtotime("now")+$timeZone_msc - $user_timeRange[0]),
-    strtotime("now") + $_day * 3 - (strtotime("now")+$timeZone_msc - $user_timeRange[1]),
-    strtotime("now") + $_day * 5 - (strtotime("now")+$timeZone_msc - $user_timeRange[1])
+    $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[0]),
+    $now_incTZ + $_day * 3 - ($now_incTZ - $user_timeRange[1]),
+    $now_incTZ + $_day * 5 - ($now_incTZ - $user_timeRange[1])
   ];
 	$schedules['zombo'] = [
-    strtotime("now") + 5*60*60,
-    strtotime("now") + $_day * 1 - (strtotime("now")+$timeZone_msc - $user_timeRange[2]),
-    strtotime("now") + $_day * 7 - (strtotime("now")+$timeZone_msc - $user_timeRange[2])
+    $now_incTZ + 5*60*60,
+    $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[2]),
+    $now_incTZ + $_day * 7 - ($now_incTZ - $user_timeRange[2])
   ];
 
   $timer = $schedules[$frequency];
@@ -223,7 +227,7 @@ function set_scheduleMail($arr,$user_id,$post_id) {
 
   if( !wp_next_scheduled('send_notify') )
   foreach($arr[1] as $key=>$_timer){
-    wp_schedule_single_event( $_timer, 'send_notify',[$post_id,$user_id] );
+    wp_schedule_single_event( $_timer, 'send_notify', [$post_id,$user_id] );
   }
   return true;
 }
@@ -236,6 +240,8 @@ function set_scheduleMail($arr,$user_id,$post_id) {
 
 //MOVING LESSON FROM CF TO CF ARCHIVE_LIST
 function move_cf_to_cf_archive($post_id,$user_id){
+
+  global $now_incTZ;
     // wp_logout();
   $list = carbon_get_user_meta( $user_id, 'schedule' );
   foreach ( $list as $key=>$el ) {
@@ -251,7 +257,7 @@ function move_cf_to_cf_archive($post_id,$user_id){
           $last_lesson = $el['third_reminder'];
           break;
       }
-      if($last_lesson <= strtotime("now") ) {
+      if($last_lesson <= $now_incTZ ) {
         cource_deletion($post_id,$user_id,$key);
       }
     }
@@ -283,7 +289,6 @@ function send_notify($post_id,$user_id) {
 
   move_cf_to_cf_archive($post_id,$user_id);
 
-
   $headers = ['Content-type: text/html; charset=utf-8','From: Шедлер <notify@sche.cq77457.tmweb.ru>'];
 
   $author_mail = get_userdata($user_id)->user_email;
@@ -296,22 +301,30 @@ function send_notify($post_id,$user_id) {
 
 
 // "ADDING NEW COURSE" TIMER
-function adding_timer(){
-  return true;
+function set_adding_timeout($user_id,$is_learning){
+
+  $user_timeRange = strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0]) : strtotime(get_user_meta(1)['mrng_practice'][0]);
+
+
+  global $now_incTZ;
+  global $_day;
+  $next_add = $user_timeRange + $_day*2;
+  carbon_set_user_meta( intval($user_id), 'next_lesson', $next_add );
 }
 // "ADDING NEW COURSE" TIMER
 
 
 // FINCTIONS, TO USE IN LAYOUT
 function display_day($next){
-  if($next['month'] === getdate(strtotime("now"))['month']){
-    if(getdate(strtotime("now"))['mday'] === $next['mday']){
+  global $now_incTZ;
+  if($next['month'] === getdate($now_incTZ)['month']){
+    if(getdate($now_incTZ)['mday'] === $next['mday']){
       $next = 'Today';
       goto fin;
-    } else if($next['mday'] - getdate(strtotime("now"))['mday'] == 1) {
+    } else if($next['mday'] - getdate($now_incTZ)['mday'] == 1) {
       $next = 'Tomorrow';
       goto fin;
-    } else if($next['mday'] - getdate(strtotime("now"))['mday'] == 7){
+    } else if($next['mday'] - getdate($now_incTZ)['mday'] == 7){
       $next = 'In a week';
       goto fin;
     } else {
@@ -326,9 +339,10 @@ function display_day($next){
 
 
 function n_days_crop($days) {
-  $_day = 60 * 60 * 24;
+  global $now_incTZ;
+  global $_day;
   $days *= $_day;
   // $days *= 0;
-  return (strtotime("now") + $days);
+  return ($now_incTZ + $days);
 }
 // FINCTIONS, TO USE IN LAYOUT

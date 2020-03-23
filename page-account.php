@@ -12,12 +12,15 @@ document.location.href = '/';
 
 <?php
 } else {
+    
+global $now_incTZ;
 
 while ( have_posts() ) :
     the_post();
 
     $user_id = get_current_user_id();
-
+    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' );
+    $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
     if(
         !empty(
             carbon_get_user_meta( $user_id, 'schedule' )
@@ -144,9 +147,9 @@ while ( have_posts() ) :
                 </nav>
 
                 <h1>What do you have to do today?</h1>
-                <div class="card my-3 w-100 shadow-lg">
+                <?php if (($next_lesson_adding_time && $is_time_to_add) || !isset($timers)){ ?>
+                <div class="card">
                     <div class="card-header">
-                        <?php if(!isset($timers) || !$timers ){ ?>
                         <p class="card-title h2 mb-0">Start learn a new material</p>
                     </div>
                     <div class="card-body">
@@ -162,30 +165,40 @@ while ( have_posts() ) :
                         </div>
                     </div>
                 </div>
-                <?php } else { ?>
-                <p class="card-title h2 d-flex mb-0"><span>Repeat this material</span><span
-                        class="badge badge-warning ml-auto"><?= display_day(getdate($next));?></span></p>
-            </div>
-            <div class="card-body">
-                <figure class="figure row">
-                    <?php
+                <?php }
+                
+                if(isset($timers) && $timers ){ ?>
+                <div class="card my-3 w-100 shadow-lg">
+                    <div class="card-header">
+                        <p class="card-title h2 d-flex mb-0"><span>Repeat this material</span><span
+                                class="badge badge-warning ml-auto"><?= display_day(getdate($next));?></span></p>
+                    </div>
+                    <div class="card-body">
+                        <figure class="figure row">
+                            <?php
                         $yt_code = get_post_custom($current_lesson)['yt_code'][0];
                         preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
                         $yt_code = $matches[0];
                         ?>
-                    <img class="figure-img col-6" style="max-width:100%"
-                        src="https://i.ytimg.com/vi/<?=$yt_code; ?>/maxresdefault.jpg">
-                    <figcaption class="figure-caption col-6">
-                        <p class="h4"><?= get_the_title($current_lesson); ?></p>
-                        <a href="<?= get_the_permalink($current_lesson); ?>" class="btn btn-primary">Start</a>
-                    </figcaption>
-                </figure>
-                <?php } ?>
+                            <img class="figure-img col-6" style="max-width:100%"
+                                src="https://i.ytimg.com/vi/<?=$yt_code; ?>/maxresdefault.jpg">
+                            <figcaption class="figure-caption col-6">
+                                <p class="h4"><?= get_the_title($current_lesson); ?></p>
+                                <a href="<?= get_the_permalink($current_lesson); ?>" class="btn btn-primary">Start</a>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <?php if ($next_lesson_adding_time){ ?>
+                    <div class="card-footer">
+                        <p class="h3">You can add new lesson on <?= display_day(getdate($next_lesson_adding_time)); ?>
+                        </p>
+                    </div>
+                    <?php } ?>
+                    <?php } ?>
+                </div>
             </div>
-</div>
-</div>
-</section>
-</main>
+        </section>
+    </main>
 
 </div>
 <script>
