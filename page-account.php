@@ -168,7 +168,7 @@ while ( have_posts() ) :
                 <?php }
                 
                 if(isset($timers) && $timers ){ ?>
-                <div class="card my-3 w-100 shadow-lg">
+                <div class="card my-3 w-100 shadow-lg" id="next_lesson_card">
                     <div class="card-header">
                         <p class="card-title h2 d-flex mb-0"><span>Repeat this material</span><span
                                 class="badge badge-warning ml-auto"><?= display_day(getdate($next));?></span></p>
@@ -176,10 +176,10 @@ while ( have_posts() ) :
                     <div class="card-body">
                         <figure class="figure row">
                             <?php
-                        $yt_code = get_post_custom($current_lesson)['yt_code'][0];
-                        preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
-                        $yt_code = $matches[0];
-                        ?>
+                                $yt_code = get_post_custom($current_lesson)['yt_code'][0];
+                                preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
+                                $yt_code = $matches[0];
+                                ?>
                             <img class="figure-img col-6" style="max-width:100%"
                                 src="https://i.ytimg.com/vi/<?=$yt_code; ?>/maxresdefault.jpg">
                             <figcaption class="figure-caption col-6">
@@ -202,7 +202,7 @@ while ( have_posts() ) :
 
 </div>
 <script>
-const preview = document.querySelector('h1+.card').querySelector('figure');
+const preview = document.getElementById('next_lesson_card').querySelector('figure');
 if (preview.querySelector('img').naturalHeight < 720) {
     let oldSrc = preview.querySelector('img').getAttribute('src');
     let newSrc = oldSrc.replace('maxresdefault', '0');
