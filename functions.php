@@ -134,6 +134,8 @@ function leave_course(){
   foreach ( $list as $_key=>$el ) {
     if(intval($el['lesson_id']) === $post_id) {
       cource_deletion($user_id,$key);
+      wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] );
+      break;
     }
   }
   return true;
