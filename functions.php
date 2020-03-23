@@ -112,10 +112,9 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 function lesson_changed() {
   $post_id = intval($_POST['post_id']);
   $user_id = intval($_POST['user_id']);
-  $is_learned = $_POST['is_learned'];
   $frequency = $_POST['frequency'];
 
-  set_adding_timeout($user_id,$is_learned);
+  set_adding_timeout($user_id);
   $timer = get_schedule($frequency,$user_id);
   set_cf($timer,$user_id,$post_id);
   update_scheduleMail($timer,$user_id,$post_id);
@@ -124,6 +123,24 @@ function lesson_changed() {
 }
 add_action('wp_ajax_lesson_changed', 'lesson_changed'); 
 // AJAX FUNCTION TO UPDATE USERS LESSON TIMERS (NOT READY YET)
+
+
+
+//AJAX FUNCTION LEAVE COURSE
+function leave_course(){
+  $post_id = intval($_POST['post_id']);
+  $user_id = intval($_POST['user_id']);
+  $list = carbon_get_user_meta( $user_id, 'schedule' );
+  foreach ( $list as $_key=>$el ) {
+    if(intval($el['lesson_id']) === $post_id) {
+      cource_deletion($user_id,$key);
+    }
+  }
+  return true;
+}
+add_action('wp_ajax_leave_course', 'leave_course'); 
+//AJAX FUNCTION LEAVE COURSE
+
 
 
 $timeZone_msc = 180*60;
@@ -179,13 +196,6 @@ function set_cf($arr,$user_id,$post_id){
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', $arr[1][1] );
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', $arr[1][2] );
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/fourth_reminder', $arr[1][3] );
-      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/lesson_id', null );
-      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/cource_frequency', null );
-      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/first_reminder', null );
-      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', null );
-      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', null );
-      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/fourth_reminder', null );
-      // carbon_set_user_meta( $user_id, 'schedule['.$key.']/', [] );
       $var=1;
       return[$arr,$user_id,$post_id];
     }
@@ -242,7 +252,6 @@ function set_scheduleMail($arr,$user_id,$post_id) {
 function move_cf_to_cf_archive($post_id,$user_id){
 
   global $now_incTZ;
-    // wp_logout();
   $list = carbon_get_user_meta( $user_id, 'schedule' );
   foreach ( $list as $key=>$el ) {
     if(intval($el['lesson_id']) === $post_id){
@@ -258,7 +267,7 @@ function move_cf_to_cf_archive($post_id,$user_id){
           break;
       }
       if($last_lesson <= $now_incTZ ) {
-        cource_deletion($post_id,$user_id,$key);
+        cource_deletion($user_id,$key);
       }
     }
   }
@@ -268,6 +277,7 @@ function move_cf_to_cf_archive($post_id,$user_id){
   carbon_set_user_meta( intval($user_id), 'passed_lessons', $arr );
 }
 //MOVING LESSON FROM CF TO CF ARCHIVE_LIST
+
 
 
 //DELETION COURCE
@@ -301,7 +311,7 @@ function send_notify($post_id,$user_id) {
 
 
 // "ADDING NEW COURSE" TIMER
-function set_adding_timeout($user_id,$is_learning){
+function set_adding_timeout($user_id){
 
   $user_timeRange = strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0]) : strtotime(get_user_meta(1)['mrng_practice'][0]);
 
@@ -342,7 +352,6 @@ function n_days_crop($days) {
   global $now_incTZ;
   global $_day;
   $days *= $_day;
-  // $days *= 0;
   return ($now_incTZ + $days);
 }
 // FINCTIONS, TO USE IN LAYOUT

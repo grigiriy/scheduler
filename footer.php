@@ -15,15 +15,12 @@ $(document).ready(function() {
 
     const pageMain = document.querySelector('main');
 
-    if ((pageMain.getAttribute('data-learning') === 'true') && pageMain.hasAttribute('data-learning')) {
-        $is_learning = true;
-    } else {
+    if ((pageMain.getAttribute('data-learning') !== 'true')) {
         if (pageMain.hasAttribute('data-learning')) {
             $(window).on('load', function() {
                 $('#lesson_changed').modal('show');
             });
         }
-        $is_learning = false;
     }
 
 
@@ -34,7 +31,6 @@ $(document).ready(function() {
     console.log('$post_id ', $post_id);
     console.log('$user_id ',
         $user_id);
-    console.log('$is_learning ', $is_learning);
 
     $('#lesson_passed').click(function() {
         $.ajax({
@@ -50,10 +46,34 @@ $(document).ready(function() {
                 console.log(data);
             },
             error: function(errorThrown) {
-                $('#lesson_passed').html('не ок - нет пермишена');
+                $('#lesson_passed').html('error...');
                 console.log(errorThrown);
             }
         });
+    });
+
+    $('#leave_course').click(function() {
+        if (confirm('Are you sure?')) {
+
+            $.ajax({
+                url: '/wp-admin/admin-ajax.php',
+                type: 'POST',
+                data: {
+                    action: 'leave_course',
+                    post_id: $post_id,
+                    user_id: $user_id,
+                },
+                success: function(data) {
+                    $('#leave_course').hide();
+                    console.log('you left the corpse in place');
+                    console.log(data);
+                },
+                error: function(errorThrown) {
+                    $('#leave_course').html('error...');
+                    console.log(errorThrown);
+                }
+            });
+        }
     });
 
     let variant;
@@ -78,7 +98,6 @@ $(document).ready(function() {
                         action: 'lesson_changed',
                         post_id: $post_id,
                         user_id: $user_id,
-                        is_learned: $is_learning,
                         frequency: variant
                     }, // можно также передать в виде объекта
                     success: function(data) {

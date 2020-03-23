@@ -47,12 +47,16 @@ while ( have_posts() ) :
         <div class="col-12">
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
-                <?php if($is_time_to_add || $is_learning) { ?>
                 <span class="ml-auto">
+                    <?php if($is_time_to_add || $is_learning) { ?>
                     <button type="button" id="popup_frequency" class="btn btn-primary" data-toggle="modal"
                         data-target="#lesson_changed">Change frequency</button>
+                    <?php }
+                    if ($is_learning){?>
+                    <button type="button" class="btn btn-danger" id="leave_course">Leave
+                        course</button>
+                    <?php } ?>
                 </span>
-                <?php } ?>
             </h1>
         </div>
         <div id="player" class="mb-5 col-12"></div>
