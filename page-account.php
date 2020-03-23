@@ -148,7 +148,7 @@ while ( have_posts() ) :
 
                 <h1>What do you have to do today?</h1>
                 <?php if (($next_lesson_adding_time && $is_time_to_add) || !isset($timers)){ ?>
-                <div class="card">
+                <div class="card my-3 w-100 shadow-lg">
                     <div class="card-header">
                         <p class="card-title h2 mb-0">Start learn a new material</p>
                     </div>
@@ -194,8 +194,8 @@ while ( have_posts() ) :
                         </p>
                     </div>
                     <?php } ?>
-                    <?php } ?>
                 </div>
+                <?php } ?>
             </div>
         </section>
     </main>

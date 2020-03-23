@@ -48,7 +48,7 @@ while ( have_posts() ) :
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
                 <span class="ml-auto">
-                    <?php if($is_time_to_add || $is_learning) { ?>
+                    <?php if($is_time_to_add || $is_learning || empty($list)) { ?>
                     <button type="button" id="popup_frequency" class="btn btn-primary" data-toggle="modal"
                         data-target="#lesson_changed">Change frequency</button>
                     <?php }
@@ -138,7 +138,7 @@ while ( have_posts() ) :
 
 
 
-    <?php if($is_time_to_add || $is_learning) { ?>
+    <?php if($is_time_to_add || $is_learning  || empty($list)) { ?>
     <div class="modal fade" id="lesson_changed" tabindex="-1" role="dialog" aria-labelledby="lesson_changed__label"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
