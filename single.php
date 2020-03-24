@@ -60,7 +60,7 @@ while ( have_posts() ) :
             </h1>
         </div>
         <div id="player" class="mb-5 col-12"></div>
-        <div class="pdf  col-12">
+        <div class="pdf col-12">
             <embed src="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>" width="100%" height="470px" />
             <div class="d-flex justify-content-between">
                 <a target="_blank" href="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>">Open in new window</a>
@@ -68,6 +68,15 @@ while ( have_posts() ) :
                     href="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>">Download</a>
             </div>
         </div>
+        <a href="http://www.google.com/calendar/event?
+            action=TEMPLATE
+            &text=event-title
+            &dates=[start-custom format='Ymd\\THi00\\Z']/[end-custom format='Ymd\\THi00\\Z']
+            &details=[description]
+            &location=[location]
+            &trp=false
+            &sprop=
+            &sprop=name:" target="_blank" rel="nofollow">Add to my calendar</a>
     </div>
     <script>
     var tag = document.createElement('script');

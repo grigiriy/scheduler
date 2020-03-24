@@ -40,3 +40,7 @@ nav a[aria-current='page'] {
 .lesson_edit .rcl-custom-fields {
   display: none;
 }
+img.ava {
+  max-width: 50px;
+  border-radius: 50px;
+}

@@ -1,26 +1,18 @@
 <?php
 /**
- * Template Name: Page
+ * Template Name: Personal Page
  */
-get_header();
-while ( have_posts() ) :
-    the_post();
-?>
-
+get_header(); ?>
 <div class="container">
     <div class="row">
         <div class="card w-100 mt-5">
             <div class="card-header">
-                <h1><?= the_title(); ?></h1>
+                <h1>Edit your personal information</h1>
             </div>
             <div class="card-body">
-                <p><?php the_content(); ?></p>
+                <?= do_shortcode('[wp-recall]'); ?>
             </div>
         </div>
     </div>
 </div>
-
-
-
-<?php endwhile; ?>
 <?php get_footer(); ?>
