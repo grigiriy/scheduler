@@ -354,7 +354,6 @@ function set_adding_timeout($user_id){
 // FINCTIONS, TO USE IN LAYOUT
 function display_day($next) {
   global $now_incTZ;
-  if($next['month'] === getdate($now_incTZ)['month']){
     if(getdate($now_incTZ)['mday'] === $next['mday']){
       $next = 'Today';
       goto fin;
@@ -369,7 +368,6 @@ function display_day($next) {
       goto fin;
     }
     $next = $next['weekday'];
-  }
   fin:
   echo $next;
 };
