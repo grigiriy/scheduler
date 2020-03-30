@@ -48,15 +48,15 @@ while ( have_posts() ) :
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
                 <span class="ml-auto">
-                    <?php if($is_time_to_add || $is_learning || empty($list)) { ?>
-                    <button type="button" id="popup_frequency" class="btn btn-primary" data-toggle="modal"
-                        data-target="#lesson_changed">Change frequency</button>
+                    <?php if( ($is_time_to_add || empty($list)) && !$is_learning ) { ?>
+                    <button type="button" id="popup_start" class="btn btn-primary" data-toggle="modal"
+                        data-target="#lesson_changed">Start learning</button>
                     <?php }
                     if ($is_learning){?>
                     <button type="button" class="btn btn-danger" id="leave_course">Leave
                         course</button>
                     <?php } ?>
-                    <buttontype="button" class="btn btn-warning" id="favorite">⭐️ Favorite</button>
+                    <button type="button" class="btn btn-warning" id="favorite">⭐️ Favorite</button>
                 </span>
             </h1>
         </div>
@@ -152,24 +152,16 @@ while ( have_posts() ) :
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="lesson_changed__label">
-                        <?= $is_learning === true ? 'Select ' : 'Change '?>frequency</h5>
+                    <h5 class="modal-title"><?= get_the_title(); ?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <?php $VARIANTS = [
-                    ['light','Light (2 times: tomorrow and in 4 days)'],
-                    ['norm','Normal (3 times: tomorrow, in 3 nd in 5 days)'],
-                    ['zombo','"Zombo" mode (3 times: today, tomorrow, and in a week)']
-                ];
-                foreach($VARIANTS as $VARIANT){ ?>
-                    <p class="p-3 m-0" data-variant="<?=$VARIANT[0]?>"><?=$VARIANT[1]?></p>
-                    <?php } ?>
+                    lorem ipsum <?= get_user_meta($user_id)['frequency'][0]; ?>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" disabled class="btn btn-secondary">Save changes</button>
+                    <button type="submit" class="mx-auto btn btn-success" id="add_course">Start learning!</button>
                 </div>
             </div>
         </div>

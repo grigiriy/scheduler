@@ -112,14 +112,16 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 function lesson_changed() {
   $post_id = intval($_POST['post_id']);
   $user_id = intval($_POST['user_id']);
-  $frequency = $_POST['frequency'];
+  // $frequency = $_POST['frequency'];
+  $frequency = get_user_meta($user_id)['frequency'][0];
+
 
   set_adding_timeout($user_id);
   $timer = get_schedule($frequency,$user_id);
   set_cf($timer,$user_id,$post_id);
   update_scheduleMail($timer,$user_id,$post_id);
   wp_die();
-  return true;
+  return $frequency;
 }
 add_action('wp_ajax_lesson_changed', 'lesson_changed'); 
 // AJAX FUNCTION TO UPDATE USERS LESSON TIMERS (NOT READY YET)
@@ -177,16 +179,16 @@ function get_schedule($frequency,$user_id) {
   global $now_incTZ;
   global $_day;
 
-	$schedules['light'] = [
+	$schedules['Light'] = [
     $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[1]),
     $now_incTZ + $_day * 4 - ($now_incTZ - $user_timeRange[2])
   ];
-	$schedules['norm'] = [
+	$schedules['Normal'] = [
     $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[0]),
     $now_incTZ + $_day * 3 - ($now_incTZ - $user_timeRange[1]),
     $now_incTZ + $_day * 5 - ($now_incTZ - $user_timeRange[1])
   ];
-	$schedules['zombo'] = [
+	$schedules['Zombo'] = [
     $now_incTZ + 5*60*60,
     $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[2]),
     $now_incTZ + $_day * 7 - ($now_incTZ - $user_timeRange[2])
@@ -194,7 +196,8 @@ function get_schedule($frequency,$user_id) {
 
   $timer = $schedules[$frequency];
 
-  return [$frequency, $timer];
+  // return [$frequency, $timer];
+  return $timer;
 }
 // GET USER SPECIFIED TIME BY ID
 
@@ -204,42 +207,40 @@ function get_schedule($frequency,$user_id) {
 
 
 // FILL USERS CUSTOM FIELDS WITH TIMERS
-function set_cf($arr,$user_id,$post_id){
+function set_cf($timer,$user_id,$post_id){
   $list = carbon_get_user_meta( $user_id, 'schedule' );
   $var=0;
   foreach ( $list as $key=>$el ) {
     if(intval($el['lesson_id']) === $post_id){
-      carbon_set_user_meta( $user_id, 'schedule['.$key.']/cource_frequency', $arr[0] );
-      carbon_set_user_meta( $user_id, 'schedule['.$key.']/first_reminder', $arr[1][0] );
-      carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', $arr[1][1] );
-      carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', $arr[1][2] );
-      carbon_set_user_meta( $user_id, 'schedule['.$key.']/fourth_reminder', $arr[1][3] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/first_reminder', $timer[0] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', $timer[1] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', $timer[2] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/cource_frequency', $frequency );
       $var=1;
-      return[$arr,$user_id,$post_id];
+      return[$timer,$user_id,$post_id];
     }
   }
   if($var===0){
     carbon_set_user_meta( $user_id, 'schedule['.count($list).']/lesson_id', $post_id );
-    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/cource_frequency', $arr[0] );
-    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/first_reminder', $arr[1][0] );
-    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/second_reminder', $arr[1][1] );
-    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/third_reminder', $arr[1][2] );
-    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/fourth_reminder', $arr[1][3] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/first_reminder', $timer[0] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/second_reminder', $timer[1] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/third_reminder', $timer[2] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/cource_frequency', $frequency );
   }
-  return[$arr,$user_id,$post_id];
+  return[$timer,$user_id,$post_id];
  };
 // FILL USERS CUSTOM FIELDS WITH TIMERS
 
 
 
 // DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
-function update_scheduleMail($arr,$user_id,$post_id){
+function update_scheduleMail($timer,$user_id,$post_id){
   
   // foreach([0,1,2,3] as $key){
     wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] );
     // Удаляет все крон-задачи прикрепленные к указанному хуку и имеющие указанные параметры.
   // }
-  set_scheduleMail($arr,$user_id,$post_id);
+  set_scheduleMail($timer,$user_id,$post_id);
 }
 // DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
 
@@ -248,18 +249,18 @@ function update_scheduleMail($arr,$user_id,$post_id){
 
 
 
-// PARSE SCHEDULE RULES (LIGHT,NORM ETC)
+// PARSE SCHEDULE RULES (LIGHT,normal ETC)
 // AND SET TIMERS
 // AND CALL A FUNCTION TO SEND LETTERS
-function set_scheduleMail($arr,$user_id,$post_id) {
+function set_scheduleMail($timer,$user_id,$post_id) {
 
   if( !wp_next_scheduled('send_notify') )
-  foreach($arr[1] as $key=>$_timer){
+  foreach($timer as $key=>$_timer){
     wp_schedule_single_event( $_timer, 'send_notify', [$post_id,$user_id] );
   }
   return true;
 }
-// PARSE SCHEDULE RULES (LIGHT,NORM ETC)
+// PARSE SCHEDULE RULES (LIGHT,normal ETC)
 // AND SET TIMERS
 // AND CALL A FUNCTION TO SEND LETTERS
 
@@ -273,11 +274,11 @@ function move_cf_to_cf_archive($post_id,$user_id){
   $list = carbon_get_user_meta( $user_id, 'schedule' );
   foreach ( $list as $key=>$el ) {
     if(intval($el['lesson_id']) === $post_id){
-      switch ($el['cource_frequency']) {
+      switch (get_user_meta($user_id)['frequency'][0]) {
         case 'light':
           $last_lesson = $el['second_reminder'];
           break;
-        case 'norm':
+        case 'normal':
           $last_lesson = $el['third_reminder'];
           break;
         case 'zombo':

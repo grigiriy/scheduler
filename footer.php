@@ -96,57 +96,28 @@ $(document).ready(function() {
         }
     });
 
-    let variant;
-    $('#lesson_changed').click(function(e) {
-        if (e.target.tagName === 'P') {
-            if (e.target.parentNode.querySelector('.active')) {
-                e.target.parentNode.querySelector('.active').classList.remove('active');
+
+    $('#add_course').click(function(e) {
+        $.ajax({
+            url: '/wp-admin/admin-ajax.php',
+            type: 'POST',
+            data: {
+                action: 'lesson_changed',
+                post_id: $post_id,
+                user_id: $user_id,
+            },
+            success: function(data) {
+                $('#add_course').html(
+                    'Success!').attr('disabled', 'disabled');
+                $('#popup_start').hide();
+                console.log(data);
+            },
+            error: function(errorThrown) {
+                $('#add_course').html(
+                    'error...');
             }
-            e.target.classList.add('active');
-            let btn = e.target.parentNode.parentNode.querySelector('.modal-footer>button');
-            btn.classList.remove('btn-secondary');
-            btn.classList.add('btn-success');
-            btn.removeAttribute('disabled');
-            variant = e.target.getAttribute('data-variant');
-        } else if (e.target.tagName === 'BUTTON' || e.target.parentNode.tagName === 'BUTTON') {
-            if (variant) {
-
-                $.ajax({
-                    url: '/wp-admin/admin-ajax.php',
-                    type: 'POST',
-                    data: {
-                        action: 'lesson_changed',
-                        post_id: $post_id,
-                        user_id: $user_id,
-                        frequency: variant
-                    }, // можно также передать в виде объекта
-                    success: function(data) {
-                        $('#lesson_changed').find('.modal-footer>button').html(
-                            'Success!');
-                        console.log(data);
-                    },
-                    error: function(errorThrown) {
-                        $('#lesson_changed').find('.modal-footer>button').html(
-                            'error...');
-                        $('#lesson_changed').find('.modal-footer>button').removeClass(
-                            'btn-success').addClass('btn-danger');
-                        console.log(errorThrown);
-                    }
-                });
-
-            } else {
-                console.log('not select att');
-            }
-        } else {
-            console.log('not selected');
-
-        }
+        });
     });
-    $('#popup_frequency').bind('click', function() {
-        $('#lesson_changed').find('.modal-footer>button').html('Save changes');
-        $('#lesson_changed').find('.modal-footer>button').removeClass(
-            'btn-success').addClass('btn-secondary');
-    })
 });
 </script>
 </body>
