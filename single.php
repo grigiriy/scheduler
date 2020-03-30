@@ -48,14 +48,14 @@ while ( have_posts() ) :
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
                 <span class="ml-auto">
-                    <?php if( ($is_time_to_add || empty($list)) && !$is_learning ) { ?>
-                    <button type="button" id="popup_start" class="btn btn-primary" data-toggle="modal"
-                        data-target="#lesson_changed">Start learning</button>
-                    <?php }
-                    if ($is_learning){?>
-                    <button type="button" class="btn btn-danger" id="leave_course">Leave
-                        course</button>
-                    <?php } ?>
+                    <?php $launch_btn = ($is_time_to_add || empty($list)) ? [null,'primary'] : ['disabled','secondary']; ?>
+                    <button type="button" id="popup_start" class="btn btn-<?= $launch_btn[1] ?>" <?= $launch_btn[0] ?>
+                        data-toggle="modal" data-target="#lesson_changed"
+                        <?= $is_learning ? 'style="display:none"' : ''?>>Start learning</button>
+
+                    <button type="button" class="btn btn-danger" id="leave_course"
+                        <?= !$is_learning ? 'style="display:none"' : ''?>>Leave course</button>
+
                     <button type="button" class="btn btn-warning" id="favorite">⭐️ Favorite</button>
                 </span>
             </h1>

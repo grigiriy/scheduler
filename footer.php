@@ -85,6 +85,7 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     $('#leave_course').hide();
+                    $('#popup_start').show();
                     console.log('you left the corpse in place');
                     console.log(data);
                 },
@@ -110,6 +111,7 @@ $(document).ready(function() {
                 $('#add_course').html(
                     'Success!').attr('disabled', 'disabled');
                 $('#popup_start').hide();
+                $('#leave_course').show();
                 console.log(data);
             },
             error: function(errorThrown) {
