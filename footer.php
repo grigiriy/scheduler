@@ -52,6 +52,26 @@ $(document).ready(function() {
         });
     });
 
+    $('#favorite').click(function() {
+        $.ajax({
+            url: '/wp-admin/admin-ajax.php',
+            type: 'POST',
+            data: {
+                action: 'add_to_favor',
+                post_id: $post_id,
+                user_id: $user_id,
+            }, // можно также передать в виде объекта
+            success: function(data) {
+                $('#favorite').html('ОКИ');
+                console.log(data);
+            },
+            error: function(errorThrown) {
+                $('#favorite').html('error...');
+                console.log(errorThrown);
+            }
+        });
+    });
+
     $('#leave_course').click(function() {
         if (confirm('Are you sure?')) {
 
@@ -101,11 +121,13 @@ $(document).ready(function() {
                         frequency: variant
                     }, // можно также передать в виде объекта
                     success: function(data) {
-                        $('#lesson_changed').find('.modal-footer>button').html('Success!');
+                        $('#lesson_changed').find('.modal-footer>button').html(
+                            'Success!');
                         console.log(data);
                     },
                     error: function(errorThrown) {
-                        $('#lesson_changed').find('.modal-footer>button').html('error...');
+                        $('#lesson_changed').find('.modal-footer>button').html(
+                            'error...');
                         $('#lesson_changed').find('.modal-footer>button').removeClass(
                             'btn-success').addClass('btn-danger');
                         console.log(errorThrown);

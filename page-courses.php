@@ -16,6 +16,8 @@ if (get_the_title() === 'Current lessons') {
     $this_page = 'current';
 } else if (get_the_title() === 'Already passed') {
     $this_page = 'passed';
+} else if (get_the_title() === 'Favorite') {
+    $this_page = 'favorite';
 } else {
     // $this_page = null;
     $this_page = 'courses';
@@ -48,6 +50,9 @@ while ( have_posts() ) :
               array_push($selected_posts,$el['lesson_id']);
             }
             $fil = 'post__not_in';
+        } else if ($this_page==='favorite') {
+            $fil = 'post__in';
+            $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
         }
         $args[$fil]=$selected_posts;
     }
@@ -66,6 +71,8 @@ while ( have_posts() ) :
                 Passed</a>
             <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold"
                 href="/account/current/">Current Lessons</a>
+            <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold"
+                href="/account/favorite/">Favorite</a>
         </div>
         <?php
         if($lessons_query->have_posts()){

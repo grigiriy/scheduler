@@ -19,5 +19,6 @@ Container::make( 'user_meta', 'Календарь' )
         ->set_width( 30 )
     ]),
     Field::make( 'text', 'passed_lessons', 'Пройденные уроки' ),
+    Field::make( 'text', 'favor_lessons', 'Избранные уроки' ),
     Field::make( 'text', 'next_lesson', 'Cледующий урок' )
 ]);

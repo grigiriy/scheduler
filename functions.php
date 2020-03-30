@@ -144,6 +144,21 @@ add_action('wp_ajax_leave_course', 'leave_course');
 //AJAX FUNCTION LEAVE COURSE
 
 
+//AJAX FUNCTION ADD TO FAVOR
+function add_to_favor(){
+  $post_id = intval($_POST['post_id']);
+  $user_id = intval($_POST['user_id']);
+
+  $fav = carbon_get_user_meta( intval($user_id), 'favor_lessons' );
+  $arr = implode(",",array_unique(explode(",", $fav.','.$post_id)));
+  carbon_set_user_meta( intval($user_id), 'favor_lessons', trim($arr,',') );
+
+  return true;
+}
+add_action('wp_ajax_add_to_favor', 'add_to_favor'); 
+//AJAX FUNCTION ADD TO FAVOR
+
+
 
 $timeZone_msc = 180*60;
 // $now_incTZ = strtotime("now")+$timeZone_msc;
@@ -277,7 +292,7 @@ function move_cf_to_cf_archive($post_id,$user_id){
 
   $cur = carbon_get_user_meta( intval($user_id), 'passed_lessons' );
   $arr = implode(",",array_unique(explode(",", $cur.','.$post_id)));
-  carbon_set_user_meta( intval($user_id), 'passed_lessons', $arr );
+  carbon_set_user_meta( intval($user_id), 'passed_lessons', trim($arr,',') );
 }
 //MOVING LESSON FROM CF TO CF ARCHIVE_LIST
 

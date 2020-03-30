@@ -56,6 +56,7 @@ while ( have_posts() ) :
                     <button type="button" class="btn btn-danger" id="leave_course">Leave
                         course</button>
                     <?php } ?>
+                    <buttontype="button" class="btn btn-warning" id="favorite">⭐️ Favorite</button>
                 </span>
             </h1>
         </div>
@@ -124,9 +125,7 @@ while ( have_posts() ) :
             <h3>Edit lesson info</h3>
         </div>
         <div class="card-body lesson_edit">
-            <?= do_shortcode('[public-form]');
-            // the_content();
-            ?>
+            <button class="btn"><a href="/add_post/?rcl-post-edit=<?= $post->ID; ?>">Edit Post</a></button>
         </div>
     </div>
     <?php }     
