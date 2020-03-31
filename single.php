@@ -158,7 +158,8 @@ while ( have_posts() ) :
                     </button>
                 </div>
                 <div class="modal-body">
-                    lorem ipsum <?= get_user_meta($user_id)['frequency'][0]; ?>
+                    lorem ipsum
+                    <?= (isset(get_user_meta($user_id)['frequency'])) ? get_user_meta($user_id)['frequency'][0] : 'Norm'; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="mx-auto btn btn-success" id="add_course">Start learning!</button>
