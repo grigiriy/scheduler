@@ -97,6 +97,10 @@ $(document).ready(function() {
         }
     });
 
+    $('#popup_start').popover({
+        trigger: 'focus'
+    });
+
 
     $('#add_course').click(function(e) {
         $.ajax({

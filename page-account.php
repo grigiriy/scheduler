@@ -115,7 +115,7 @@ while ( have_posts() ) :
                                     <tr class="bg-<?= ($key%2===0)?'light':'white' ?>">
                                         <td><a href="<?= get_the_permalink($timer[1]);?>"
                                                 class="text-info"><?= get_the_title($timer[1]) ?></a></td>
-                                        <td><?php display_day(getdate($timer[0])); ?></td>
+                                        <td><?= display_day(getdate($timer[0])); ?></td>
                                         <td><?= getdate($timer[0])['hours'].':'.getdate($timer[0])['minutes'] ?></td>
                                     </tr>
                                     <?php } ?>

@@ -410,7 +410,7 @@ function display_day($next) {
     }
     $next = $next['weekday'];
   fin:
-  echo $next;
+  return $next;
 };
 
 

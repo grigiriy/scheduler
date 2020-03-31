@@ -48,10 +48,10 @@ while ( have_posts() ) :
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
                 <span class="ml-auto">
-                    <?php $launch_btn = ($is_time_to_add || empty($list)) ? [null,'primary'] : ['disabled','secondary']; ?>
-                    <button type="button" id="popup_start" class="btn btn-<?= $launch_btn[1] ?>" <?= $launch_btn[0] ?>
-                        data-toggle="modal" data-target="#lesson_changed"
-                        <?= $is_learning ? 'style="display:none"' : ''?>>Start learning</button>
+                    <?php $launch_btn = ($is_time_to_add || empty($list)) ? ['data-toggle="modal" data-target="#lesson_changed"','primary'] : ['tabindex="0" data-toggle="popover" data-trigger="focus" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
+                    ?>
+                    <a role="button" type="button" id="popup_start" class="btn text-light btn-<?= $launch_btn[1] ?>"
+                        <?= $is_learning ? 'style="display:none"' : ''?> <?= $launch_btn[0] ?>>Start learning</a>
 
                     <button type="button" class="btn btn-danger" id="leave_course"
                         <?= !$is_learning ? 'style="display:none"' : ''?>>Leave course</button>
