@@ -52,7 +52,7 @@ while ( have_posts() ) :
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
                 <span class="ml-auto">
-                    <?php $launch_btn = $is_time_to_add ? ['data-toggle="modal" data-target="#lesson_changed"','primary'] : ['tabindex="0" data-toggle="popover" data-trigger="focus" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
+                    <?php $launch_btn = $is_time_to_add ? ['data-toggle="modal" data-target="#add_lesson"','primary'] : ['tabindex="0" data-toggle="popover" data-trigger="focus" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
                     ?>
                     <a role="button" type="button" id="popup_start" class="btn text-light btn-<?= $launch_btn[1] ?>"
                         <?= $is_learning ? 'style="display:none"' : ''?> <?= $launch_btn[0] ?>>Start learning</a>
@@ -151,7 +151,7 @@ while ( have_posts() ) :
 
 
     <?php if($is_time_to_add || $is_learning  || empty($list)) { ?>
-    <div class="modal fade" id="lesson_changed" tabindex="-1" role="dialog" aria-labelledby="lesson_changed__label"
+    <div class="modal fade" id="add_lesson" tabindex="-1" role="dialog" aria-labelledby="add_lesson__label"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

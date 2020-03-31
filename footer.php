@@ -19,7 +19,7 @@ $(document).ready(function() {
         if ((pageMain.getAttribute('data-learning') !== 'true') && (pageMain.getAttribute('data-can_add') ===
                 'true')) {
             $(window).on('load', function() {
-                $('#lesson_changed').modal('show');
+                $('#add_lesson').modal('show');
             });
         }
     }
@@ -32,6 +32,7 @@ $(document).ready(function() {
     console.log('$post_id ', $post_id);
     console.log('$user_id ',
         $user_id);
+
 
     $('#lesson_passed').click(function() {
         $.ajax({
@@ -108,7 +109,7 @@ $(document).ready(function() {
             url: '/wp-admin/admin-ajax.php',
             type: 'POST',
             data: {
-                action: 'lesson_changed',
+                action: 'add_lesson',
                 post_id: $post_id,
                 user_id: $user_id,
             },

@@ -109,7 +109,7 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 
 
 // AJAX FUNCTION TO UPDATE USERS LESSON TIMERS (NOT READY YET)
-function lesson_changed() {
+function add_lesson() {
   $post_id = intval($_POST['post_id']);
   $user_id = intval($_POST['user_id']);
   $frequency = get_user_meta($user_id)['frequency'][0];
@@ -121,7 +121,7 @@ function lesson_changed() {
   wp_die();
   return $frequency;
 }
-add_action('wp_ajax_lesson_changed', 'lesson_changed'); 
+add_action('wp_ajax_add_lesson', 'add_lesson'); 
 // AJAX FUNCTION TO UPDATE USERS LESSON TIMERS (NOT READY YET)
 
 
@@ -385,7 +385,6 @@ function set_adding_timeout($user_id){
   global $now_incTZ;
   global $_day;
   $next_add = $user_timeRange + $_day*2;
-  // $next_add = $now_incTZ + 20;
   carbon_set_user_meta( intval($user_id), 'next_lesson', $next_add );
   wp_schedule_single_event( $next_add, 'send_notify', ['starter',$user_id] );
 }
