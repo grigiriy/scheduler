@@ -19,7 +19,7 @@ while ( have_posts() ) :
     the_post();
 
     $user_id = get_current_user_id();
-    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' );
+    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);;
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
     if(
         !empty(
@@ -109,9 +109,9 @@ while ( have_posts() ) :
                                 </thead>
                                 <tbody>
                                     <?php
-                            foreach($timers as $key=>$timer){
-                                $timer = explode(',',$timer);
-                            ?>
+                                    foreach($timers as $key=>$timer){
+                                        $timer = explode(',',$timer);
+                                    ?>
                                     <tr class="bg-<?= ($key%2===0)?'light':'white' ?>">
                                         <td><a href="<?= get_the_permalink($timer[1]);?>"
                                                 class="text-info"><?= get_the_title($timer[1]) ?></a></td>
@@ -128,19 +128,25 @@ while ( have_posts() ) :
                         <?php } else { ?>
                         <div class="m-3">
                             <p class="h3">No courses yet</p>
+                            <?php if ($is_time_to_add ) { ?>
                             <p class="h4">Click <a href="/courses/">here</a> to start learning!</p>
+                            <?php } else { ?>
+                            <p class="h3">You can add new lesson on
+                                <?= display_day(getdate($next_lesson_adding_time)); ?>
+                            </p>
+                            <?php } ?>
                         </div>
                         <?php } ?>
                     </div>
                     <div class="card order-1">
                         <div class="card-header">
                             <?php
-                    $role = wp_get_current_user()->roles[0];
-                    if(
-                        $role === 'administrator' ||
-                        $role === 'author' ||
-                        $role === 'editor' 
-                    ){ ?>
+                            $role = wp_get_current_user()->roles[0];
+                            if(
+                                $role === 'administrator' ||
+                                $role === 'author' ||
+                                $role === 'editor' 
+                            ){ ?>
                             <p class="bg-light h3">
                                 <a href="/add_post/">Add new Lesson</a>
                             </p>
@@ -169,7 +175,7 @@ while ( have_posts() ) :
         <section class="col-md-7 col-sm-12 order-1">
             <div class="row mx-md-1">
                 <h1>What do you have to do today?</h1>
-                <?php if (($next_lesson_adding_time && $is_time_to_add) || !isset($timers)){ ?>
+                <?php if ($is_time_to_add) { ?>
                 <div class="card my-3 w-100 shadow-lg">
                     <div class="card-header">
                         <p class="card-title h2 mb-0">Start learn a new material</p>
@@ -187,10 +193,10 @@ while ( have_posts() ) :
                         </div>
                     </div>
                 </div>
-                <?php }
-                
-                if(isset($timers) && $timers ){ ?>
+                <?php } ?>
+
                 <div class="card my-3 w-100 shadow-lg" id="next_lesson_card">
+                    <?php if(isset($timers) && $timers ) { ?>
                     <div class="card-header">
                         <p class="card-title h2 d-flex mb-0"><span>Repeat this material</span><span
                                 class="badge badge-warning ml-auto"><?= display_day(getdate($next));?></span></p>
@@ -210,14 +216,20 @@ while ( have_posts() ) :
                             </figcaption>
                         </figure>
                     </div>
-                    <?php if ($next_lesson_adding_time){ ?>
+                    <?php } else if (!$is_time_to_add) { ?>
+                    <div class="card-body">
+                        <p class="h2">It seems you have no tasks for today</p>
+                        <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt="" style="max-width:100%">
+                    </div>
+                    <?php }
+                    if ($next_lesson_adding_time){ ?>
                     <div class="card-footer">
                         <p class="h3">You can add new lesson on <?= display_day(getdate($next_lesson_adding_time)); ?>
                         </p>
                     </div>
                     <?php } ?>
                 </div>
-                <?php } ?>
+
             </div>
         </section>
     </main>

@@ -23,10 +23,13 @@ while ( have_posts() ) :
     
     $post_id = $post->ID;
     $user_id = get_current_user_id();
-    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' );
+    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);;
     $list = carbon_get_user_meta( $user_id,'schedule' );
     $vals = [];
     
+
+    
+
     global $now_incTZ;
 
     foreach ($list as $key=>$el){
@@ -42,13 +45,14 @@ while ( have_posts() ) :
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
     $is_learning = (in_array($post_id, $vals)) ? true : false;
 ?>
-<main class="container" data-learning="<?= $is_learning === true ? 'true' : '' ;?>">
+<main class="container" data-can_add="<?= $is_time_to_add === true ? 'true' : '' ;?>"
+    data-learning="<?= $is_learning === true ? 'true' : '' ;?>">
     <div class="row">
         <div class="col-12">
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
                 <span class="ml-auto">
-                    <?php $launch_btn = ($is_time_to_add || empty($list)) ? ['data-toggle="modal" data-target="#lesson_changed"','primary'] : ['tabindex="0" data-toggle="popover" data-trigger="focus" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
+                    <?php $launch_btn = $is_time_to_add ? ['data-toggle="modal" data-target="#lesson_changed"','primary'] : ['tabindex="0" data-toggle="popover" data-trigger="focus" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
                     ?>
                     <a role="button" type="button" id="popup_start" class="btn text-light btn-<?= $launch_btn[1] ?>"
                         <?= $is_learning ? 'style="display:none"' : ''?> <?= $launch_btn[0] ?>>Start learning</a>

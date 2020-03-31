@@ -15,8 +15,9 @@ $(document).ready(function() {
 
     const pageMain = document.querySelector('main');
 
-    if ((pageMain.getAttribute('data-learning') !== 'true')) {
-        if (pageMain.hasAttribute('data-learning')) {
+    if (pageMain.hasAttribute('data-learning')) {
+        if ((pageMain.getAttribute('data-learning') !== 'true') && (pageMain.getAttribute('data-can_add') ===
+                'true')) {
             $(window).on('load', function() {
                 $('#lesson_changed').modal('show');
             });
