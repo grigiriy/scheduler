@@ -44,6 +44,10 @@ while ( have_posts() ) :
     }
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
     $is_learning = (in_array($post_id, $vals)) ? true : false;
+
+    $favs = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
+    $is_favor = (in_array($post_id, $favs)) ? true : false;
+
 ?>
 <main class="container" data-can_add="<?= $is_time_to_add === true ? 'true' : '' ;?>"
     data-learning="<?= $is_learning === true ? 'true' : '' ;?>">
@@ -60,7 +64,8 @@ while ( have_posts() ) :
                     <button type="button" class="btn btn-danger" id="leave_course"
                         <?= !$is_learning ? 'style="display:none"' : ''?>>Leave course</button>
 
-                    <button type="button" class="btn btn-warning" id="favorite">⭐️ Favorite</button>
+                    <button type="button" class="btn btn-warning"
+                        id="favorite"><?= ($is_favor) ? '⭐️ Favorite' : 'Add to favorite'; ?></button>
                 </span>
             </h1>
         </div>

@@ -55,11 +55,12 @@ $(document).ready(function() {
     });
 
     $('#favorite').click(function() {
+        let __action = $('#favorite').text() === 'Add to favorite' ? 'add_to_favor' : 'remove_favor';
         $.ajax({
             url: '/wp-admin/admin-ajax.php',
             type: 'POST',
             data: {
-                action: 'add_to_favor',
+                action: __action,
                 post_id: $post_id,
                 user_id: $user_id,
             }, // можно также передать в виде объекта
