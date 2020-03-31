@@ -112,9 +112,7 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 function lesson_changed() {
   $post_id = intval($_POST['post_id']);
   $user_id = intval($_POST['user_id']);
-  // $frequency = $_POST['frequency'];
   $frequency = get_user_meta($user_id)['frequency'][0];
-
 
   set_adding_timeout($user_id);
   $timer = get_schedule($frequency,$user_id);
@@ -133,13 +131,17 @@ function leave_course(){
   $post_id = intval($_POST['post_id']);
   $user_id = intval($_POST['user_id']);
   $list = carbon_get_user_meta( $user_id, 'schedule' );
-  foreach ( $list as $_key=>$el ) {
+  $length = count($list)-1;
+
+  foreach ( $list as $key=>$el ) {
     if(intval($el['lesson_id']) === $post_id) {
-      cource_deletion($user_id,$key);
-      wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] );
+      cource_deletion($user_id,$key,$length);
+      // wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] );
+      $a = $key;
       break;
     }
   }
+
   return true;
 }
 add_action('wp_ajax_leave_course', 'leave_course'); 
@@ -215,7 +217,6 @@ function set_cf($timer,$user_id,$post_id){
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/first_reminder', $timer[0] );
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', $timer[1] );
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', $timer[2] );
-      carbon_set_user_meta( $user_id, 'schedule['.$key.']/cource_frequency', $frequency );
       $var=1;
       return[$timer,$user_id,$post_id];
     }
@@ -225,7 +226,6 @@ function set_cf($timer,$user_id,$post_id){
     carbon_set_user_meta( $user_id, 'schedule['.count($list).']/first_reminder', $timer[0] );
     carbon_set_user_meta( $user_id, 'schedule['.count($list).']/second_reminder', $timer[1] );
     carbon_set_user_meta( $user_id, 'schedule['.count($list).']/third_reminder', $timer[2] );
-    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/cource_frequency', $frequency );
   }
   return[$timer,$user_id,$post_id];
  };
@@ -272,6 +272,7 @@ function move_cf_to_cf_archive($post_id,$user_id){
 
   global $now_incTZ;
   $list = carbon_get_user_meta( $user_id, 'schedule' );
+  $length = count($list)-1;
   foreach ( $list as $key=>$el ) {
     if(intval($el['lesson_id']) === $post_id){
       switch (get_user_meta($user_id)['frequency'][0]) {
@@ -286,7 +287,7 @@ function move_cf_to_cf_archive($post_id,$user_id){
           break;
       }
       if($last_lesson <= $now_incTZ ) {
-        cource_deletion($user_id,$key);
+        cource_deletion($user_id,$key,$length);
       }
     }
   }
@@ -300,13 +301,13 @@ function move_cf_to_cf_archive($post_id,$user_id){
 
 
 //DELETION COURCE
-function cource_deletion($user_id,$key){
-  delete_user_meta( intval($user_id), '_schedule|||'.intval($key).'|value');
-  delete_user_meta( intval($user_id), '_schedule|lesson_id|'.intval($key).'|0|value');
-  delete_user_meta( intval($user_id), '_schedule|cource_frequency|'.intval($key).'|0|value');
-  delete_user_meta( intval($user_id), '_schedule|first_reminder|'.intval($key).'|0|value');
-  delete_user_meta( intval($user_id), '_schedule|second_reminder|'.intval($key).'|0|value');
-  delete_user_meta( intval($user_id), '_schedule|third_reminder|'.intval($key).'|0|value');
+function cource_deletion($user_id,$key,$length) {
+  if($key < $length){
+    _update_item( $user_id, $key, $length );
+    _delete_item( $user_id, $length );
+  } else {
+    _delete_item( $user_id, $key );
+  }
 }
 //DELETION COURCE
 
@@ -335,6 +336,45 @@ return true;
 }
 // SENDING EMAIL FUNCTION
 
+
+// UPDATE PREV
+function _update_item( $user_id, $key, $length ) {
+  update_user_meta(
+    $user_id,
+    '_schedule|lesson_id|'.$key.'|0|value',
+    implode(',',get_user_meta($user_id,'_schedule|lesson_id|'.$length.'|0|value'))
+  );
+  update_user_meta(
+    $user_id,
+    '_schedule|first_reminder|'.$key.'|0|value',
+    implode(',',get_user_meta($user_id,'_schedule|first_reminder|'.$length.'|0|value'))
+  );
+  update_user_meta(
+    $user_id,
+    '_schedule|second_reminder|'.$key.'|0|value',
+    implode(',',get_user_meta($user_id,'_schedule|second_reminder|'.$length.'|0|value'))
+  );
+  update_user_meta(
+    $user_id,
+    '_schedule|third_reminder|'.$key.'|0|value',
+    implode(',',get_user_meta($user_id,'_schedule|third_reminder|'.$length.'|0|value'))
+  );
+  update_user_meta(
+    $user_id,
+    '_schedule|||'.$key.'|value',
+    implode(',',get_user_meta($user_id,'_schedule|||'.$length.'|value'))
+  );
+}
+// UPDATE PREV
+// DELETE KEY
+function _delete_item( $user_id, $key ) {
+delete_user_meta( $user_id, '_schedule|lesson_id|'.$key.'|0|value');
+delete_user_meta( $user_id, '_schedule|first_reminder|'.$key.'|0|value');
+delete_user_meta( $user_id, '_schedule|second_reminder|'.$key.'|0|value');
+delete_user_meta( $user_id, '_schedule|third_reminder|'.$key.'|0|value');
+delete_user_meta( $user_id, '_schedule|||'.$key.'|value');
+}
+// DELETE KEY
 
 
 // "ADDING NEW COURSE" TIMER
