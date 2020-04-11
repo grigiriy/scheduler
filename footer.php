@@ -35,6 +35,7 @@ $(document).ready(function() {
 
 
     $('#lesson_passed').click(function() {
+        let $is_last = $('#lesson_passed').attr('data-last');
         $.ajax({
             url: '/wp-admin/admin-ajax.php',
             type: 'POST',
@@ -42,9 +43,10 @@ $(document).ready(function() {
                 action: 'lesson_passed',
                 post_id: $post_id,
                 user_id: $user_id,
+                is_last: $is_last,
             }, // можно также передать в виде объекта
             success: function(data) {
-                $('#lesson_passed').html('ОКИ');
+                $('#lesson_passed').remove();
                 console.log(data);
             },
             error: function(errorThrown) {

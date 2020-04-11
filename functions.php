@@ -86,21 +86,79 @@ function crb_load() {
     \Carbon_Fields\Carbon_Fields::boot();
 }
 
+$timeZone_msc = 180*60;
+// $now_incTZ = strtotime("now")+$timeZone_msc;
+$now_incTZ = strtotime("now");
+$_day = 60 * 60 * 24;
 
 
+
+function set_current_lesson_val($current_lesson_val,$current_lesson_key,$user_id){
+  if (!$current_lesson_val || $current_lesson_val==='0') {
+    carbon_set_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/current_lesson', 1 );
+  } else if ($current_lesson_val==='1') {
+    carbon_set_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/current_lesson', 2 );
+  } else if ($current_lesson_val==='2') {
+    if(carbon_get_user_meta( $user_id, 'schedule['.$current_lesson_key.']/third_reminder') ){
+      carbon_set_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/current_lesson', 3 );
+    } else {
+      return print_r('ERROR!');
+    }
+  }
+}
+
+function add_to_missed($user_id,$current_lesson_key,$current_lesson_val){
+  $missed = carbon_get_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/missed_lessons');
+
+  $arr = implode(",",array_unique(explode(",", $missed.','.$current_lesson_val)));
+
+  carbon_set_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/missed_lessons', trim($arr,','));
+}
+
+
+function check_current_lesson($user_id,$post_id,$is_final,$less_vals,$current_lesson_key) {
+  $current_lesson_val = carbon_get_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/current_lesson');
+
+  $list = carbon_get_user_meta( $user_id, 'schedule' );
+  foreach ( $list as $key=>$el ) {
+    if( $el['lesson_id'] === $post_id ) {
+      $current_lesson_key = $key;
+      break;
+    }
+  }
+
+
+  if (!$is_final) {
+    global $now_incTZ;
+    $next_lesson_time = ( intval($current_lesson_val > 0) ) ? $less_vals[$current_lesson_val-1] : 1;
+
+    if($next_lesson_time <= $now_incTZ){
+      set_current_lesson_val($current_lesson_val,$current_lesson_key,$user_id);
+      add_to_missed( $user_id, $current_lesson_key, $current_lesson_val );
+    }
+  }
+}
 
 
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED (NOT READY YET)
 function lesson_passed() {
-  // wp_logout();
-// IDK VAT 4 IZ IT
   $post_id = $_POST['post_id'];
   $user_id = $_POST['user_id'];
-  // // set_scheduleMail(get_schedule($post_id));
-  // set_cf(get_schedule($post_id),$user_id);
-  // wp_die();
-  // return true;
-  move_cf_to_cf_archive($post_id,$user_id);
+  $is_final = $_POST['is_last'];
+  
+  $list = carbon_get_user_meta( $user_id, 'schedule' );
+  foreach ( $list as $key=>$el ) {
+    if( $el['lesson_id'] === $post_id ) {
+      $current_lesson_key = $key;
+      break;
+    }
+  }
+  $current_lesson_val = carbon_get_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/current_lesson');
+  if($is_final === 'true'){
+    move_cf_to_cf_archive(intval($post_id),intval($user_id),intval($current_lesson_key) );
+  } else {
+    set_current_lesson_val($current_lesson_val,$current_lesson_key,$user_id);
+  }
 }
 add_action('wp_ajax_lesson_passed', 'lesson_passed'); 
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED (NOT READY YET)
@@ -116,10 +174,11 @@ function add_lesson() {
 
   set_adding_timeout($user_id);
   $timer = get_schedule($frequency,$user_id);
-  set_cf($timer,$user_id,$post_id);
+  set_cf($timer,$user_id,$post_id,'0');
   update_scheduleMail($timer,$user_id,$post_id);
+  $prev_pract = get_user_meta($user_id)['prev_pract_vals'];
+  if (!$prev_pract) { fill_prev_pract($user_id); }
   wp_die();
-  return $frequency;
 }
 add_action('wp_ajax_add_lesson', 'add_lesson'); 
 // AJAX FUNCTION TO UPDATE USERS LESSON TIMERS (NOT READY YET)
@@ -183,11 +242,6 @@ add_action('wp_ajax_remove_favor', 'remove_favor');
 //AJAX FUNCTION REMOVEADD TO FAVOR
 
 
-$timeZone_msc = 180*60;
-// $now_incTZ = strtotime("now")+$timeZone_msc;
-$now_incTZ = strtotime("now");
-$_day = 60 * 60 * 24;
-
 // GET USER SPECIFIED TIME BY ID
 function get_schedule($frequency,$user_id) {
   
@@ -228,7 +282,7 @@ function get_schedule($frequency,$user_id) {
 
 
 // FILL USERS CUSTOM FIELDS WITH TIMERS
-function set_cf($timer,$user_id,$post_id){
+function set_cf($timer,$user_id,$post_id,$current_lesson_val){
   $list = carbon_get_user_meta( $user_id, 'schedule' );
   $var=0;
   foreach ( $list as $key=>$el ) {
@@ -236,6 +290,7 @@ function set_cf($timer,$user_id,$post_id){
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/first_reminder', $timer[0] );
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/second_reminder', $timer[1] );
       carbon_set_user_meta( $user_id, 'schedule['.$key.']/third_reminder', $timer[2] );
+      carbon_set_user_meta( $user_id, 'schedule['.$key.']/current_lesson', $current_lesson_val );
       $var=1;
       return[$timer,$user_id,$post_id];
     }
@@ -245,6 +300,7 @@ function set_cf($timer,$user_id,$post_id){
     carbon_set_user_meta( $user_id, 'schedule['.count($list).']/first_reminder', $timer[0] );
     carbon_set_user_meta( $user_id, 'schedule['.count($list).']/second_reminder', $timer[1] );
     carbon_set_user_meta( $user_id, 'schedule['.count($list).']/third_reminder', $timer[2] );
+    carbon_set_user_meta( $user_id, 'schedule['.count($list).']/current_lesson', $current_lesson_val );
   }
   return[$timer,$user_id,$post_id];
  };
@@ -287,29 +343,12 @@ function set_scheduleMail($timer,$user_id,$post_id) {
 
 
 //MOVING LESSON FROM CF TO CF ARCHIVE_LIST
-function move_cf_to_cf_archive($post_id,$user_id){
+function move_cf_to_cf_archive($post_id,$user_id,$current_lesson_key){
 
-  global $now_incTZ;
+  // global $now_incTZ;
   $list = carbon_get_user_meta( $user_id, 'schedule' );
   $length = count($list)-1;
-  foreach ( $list as $key=>$el ) {
-    if(intval($el['lesson_id']) === $post_id){
-      switch (get_user_meta($user_id)['frequency'][0]) {
-        case 'light':
-          $last_lesson = $el['second_reminder'];
-          break;
-        case 'normal':
-          $last_lesson = $el['third_reminder'];
-          break;
-        case 'zombo':
-          $last_lesson = $el['third_reminder'];
-          break;
-      }
-      if($last_lesson <= $now_incTZ ) {
-        cource_deletion($user_id,$key,$length);
-      }
-    }
-  }
+  cource_deletion($user_id,$current_lesson_key,$length);
 
   $cur = carbon_get_user_meta( intval($user_id), 'passed_lessons' );
   $arr = implode(",",array_unique(explode(",", $cur.','.$post_id)));
@@ -327,35 +366,9 @@ function cource_deletion($user_id,$key,$length) {
   } else {
     _delete_item( $user_id, $key );
   }
+
 }
 //DELETION COURCE
-
-
-// SENDING EMAIL FUNCTION
-add_action('send_notify', 'send_notify_fun',10,2);
-
-
-function send_notify_fun($post_id,$user_id) {
-
-  // move_cf_to_cf_archive($post_id,$user_id);
-  $headers = ['Content-type: text/html; charset=utf-8','From: Шедлер <notify@cq77457.tmweb.ru>'];
-
-  $recepient = get_userdata($user_id)->user_email;
-  // $recepient = 'grigiriy.malyshev@gmail.com';
-  if($post_id === 'starter'){
-    $post_link = '<html><head></head><body><h3>Здравствуйте!</h3><p>Напоминаем, что сегодня вы можете добавить новый урок! "<a href="cq77457.tmweb.ru/cources/">Библиотека уроков</a>".</p></body></html>';
-    $post_header = 'Новый урок!';
-  } else {
-    $post_name = get_the_title($post_id);
-    $post_link = '<html><head></head><body><h3>Здравствуйте!</h3><p>Напоминаем, что у вас запланировано повторение урока "<a href="' . get_the_permalink($post_id) . '">' . get_the_title($post_id) . '</a>".</p></body></html>';
-    $post_header = 'Напоминание о повторении урока '.$post_name;
-  }
-  wp_mail($recepient, $post_header, $post_link, $headers);
-return true;
-}
-// SENDING EMAIL FUNCTION
-
-
 // UPDATE PREV
 function _update_item( $user_id, $key, $length ) {
   update_user_meta(
@@ -380,6 +393,16 @@ function _update_item( $user_id, $key, $length ) {
   );
   update_user_meta(
     $user_id,
+    '_schedule|missed_lessons|'.$key.'|0|value',
+    implode(',',get_user_meta($user_id,'_schedule|missed_lessons|'.$length.'|0|value'))
+  );
+  update_user_meta(
+    $user_id,
+    '_schedule|current_lesson|'.$key.'|0|value',
+    implode(',',get_user_meta($user_id,'_schedule|current_lesson|'.$length.'|0|value'))
+  );
+  update_user_meta(
+    $user_id,
     '_schedule|||'.$key.'|value',
     implode(',',get_user_meta($user_id,'_schedule|||'.$length.'|value'))
   );
@@ -391,9 +414,35 @@ delete_user_meta( $user_id, '_schedule|lesson_id|'.$key.'|0|value');
 delete_user_meta( $user_id, '_schedule|first_reminder|'.$key.'|0|value');
 delete_user_meta( $user_id, '_schedule|second_reminder|'.$key.'|0|value');
 delete_user_meta( $user_id, '_schedule|third_reminder|'.$key.'|0|value');
+delete_user_meta( $user_id, '_schedule|current_lesson|'.$key.'|0|value');
+delete_user_meta( $user_id, '_schedule|missed_lessons|'.$key.'|0|value');
 delete_user_meta( $user_id, '_schedule|||'.$key.'|value');
 }
 // DELETE KEY
+
+// SENDING EMAIL FUNCTION
+add_action('send_notify', 'send_notify_fun',10,2);
+
+
+function send_notify_fun($post_id,$user_id) {
+
+  // move_cf_to_cf_archive($post_id,$user_id);
+  $headers = ['Content-type: text/html; charset=utf-8','From: Happy English <notify@cq77457.tmweb.ru>'];
+
+  $recepient = get_userdata($user_id)->user_email;
+  // $recepient = 'grigiriy.malyshev@gmail.com';
+  if($post_id === 'starter'){
+    $post_link = '<html><head></head><body><h3>Здравствуйте!</h3><p>Напоминаем, что сегодня вы можете добавить новый урок! "<a href="cq77457.tmweb.ru/cources/">Библиотека уроков</a>".</p></body></html>';
+    $post_header = 'Новый урок!';
+  } else {
+    $post_name = get_the_title($post_id);
+    $post_link = '<html><head></head><body><h3>Здравствуйте!</h3><p>Напоминаем, что у вас запланировано повторение урока "<a href="' . get_the_permalink($post_id) . '">' . get_the_title($post_id) . '</a>".</p></body></html>';
+    $post_header = 'Напоминание о повторении урока '.$post_name;
+  }
+  wp_mail($recepient, $post_header, $post_link, $headers);
+return true;
+}
+// SENDING EMAIL FUNCTION
 
 
 // "ADDING NEW COURSE" TIMER
@@ -439,3 +488,32 @@ function n_days_crop($days) {
   return ($now_incTZ + $days);
 }
 // FINCTIONS, TO USE IN LAYOUT
+
+
+// UPDATE TIMERS ON PRACTICE_SCHEDULE CHANGE
+// add_action( 'personal_options_update', 'action_function_name_2334' );
+add_action( 'personal_options_update', 'action_function_name_2334' );
+$user_id = get_current_user_id();
+function action_function_name_2334($user_id){
+  // $user_timeRange = [
+  //   strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['mrng_practice'][0])+$timeZone_msc,
+  //   strtotime(get_user_meta($user_id)['daily_practice'][0]) ? strtotime(get_user_meta($user_id)['daily_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['daily_practice'][0])+$timeZone_msc,
+  //   strtotime(get_user_meta($user_id)['evng_practice'][0]) ? strtotime(get_user_meta($user_id)['evng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['evng_practice'][0])+$timeZone_msc
+  // ];
+}
+// UPDATE TIMERS ON PRACTICE_SCHEDULE CHANGE
+
+
+// FILL PREV PRACT
+function fill_prev_pract() {
+  $user_id = intval($_POST['user_id']);
+  $user_timeRange = implode(',',[
+    strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['mrng_practice'][0])+$timeZone_msc,
+    strtotime(get_user_meta($user_id)['daily_practice'][0]) ? strtotime(get_user_meta($user_id)['daily_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['daily_practice'][0])+$timeZone_msc,
+    strtotime(get_user_meta($user_id)['evng_practice'][0]) ? strtotime(get_user_meta($user_id)['evng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['evng_practice'][0])+$timeZone_msc
+  ]);
+  carbon_set_user_meta( intval($user_id), 'prev_pract_vals', $user_timeRange );
+  echo implode(',',getdate(explode(',',$user_timeRange)[0]));
+}
+add_action('wp_ajax_fill_prev_pract', 'fill_prev_pract'); 
+// FILL PREV PRACT

@@ -16,6 +16,8 @@ document.location.href = '/';
 while ( have_posts() ) :
     the_post();
 
+    global $now_incTZ;
+
     $yt_code = get_post_custom()['yt_code'][0];
     $pdf = get_post_custom(get_post_custom()['PDF'][0])['_wp_attached_file'][0];
     preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
@@ -23,31 +25,38 @@ while ( have_posts() ) :
     
     $post_id = $post->ID;
     $user_id = get_current_user_id();
-    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);;
+    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);
     $list = carbon_get_user_meta( $user_id,'schedule' );
-    $vals = [];
-    
-
-    
-
-    global $now_incTZ;
-
+    $lib_vals = [];
+    $less_vals=[];
     foreach ($list as $key=>$el){
-        array_push($vals,intval($el['lesson_id']));
+        array_push($lib_vals,intval($el['lesson_id']));
         if(intval($el['lesson_id'])===$post_id){
+            $current_lesson_key = $key;
+            $current_lesson_val = $el['current_lesson'];
+            array_push($less_vals,$el['first_reminder']);
+            array_push($less_vals,$el['second_reminder']);
             if($el['third_reminder']){
-                $last_lesson = $el['third_reminder'];
-            } else {
-                $last_lesson = $el['second_reminder'];
+                array_push($less_vals,$el['third_reminder']);
             }
         }
     }
+    $less_vals = ( empty($less_vals) ) ? [] : $less_vals;
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
-    $is_learning = (in_array($post_id, $vals)) ? true : false;
+    $is_learning = in_array($post_id, $lib_vals) ? true : false;
+    
+
 
     $favs = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
-    $is_favor = (in_array($post_id, $favs)) ? true : false;
+    $is_favor = in_array($post_id, $favs) ? true : false;
 
+    $favs = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
+    $is_passed = in_array($post_id, $passed_lessons) ? true : false;
+
+    if( $is_learning && !empty($less_vals) ) {
+        $is_lastLesson = ($now_incTZ>=$less_vals[count($less_vals)-1] && $current_lesson_val == count($less_vals));
+        check_current_lesson($user_id,$post_id,$is_lastLesson,$less_vals,$current_lesson_key);
+    }
 ?>
 <main class="container" data-can_add="<?= $is_time_to_add === true ? 'true' : '' ;?>"
     data-learning="<?= $is_learning === true ? 'true' : '' ;?>">
@@ -55,6 +64,14 @@ while ( have_posts() ) :
         <div class="col-12">
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
+            </h1>
+            <div class="d-flex mb-3">
+                <?php if($is_learning){ ?>
+                <span class="mr-auto h3">Repeat <?= $current_lesson_val ?> from <?= count($less_vals) ?></span>
+                <?php } ?>
+                <?php if($is_passed){ ?>
+                <span class="mr-auto h3">You've already done with this lesson, but you can always repeat it!</span>
+                <?php } ?>
                 <span class="ml-auto">
                     <?php $launch_btn = $is_time_to_add ? ['data-toggle="modal" data-target="#add_lesson"','primary'] : ['tabindex="0" data-toggle="popover" data-trigger="focus" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
                     ?>
@@ -67,15 +84,15 @@ while ( have_posts() ) :
                     <button type="button" class="btn btn-warning"
                         id="favorite"><?= ($is_favor) ? '⭐️ Favorite' : 'Add to favorite'; ?></button>
                 </span>
-            </h1>
+            </div>
         </div>
         <div id="player" class="mb-5 col-12"></div>
         <div class="pdf col-12">
-            <embed src="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>" width="100%" height="470px" />
+            <embed src="/wp-content/uploads/<?= $pdf; ?>" width="100%" height="470px" />
             <div class="d-flex justify-content-between">
-                <a target="_blank" href="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>">Open in new window</a>
+                <a target="_blank" href="/wp-content/uploads/<?= $pdf; ?>">Open in new window</a>
                 <a download="<?= get_the_title(); ?> PDF" target="_blank"
-                    href="http://localhost:8888/wp-content/uploads/<?= $pdf; ?>">Download</a>
+                    href="/wp-content/uploads/<?= $pdf; ?>">Download</a>
             </div>
         </div>
         <a href="http://www.google.com/calendar/event?
@@ -128,7 +145,7 @@ while ( have_posts() ) :
     }
     </script>
 
-    <?php if(get_the_author_meta('ID') === get_current_user_id()){?>
+    <?php if(get_the_author_meta('ID') === $user_id){?>
     <div class="card mt-5">
         <div class="card-header">
             <h3>Edit lesson info</h3>
@@ -137,26 +154,26 @@ while ( have_posts() ) :
             <button class="btn"><a href="/add_post/?rcl-post-edit=<?= $post->ID; ?>">Edit Post</a></button>
         </div>
     </div>
-    <?php }     
-      if(isset($last_lesson) && $last_lesson <= $now_incTZ ) {
+    <?php }
+        if ($is_learning && !empty($less_vals)) {
+            if ($current_lesson_val==='0' || ( intval($current_lesson_val)>0 && $now_incTZ>=$less_vals[intval($current_lesson_val)-1]) ) {
     ?>
     <div class="card mt-5">
+        <?php if($is_lastLesson){ ?>
         <div class="card-header">
-            <h3>Congratulations!</h3>
+            <h3>Congratulations! This is the last reiteration of this lesson</h3>
         </div>
+        <?php } ?>
         <div class="card-body">
-            <h5>It's the last repeat. You can always find this lesson <a href="/account/passed/">here</a></h5>
-            <button id="lesson_passed" class="btn btn-success">
-                <h4 class='mb-0'>Finish</h4>
+            <button id="lesson_passed" class="btn btn-success" data-last=<?= $is_lastLesson ? 'true' : 'false' ?>>
+                <h4 class='mb-0'>Finish <?= $is_lastLesson ? 'course!' : 'practice' ?></h4>
             </button>
         </div>
     </div>
-    <?php } ?>
-
-
-
-    <?php if($is_time_to_add || $is_learning  || empty($list)) { ?>
-    <div class="modal fade" id="add_lesson" tabindex="-1" role="dialog" aria-labelledby="add_lesson__label"
+    <?php }
+    }
+    if($is_time_to_add || $is_learning  || empty($list)) { ?>
+    <div class=" modal fade" id="add_lesson" tabindex="-1" role="dialog" aria-labelledby="add_lesson__label"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -171,12 +188,14 @@ while ( have_posts() ) :
                     <?= (isset(get_user_meta($user_id)['frequency'])) ? get_user_meta($user_id)['frequency'][0] : 'Norm'; ?>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="mx-auto btn btn-success" id="add_course">Start learning!</button>
+                    <button type="submit" class="mx-auto btn btn-success" id="add_course">Start
+                        learning!</button>
                 </div>
             </div>
         </div>
     </div>
-    <?php } ?>
+    <?php
+    } ?>
 
 </main>
 
