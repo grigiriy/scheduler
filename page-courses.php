@@ -38,13 +38,9 @@ while ( have_posts() ) :
             $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
             $fil = 'post__in';
         } else if ($this_page==='current') {
-            $list = carbon_get_user_meta( $user_id, 'schedule' );
             $selected_posts=[];
-            $fil = 'post__in';
-            foreach ( $list as $key=>$el ) {
-              array_push($selected_posts,$el['lesson_id']);
-            }
-            $selected_posts = (empty($selected_posts)) ? array(null) : $selected_posts;
+            $fil = 'author';
+            $selected_posts = $user_id;
           } else if ($this_page==='courses') {
             $list = carbon_get_user_meta( $user_id, 'schedule' );
             $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
