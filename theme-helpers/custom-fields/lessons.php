@@ -26,3 +26,18 @@ Container::make( 'user_meta', 'Календарь' )
     Field::make( 'text', 'prev_pract_vals', 'Prev_pract_vals' )
 
 ]);
+
+
+
+Container::make( 'post_meta', 'Lesson details' )
+->add_fields( [
+    Field::make( 'complex', 'detailed_sentences', 'Detailed sentences' )
+    ->add_fields( [
+        Field::make('text', 'sentence', 'Sentence')
+        ->set_width( 100 ),
+        Field::make('text', 'translation', 'Translation')
+        ->set_width( 100 ),
+        Field::make('text', 'note_1', 'Note')
+        ->set_width( 100 ),
+    ])
+]);

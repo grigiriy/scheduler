@@ -29,6 +29,8 @@ while ( have_posts() ) :
     
     $args = array(
         'orderby' => 'post_date',
+        'post_type' => 'lessons'
+
     );
     if($this_page){
         $user_id = get_current_user_id();

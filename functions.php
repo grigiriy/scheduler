@@ -86,6 +86,8 @@ function crb_load() {
     \Carbon_Fields\Carbon_Fields::boot();
 }
 
+require_once __DIR__ . '/theme-helpers/cpt.php';
+
 $timeZone_msc = 180*60;
 // $now_incTZ = strtotime("now")+$timeZone_msc;
 $now_incTZ = strtotime("now");
