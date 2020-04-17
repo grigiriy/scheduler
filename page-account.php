@@ -15,53 +15,64 @@ document.location.href = '/';
     
 global $now_incTZ;
 
+$user_id = get_current_user_id();
+
+$args = array(
+    'post_type'  => 'lessons',
+    'author'     => $user_id,
+    'course_status'   => 'finished',
+);
+$passed_lessons = count(get_posts($args));
+wp_reset_postdata();
+
+
+
+$args = array(
+    'post_type'  => 'lessons',
+    'author'     => $user_id,
+    'course_status'   => 'started',
+);
+$wp_posts = get_posts($args);
+if( count($wp_posts) ) {
+
+    $timers=[];
+    $current_lessons = [];
+
+    foreach ( $wp_posts as $key=>$post ) {
+        array_push($current_lessons,$post->ID);
+        if( carbon_get_post_meta( $post->ID, '1_timecode') && carbon_get_post_meta( $post->ID, '1_passed') !== 'true') {
+            array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '1_timecode' ),$post->ID]));
+        }
+        if( carbon_get_post_meta( $post->ID, '2_timecode' ) <= n_days_crop(3) && carbon_get_post_meta( $post->ID, '2_passed') !== 'true') {
+            array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '2_timecode' ),$post->ID]));
+        }
+        if( carbon_get_post_meta( $post->ID, '3_timecode' ) ) {
+            if( carbon_get_post_meta( $post->ID, '3_timecode' ) <= n_days_crop(3) && carbon_get_post_meta( $post->ID, '3_passed') !== 'true') {
+                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '3_timecode' ),$post->ID]));
+            }
+        }
+    }
+    if(empty($timers)){ goto NotSoon;}
+    sort($timers);
+    $current_lessons = count(array_unique($current_lessons));
+    $next = explode(',',$timers[0])[0];
+    $current_lesson = explode(',',$timers[0])[1];
+
+} else {
+    NotSoon:
+    $current_lessons = 0;
+}
+wp_reset_postdata();
+
+
+
 while ( have_posts() ) :
     the_post();
 
-    $user_id = get_current_user_id();
     $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);;
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
-    if(
-        !empty(
-            carbon_get_user_meta( $user_id, 'schedule' )
-        )
-    ){
-        $list = carbon_get_user_meta( $user_id, 'schedule' );
-        $timers=[];
-        $current_lessons = [];
-        foreach ( $list as $key=>$el ) {
-            array_push($current_lessons,$el['lesson_id']);
-            if($el['first_reminder'] <= n_days_crop(3)){
-                array_push($timers,implode(',',[$el['first_reminder'],$el['lesson_id']]));
-            }
-            if($el['second_reminder'] <= n_days_crop(3)){
-                array_push($timers,implode(',',[$el['second_reminder'],$el['lesson_id']]));
-            }
-            if($el['third_reminder']) {
-                if($el['third_reminder'] <= n_days_crop(3)){
-                    array_push($timers,implode(',',[$el['third_reminder'],$el['lesson_id']]));
-                }
-            }
-        }
-        if(empty($timers)){ goto NotSoon;}
-        sort($timers);
-        $current_lessons = count(array_unique($current_lessons));
-        $next = explode(',',$timers[0])[0];
-        $current_lesson = explode(',',$timers[0])[1];
 
-        
-        if(carbon_get_user_meta( $user_id, 'passed_lessons' )){
-            $passed_lessons = count(explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' )));
-        } else {
-            $passed_lessons = 0;
-        }
-
-    } else {
-        NotSoon:
-        $current_lessons = 0;
-        $passed_lessons = 0;
-    }
-    ?>
+?>
 
 <div class="container">
     <nav class="row mt-3">

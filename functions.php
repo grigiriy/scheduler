@@ -99,6 +99,36 @@
   ?>
 
 <?php
+// FINCTIONS, TO USE IN LAYOUT
+function display_day($next) {
+  global $now_incTZ;
+    if(getdate($now_incTZ)['mday'] === $next['mday']){
+      $next = 'Today';
+      goto fin;
+    } else if($next['mday'] - getdate($now_incTZ)['mday'] == 1) {
+      $next = 'Tomorrow';
+      goto fin;
+    } else if($next['mday'] - getdate($now_incTZ)['mday'] == 7){
+      $next = 'In a week';
+      goto fin;
+    } else {
+      $next = $next['weekday'];
+      goto fin;
+    }
+    $next = $next['weekday'];
+  fin:
+  return $next;
+};
+
+function n_days_crop($days) {
+  global $now_incTZ;
+  global $_day;
+  $days *= $_day;
+  return ($now_incTZ + $days);
+}
+// FINCTIONS, TO USE IN LAYOUT
+
+
 //AJAX FUNCTION ADD TO FAVOR
 function add_to_favor(){
   $post_id = intval($_POST['post_id']);
@@ -465,37 +495,6 @@ function get_schedule($frequency,$user_id) {
 //   wp_schedule_single_event( $next_add, 'send_notify', ['starter',$user_id] );
 // }
 // // "ADDING NEW COURSE" TIMER
-
-
-// // FINCTIONS, TO USE IN LAYOUT
-// function display_day($next) {
-//   global $now_incTZ;
-//     if(getdate($now_incTZ)['mday'] === $next['mday']){
-//       $next = 'Today';
-//       goto fin;
-//     } else if($next['mday'] - getdate($now_incTZ)['mday'] == 1) {
-//       $next = 'Tomorrow';
-//       goto fin;
-//     } else if($next['mday'] - getdate($now_incTZ)['mday'] == 7){
-//       $next = 'In a week';
-//       goto fin;
-//     } else {
-//       $next = $next['weekday'];
-//       goto fin;
-//     }
-//     $next = $next['weekday'];
-//   fin:
-//   return $next;
-// };
-
-
-// function n_days_crop($days) {
-//   global $now_incTZ;
-//   global $_day;
-//   $days *= $_day;
-//   return ($now_incTZ + $days);
-// }
-// // FINCTIONS, TO USE IN LAYOUT
 
 
 // // UPDATE TIMERS ON PRACTICE_SCHEDULE CHANGE
