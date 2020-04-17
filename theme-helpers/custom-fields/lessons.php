@@ -40,8 +40,11 @@ Container::make( 'post_meta', 'Course details' )
     ])
 ])
 ->add_tab( 'lesson schedule', [
+    Field::make('text', 'course_author_id', 'Course Author ID')
+    ->set_width( 40 ),
+
     Field::make( 'checkbox', 't_passed', 'Teacher taught the lesson' )
-    ->set_width( 70 )
+    ->set_width( 30 )
     ->set_option_value( 'true' ),
 
     Field::make( 'checkbox', '0_passed', 'Initial lesson passed' )

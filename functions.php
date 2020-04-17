@@ -187,12 +187,14 @@ function add_lesson() {
   );
   $my_post_id = wp_insert_post( $my_postarr );
 
-  do_action( 'dp_duplicate_page', $my_post_id, get_post( intval($post_id) ), "");
+  $post = get_post( intval($post_id) );
+
+  do_action( 'dp_duplicate_page', $my_post_id, $post, "");
 
   $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
 
   wp_set_post_terms( $my_post_id, 'started', 'course_status', false );
-
+  carbon_set_post_meta( $my_post_id, 'course_author_id', $post->post_author);
 
   if($type === 'with-teacher'){
     set_timers($my_post_id,$user_id);
