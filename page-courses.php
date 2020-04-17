@@ -35,28 +35,25 @@ while ( have_posts() ) :
     if($this_page){
         $user_id = get_current_user_id();
         if($this_page==='passed'){
-            $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
-            $fil = 'post__in';
+
+            $args['author']=$user_id;
+            $args['course_status'] = 'finished';
+
         } else if ($this_page==='current') {
-            $selected_posts=[];
-            $fil = 'author';
-            $selected_posts = $user_id;
-          } else if ($this_page==='courses') {
-            $list = carbon_get_user_meta( $user_id, 'schedule' );
-            $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
-            foreach ( $list as $key=>$el ) {
-              array_push($selected_posts,$el['lesson_id']);
-            }
-            $fil = 'post__not_in';
+            
+            $args['author']=$user_id;
+            $args['course_status'] = 'started';
+
+        } else if ($this_page==='courses') {
+            $args['post_parent']=0;
+
         } else if ($this_page==='favorite') {
             $fil = 'post__in';
             $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
+            $args[$fil]=$selected_posts;
         }
-        $args[$fil]=$selected_posts;
     }
-
-
-    $lessons_query = new WP_Query($args);
+    $lessons_query = get_posts($args);
     ?>
 <div class="container">
     <main class="row">
@@ -73,8 +70,8 @@ while ( have_posts() ) :
                 href="/account/favorite/">Favorite</a>
         </div>
         <?php
-        if($lessons_query->have_posts()){
-        while($lessons_query->have_posts()) : $lessons_query->the_post();
+        if(count($lessons_query) ){
+        foreach ($lessons_query as $post) {
         ?>
         <div class="card my-3 w-100">
             <div class="card-body">
@@ -93,7 +90,8 @@ while ( have_posts() ) :
                 </figure>
             </div>
         </div>
-        <?php endwhile; } else { ?>
+        <?php }
+    } else { ?>
         <div class="card my-3 mx-auto text-center">
             <div class="card-header bg-info text-light">
                 <p class="h3 mb-0">No courses yet</p>
