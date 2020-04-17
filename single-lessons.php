@@ -56,7 +56,9 @@ while ( have_posts() ) :
     if( $is_learning && !empty($less_vals) ) {
         $is_lastLesson = ($now_incTZ>=$less_vals[count($less_vals)-1] && $current_lesson_val == count($less_vals));
         check_current_lesson($user_id,$post_id,$is_lastLesson,$less_vals,$current_lesson_key);
-    }?>
+    }
+
+?>
 <main class="container" data-can_add="<?= $is_time_to_add === true ? 'true' : '' ;?>"
     data-learning="<?= $is_learning === true ? 'true' : '' ;?>"
     data-new_post_id="<?= get_boundary_post( false, '', false )[0]->ID+1 ?>">
@@ -154,6 +156,9 @@ while ( have_posts() ) :
             <button class="btn"><a href="/add_post/?rcl-post-edit=<?= $post->ID; ?>">Edit Post</a></button>
         </div>
     </div>
+    <button id="lesson_passed" class="btn btn-success">
+        <h4 class='mb-0'>Finish</h4>
+    </button>
     <?php }
         if ($is_learning && !empty($less_vals)) {
             if ($current_lesson_val==='0' || ( intval($current_lesson_val)>0 && $now_incTZ>=$less_vals[intval($current_lesson_val)-1]) ) {

@@ -29,15 +29,40 @@ Container::make( 'user_meta', 'Календарь' )
 
 
 
-Container::make( 'post_meta', 'Lesson details' )
-->add_fields( [
+Container::make( 'post_meta', 'Course details' )
+->add_tab( 'course text', [
     Field::make( 'complex', 'detailed_sentences', 'Detailed sentences' )
     ->add_fields( [
-        Field::make('text', 'sentence', 'Sentence')
-        ->set_width( 100 ),
-        Field::make('text', 'translation', 'Translation')
-        ->set_width( 100 ),
-        Field::make('text', 'note_1', 'Note')
-        ->set_width( 100 ),
+        Field::make('textarea', 'sentence', 'Sentence')
+        ->set_width( 50 ),
+        Field::make('textarea', 'note_1', 'Note')
+        ->set_width( 50 ),
     ])
+])
+->add_tab( 'lesson schedule', [
+    Field::make( 'checkbox', 't_passed', 'Teacher taught the lesson' )
+    ->set_width( 70 )
+    ->set_option_value( 'true' ),
+
+    Field::make( 'checkbox', '0_passed', 'Initial lesson passed' )
+    ->set_width( 30 )
+    ->set_option_value( 'true' ),
+
+    Field::make('text', '1_timecode', '1st reminder timecode')
+    ->set_width( 70 ),
+    Field::make( 'checkbox', '1_passed', '1st reminder passed' )
+    ->set_width( 30 )
+    ->set_option_value( 'true' ),
+
+    Field::make('text', '2_timecode', '2nd reminder timecode')
+    ->set_width( 70 ),
+    Field::make( 'checkbox', '2_passed', '2nd reminder passed' )
+    ->set_width( 30 )
+    ->set_option_value( 'true' ),
+
+    Field::make('text', '3_timecode', '3rd reminder timecode')
+    ->set_width( 70 ),
+    Field::make( 'checkbox', '3_passed', '3rd reminder passed' )
+    ->set_width( 30 )
+    ->set_option_value( 'true' ),
 ]);
