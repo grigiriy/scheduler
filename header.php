@@ -14,12 +14,37 @@
         <div class="container-fluid">
             <div class="row" id="nav">
                 <?php
-                  wp_nav_menu([
-                    'container' => '',
-                    'theme_location' => 'header_menu',
-                    'items_wrap' => '<ul class="nav">%3$s</ul>'
-                  ]); 
-                ?>
+                wp_nav_menu([
+                'container' => '',
+                'theme_location' => 'header_menu',
+                'items_wrap' => '<ul class="nav">%3$s</ul>'
+                ]); 
+            ?>
             </div>
         </div>
     </header>
+    <div class="container">
+        <nav class="row mt-3">
+            <div class="col-md-7 col-sm-12 ">
+                <?php
+                $params = array(
+                    'container'=> false, // Без div обертки
+                    'echo'=> false, // Чтобы можно было его предварительно вернуть
+                    'items_wrap'=> '%3$s', // Разделитель элементов
+                    'depth'=> 0, // Глубина вложенности
+                    'theme_location' => 'user_menu',
+                );
+                print strip_tags(wp_nav_menu( $params ), '<a>' );
+                ?>
+            </div>
+            <div class="col-md-5 col-sm-12 text-right">
+                <div class="badge badge-light">
+                    <a href="/personal/" class="d-block p-3">
+                        <img class="ava" src="<?= get_avatar_url(get_current_user_id()); ?>" alt="">
+                        <span class="ml-3 h4 text-dark align-middle">Profile</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="row">

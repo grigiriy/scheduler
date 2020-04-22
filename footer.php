@@ -1,3 +1,5 @@
+</main>
+</div>
 <div class="container-fluid">
     <footer class="mt-5" data-post_id="<?= $post->ID; ?>" data-user_id="<?= get_current_user_id(); ?> ">
 
@@ -42,8 +44,6 @@ $(document).ready(function() {
             data: {
                 action: 'lesson_passed',
                 post_id: $post_id,
-                user_id: $user_id,
-                is_last: $is_last,
             }, // можно также передать в виде объекта
             success: function(data) {
                 $('#lesson_passed').remove();
@@ -86,7 +86,6 @@ $(document).ready(function() {
                 data: {
                     action: 'leave_course',
                     post_id: $post_id,
-                    user_id: $user_id,
                 },
                 success: function(data) {
                     $('#leave_course').hide();

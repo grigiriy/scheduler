@@ -59,6 +59,7 @@ document.location.href = '/';
                     }
                 }
             }
+            if(empty($timers)){ goto NotSoon;}
             sort($timers);
             $next = explode(',',$timers[0])[0];    
             wp_reset_postdata();
@@ -91,7 +92,11 @@ document.location.href = '/';
                 </tr>
                 <?php
                 }
+            } else {
+                NotSoon:
+                $current_lessons = 0;
             }
+            wp_reset_postdata();
         }
         ?>
             </tbody>
