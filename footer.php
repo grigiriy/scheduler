@@ -92,6 +92,8 @@ $(document).ready(function() {
                     $('#popup_start').show();
                     console.log('you left the corpse in place');
                     console.log(data);
+                    window.location.href = window.location.href.split('/').slice(0, -2)
+                        .join('/');
                 },
                 error: function(errorThrown) {
                     $('#leave_course').html('error...');
