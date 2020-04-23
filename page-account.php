@@ -11,8 +11,9 @@ document.location.href = '/';
 </script>
 
 <?php
+
 } else {
-    
+
 global $now_incTZ;
 
 $user_id = get_current_user_id();
@@ -78,9 +79,7 @@ while ( have_posts() ) :
 
     $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);;
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
-?>
 
-<?php
 if (isset($timers) ) {
     set_query_var( 'timers', $timers );
 }
@@ -108,9 +107,9 @@ set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
             </div>
             <div class="card order-1">
                 <?php
-                        get_template_part('theme-helpers/template-parts/account','new_course'); 
-                        get_template_part('theme-helpers/template-parts/account','dashboard'); 
-                        ?>
+                get_template_part('theme-helpers/template-parts/account','new_course'); 
+                get_template_part('theme-helpers/template-parts/account','dashboard'); 
+                ?>
             </div>
         </div>
     </div>
@@ -119,9 +118,9 @@ set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 <section class="col-md-7 col-sm-12 order-1">
     <div class="row mx-md-1">
         <?php
-                get_template_part('theme-helpers/template-parts/account','today'); 
-                get_template_part('theme-helpers/template-parts/account','new_lesson'); 
-                ?>
+        get_template_part('theme-helpers/template-parts/account','today'); 
+        get_template_part('theme-helpers/template-parts/account','new_lesson'); 
+        ?>
     </div>
 </section>
 

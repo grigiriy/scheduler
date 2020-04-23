@@ -10,19 +10,19 @@
 </head>
 
 <body>
-    <header>
-        <div class="container-fluid">
-            <div class="row" id="nav">
-                <?php
-                wp_nav_menu([
-                'container' => '',
-                'theme_location' => 'header_menu',
-                'items_wrap' => '<ul class="nav">%3$s</ul>'
-                ]); 
-            ?>
-            </div>
-        </div>
-    </header>
+    <!-- <header> -->
+    <!-- <div class="container-fluid"> -->
+    <!-- <div class="row" id="nav"> -->
+    <?php
+        // wp_nav_menu([
+        // 'container' => '',
+        // 'theme_location' => 'header_menu',
+        // 'items_wrap' => '<ul class="nav">%3$s</ul>'
+        // ]); 
+    ?>
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </header> -->
     <div class="container">
         <nav class="row mt-3">
             <div class="col-md-7 col-sm-12 ">
