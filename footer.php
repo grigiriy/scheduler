@@ -131,6 +131,10 @@ $(document).ready(function() {
         });
     });
 });
+
+function show_hint(e) {
+    $(e).next().fadeToggle(300)
+};
 </script>
 </body>
 

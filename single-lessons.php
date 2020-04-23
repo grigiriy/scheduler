@@ -6,30 +6,50 @@
 get_header();
 
 if( !is_user_logged_in() ) {
-    ?>
+?>
 <script>
 document.location.href = '/';
 </script>
 
 <?php
-    } else {
+} else {
 
 while ( have_posts() ) :
     the_post();
 
-    global $now_incTZ;
+    if( $childrens = get_children([
+            'post_parent' => $post->ID,
+            'author'=>get_current_user_id(),
+            'post_type' => 'lessons',
+        ])
+    ) {
+        ?>
+<script>
+document.location.href = '<?= array_shift($childrens)->guid; ?>';
+</script>
+<?php
+    }
+    wp_reset_postdata();
 
     $yt_code = get_post_custom()['yt_code'][0];
     $pdf = get_post_custom(get_post_custom()['PDF'][0])['_wp_attached_file'][0];
     preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
     $yt_code = $matches[0];
     
+    global $now_incTZ;
     $post_id = $post->ID;
     $user_id = get_current_user_id();
-    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);
+
+
+    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ?
+    carbon_get_user_meta( $user_id, 'next_lesson' ) :
+    strtotime(get_userdata( $user_id )->user_registered);
+
+
     $list = carbon_get_user_meta( $user_id,'schedule' );
     $lib_vals = [];
     $less_vals=[];
+
     foreach ($list as $key=>$el){
         array_push($lib_vals,intval($el['lesson_id']));
         if(intval($el['lesson_id'])===$post_id){
@@ -46,6 +66,10 @@ while ( have_posts() ) :
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
     $is_learning = in_array($post_id, $lib_vals) ? true : false;
 
+    if(intval($post->post_author) === intval($user_id) ) {
+        $is_learning = true;
+    }
+
 
     $favs = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
     $is_favor = in_array($post_id, $favs) ? true : false;
@@ -57,9 +81,9 @@ while ( have_posts() ) :
         $is_lastLesson = ($now_incTZ>=$less_vals[count($less_vals)-1] && $current_lesson_val == count($less_vals));
         check_current_lesson($user_id,$post_id,$is_lastLesson,$less_vals,$current_lesson_key);
     }
-
 ?>
-<main class="container" data-can_add="<?= $is_time_to_add === true ? 'true' : '' ;?>"
+
+<div data-can_add="<?= $is_time_to_add === true ? 'true' : '' ;?>"
     data-learning="<?= $is_learning === true ? 'true' : '' ;?>"
     data-new_post_id="<?= get_boundary_post( false, '', false )[0]->ID+1 ?>">
     <div class="row">
@@ -67,28 +91,54 @@ while ( have_posts() ) :
             <h1 class="d-flex" data-id="<?= $yt_code ?>">
                 <?= get_the_title(); ?>
             </h1>
-            <div class="d-flex mb-3">
-                <?php if($is_learning){ ?>
-                <span class="mr-auto h3">Repeat <?= $current_lesson_val ?> from <?= count($less_vals) ?></span>
-                <?php } ?>
-                <?php if($is_passed){ ?>
-                <span class="mr-auto h3">You've already done with this lesson, but you can always repeat it!</span>
-                <?php } ?>
-                <span class="ml-auto">
-                    <?php $launch_btn = $is_time_to_add ? ['data-toggle="modal" data-target="#add_lesson"','primary'] : ['tabindex="0" data-toggle="popover" data-trigger="focus" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
-                    ?>
-                    <a role="button" type="button" id="popup_start" class="btn text-light btn-<?= $launch_btn[1] ?>"
-                        <?= $is_learning ? 'style="display:none"' : ''?> <?= $launch_btn[0] ?>>Start learning</a>
 
-                    <button type="button" class="btn btn-danger" id="leave_course"
-                        <?= !$is_learning ? 'style="display:none"' : ''?>>Leave course</button>
+            <?php
+            set_query_var( 'is_favor', $is_favor );
+            set_query_var( 'is_time_to_add', $is_time_to_add );
+            set_query_var( 'is_passed', $is_passed );
 
-                    <button type="button" class="btn btn-warning"
-                        id="favorite"><?= ($is_favor) ? '⭐️ Favorite' : 'Add to favorite'; ?></button>
-                </span>
-            </div>
+            if (isset($is_learning) ) {
+                set_query_var( 'is_learning', $is_learning );
+            }
+            
+            if (isset($current_lesson_val) ) {
+                set_query_var( 'current_lesson_val', $current_lesson_val );
+            }
+            if (isset($less_vals) ) {
+                set_query_var( 'less_vals', $less_vals );
+            }
+            if (isset($next_lesson_adding_time) ) {
+                set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
+            }
+            ?>
+
+
+            <?php get_template_part('theme-helpers/template-parts/lesson','buttons');  ?>
+
+
         </div>
         <div id="player" class="mb-5 col-12"></div>
+        <?php
+        $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
+        if( $type === 'with-teacher' ) {
+            $detailed_sentences = carbon_get_post_meta($post_id, 'detailed_sentences'); ?>
+        <div class="col-12">
+            <table class="table table-dark">
+                <tbody>
+                    <?php foreach($detailed_sentences as $detailed_sentence){ ?>
+                    <tr>
+                        <td onclick="show_hint(this)"><?= $detailed_sentence['sentence'] ?></td>
+                        <td style="display:none"><?= $detailed_sentence['note_1'] ?></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+        <?php
+
+        } else if( $type === 'self'  ) {
+
+        ?>
         <div class="pdf col-12">
             <embed src="/wp-content/uploads/<?= $pdf; ?>" width="100%" height="470px" />
             <div class="d-flex justify-content-between">
@@ -97,7 +147,7 @@ while ( have_posts() ) :
                     href="/wp-content/uploads/<?= $pdf; ?>">Download</a>
             </div>
         </div>
-        <a href="http://www.google.com/calendar/event?
+        <!-- <a href="http://www.google.com/calendar/event?
             action=TEMPLATE
             &text=event-title
             &dates=[start-custom format='Ymd\\THi00\\Z']/[end-custom format='Ymd\\THi00\\Z']
@@ -105,7 +155,8 @@ while ( have_posts() ) :
             &location=[location]
             &trp=false
             &sprop=
-            &sprop=name:" target="_blank" rel="nofollow">Add to my calendar</a>
+            &sprop=name:" target="_blank" rel="nofollow">Add to my calendar</a> -->
+        <?php } ?>
     </div>
     <script>
     var tag = document.createElement('script');
@@ -202,7 +253,7 @@ while ( have_posts() ) :
     <?php
     } ?>
 
-</main>
+</div>
 
 <?php endwhile; };?>
 
