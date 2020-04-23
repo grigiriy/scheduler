@@ -123,6 +123,8 @@ $(document).ready(function() {
                 $('#popup_start').hide();
                 $('#leave_course').show();
                 console.log(data);
+                window.location.href = window.location.href.split('/').slice(0, -2)
+                    .join('/');
             },
             error: function(errorThrown) {
                 $('#add_course').html(
