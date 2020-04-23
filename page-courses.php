@@ -43,69 +43,55 @@ while ( have_posts() ) :
             
             $args['author']=$user_id;
             $args['course_status'] = 'started';
-
+            
         } else if ($this_page==='courses') {
+            
+            $sub_args = $args;
             $args['post_parent']=0;
+            $sub_args['author']=$user_id;
+            
+            $par_list=[];
+            $cur_list = get_posts($sub_args);
+
+            foreach ($cur_list as $post){
+                array_push($par_list, wp_get_post_parent_id( $post ));
+            }
+            wp_reset_postdata();
+
+            $args['post__not_in']=$par_list;
 
         } else if ($this_page==='favorite') {
-            $fil = 'post__in';
             $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
-            $args[$fil]=$selected_posts;
+            $args['post__in']=$selected_posts;
         }
     }
     $lessons_query = get_posts($args);
     ?>
-<div class="container">
-    <main class="row">
-        <h1 class="mr-auto"><?= get_the_title();?></h1>
-        <div class="btn-group" data-page="<?=$this_page?>">
-            <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold" href="/courses/">Availible
-                Courses</a>
-            <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold"
-                href="/account/passed/">Already
-                Passed</a>
-            <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold"
-                href="/account/current/">Current Lessons</a>
-            <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold"
-                href="/account/favorite/">Favorite</a>
-        </div>
-        <?php
+<div class="row">
+    <h1 class="mr-auto"><?= get_the_title();?></h1>
+    <?php 
+    set_query_var( 'this_page', $this_page );
+    get_template_part('theme-helpers/template-parts/courses','nav');
+    ?>
+    <?php
         if(count($lessons_query) ){
-        foreach ($lessons_query as $post) {
-        ?>
-        <div class="card my-3 w-100">
-            <div class="card-body">
-                <figure class="figure row">
-                    <?php
-                    $yt_code = get_post_custom($post->ID)['yt_code'][0];
-                    preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
-                    $yt_code = $matches[0];
-                    ?>
-                    <img class="figure-img col-6" style="width:100%"
-                        src="https://i.ytimg.com/vi/<?=$yt_code; ?>/maxresdefault.jpg">
-                    <figcaption class="figure-caption col-6">
-                        <p class="h4"><?= get_the_title($post->ID); ?></p>
-                        <a href="<?= get_the_permalink($post->ID); ?>" class="btn btn-primary">Start</a>
-                    </figcaption>
-                </figure>
-            </div>
+            foreach ($lessons_query as $post) {
+                get_template_part('theme-helpers/template-parts/courses','card');
+            }
+        } else { ?>
+    <div class="card my-3 mx-auto text-center">
+        <div class="card-header bg-info text-light">
+            <p class="h3 mb-0">No courses yet</p>
         </div>
-        <?php }
-    } else { ?>
-        <div class="card my-3 mx-auto text-center">
-            <div class="card-header bg-info text-light">
-                <p class="h3 mb-0">No courses yet</p>
-            </div>
-            <div class="card-body bg-warning px-5">
-                <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt="" style="max-width:100%">
-                <p class="h4 mt-3">Click <a href="/courses/">here</a> to start learning!</p>
-            </div>
+        <div class="card-body bg-warning px-5">
+            <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt="" style="max-width:100%">
+            <p class="h4 mt-3">Click <a href="/courses/">here</a> to start learning!</p>
         </div>
-        <?php } ?>
-    </main>
+    </div>
+    <?php } ?>
 </div>
 <?php 
-endwhile; 
+    endwhile; 
 }
 ?>
 <script>
