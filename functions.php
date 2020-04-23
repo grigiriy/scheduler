@@ -129,6 +129,20 @@ function n_days_crop($days) {
 // FINCTIONS, TO USE IN LAYOUT
 
 
+// "ADDING NEW COURSE" TIMER
+function set_adding_timeout($user_id){
+
+  $user_timeRange = strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['mrng_practice'][0])+$timeZone_msc;
+
+  global $now_incTZ;
+  global $_day;
+  $next_add = $user_timeRange + $_day*2;
+  carbon_set_user_meta( intval($user_id), 'next_lesson', $next_add );
+  wp_schedule_single_event( $next_add, 'send_notify', ['starter',$user_id] );
+}
+// "ADDING NEW COURSE" TIMER
+
+
 //AJAX FUNCTION ADD TO FAVOR
 function add_to_favor(){
   $post_id = intval($_POST['post_id']);
@@ -195,6 +209,8 @@ function add_lesson() {
 
   wp_set_post_terms( $my_post_id, 'started', 'course_status', false );
   carbon_set_post_meta( $my_post_id, 'course_author_id', $post->post_author);
+
+  set_adding_timeout($user_id);
 
   if($type === 'with-teacher'){
     set_timers($my_post_id,$user_id);
@@ -483,21 +499,6 @@ function get_schedule($frequency,$user_id) {
 // return true;
 // }
 // // SENDING EMAIL FUNCTION
-
-
-// // "ADDING NEW COURSE" TIMER
-// function set_adding_timeout($user_id){
-
-//   $user_timeRange = strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['mrng_practice'][0])+$timeZone_msc;
-
-//   global $now_incTZ;
-//   global $_day;
-//   $next_add = $user_timeRange + $_day*2;
-//   carbon_set_user_meta( intval($user_id), 'next_lesson', $next_add );
-//   wp_schedule_single_event( $next_add, 'send_notify', ['starter',$user_id] );
-// }
-// // "ADDING NEW COURSE" TIMER
-
 
 // // UPDATE TIMERS ON PRACTICE_SCHEDULE CHANGE
 // // add_action( 'personal_options_update', 'action_function_name_2334' );
