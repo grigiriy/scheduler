@@ -198,7 +198,12 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     }
     </script>
 
-    <?php if(get_the_author_meta('ID') === $user_id){?>
+    <?php
+    if(
+        get_the_author_meta('ID') === $user_id &&
+        $post->post_parent === 0
+    ){
+    ?>
     <div class="card mt-5">
         <div class="card-header">
             <h3>Edit lesson info</h3>
