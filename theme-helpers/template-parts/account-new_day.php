@@ -1,7 +1,7 @@
 <?php if (!$is_time_to_add) { ?>
 <div class="border-top border-success mb-5 ">
-    <div class="card shadow-lg bottom_rounded">
-        <div class="card-body flag_card d-flex flex-column">
+    <div class="card shadow-lg bottom_rounded flag_card">
+        <div class="card-body d-flex flex-column">
 
             <p class="card-title h3 mb-0 ml-3 pl-5">Start learn a new material</p>
 
