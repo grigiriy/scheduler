@@ -2,9 +2,10 @@ body {
   background: rgb(255, 199, 237);
   background: linear-gradient(
     356deg,
-    rgba(255, 199, 237, 1) 0%,
-    rgba(217, 246, 245, 1) 100%
+    rgb(199, 255, 205) 0%,
+    rgb(217, 246, 245) 100%
   );
+
   min-height: 95vh;
 }
 nav {
@@ -14,10 +15,11 @@ nav {
 nav a {
   padding: 10px 20px;
   border-radius: 20px;
+  color: #333;
 }
 nav a[aria-current='page'] {
-  color: darkblue;
-  background: #fff;
+  color: #fff;
+  background: #67a880;
 }
 #lesson_changed p {
   border-bottom: solid 1px #ccc;

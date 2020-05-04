@@ -10,22 +10,23 @@
 </head>
 
 <body>
-    <!-- <header> -->
-    <!-- <div class="container-fluid"> -->
-    <!-- <div class="row" id="nav"> -->
-    <?php
-        // wp_nav_menu([
-        // 'container' => '',
-        // 'theme_location' => 'header_menu',
-        // 'items_wrap' => '<ul class="nav">%3$s</ul>'
-        // ]); 
-    ?>
-    <!-- </div> -->
-    <!-- </div> -->
-    <!-- </header> -->
     <div class="container">
-        <nav class="row mt-3">
-            <div class="col-md-7 col-sm-12 ">
+        <div class="row d-flex">
+            <div class="col-2 logo mr-auto mt-3">
+                <a href="/">
+                    <img class="mw-100" src="/wp-content/themes/scheduler_mvp/img/logo.png" alt="">
+                </a>
+            </div>
+            <div class="ml-auto">
+                <a href="/personal/" class="d-block p-2">
+                    <img class="ava" src="<?= get_avatar_url(get_current_user_id()); ?>" alt="">
+                    <span class="ml-3 h5 text-dark align-middle">Profile</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="row my-5">
+            <div class="col-12">
                 <?php
                 $params = array(
                     'container'=> false, // Без div обертки
@@ -33,17 +34,11 @@
                     'items_wrap'=> '%3$s', // Разделитель элементов
                     'depth'=> 0, // Глубина вложенности
                     'theme_location' => 'user_menu',
+                    'before' => '<strong>',
+                    'after' => '</strong>',
                 );
-                print strip_tags(wp_nav_menu( $params ), '<a>' );
+                print strip_tags(wp_nav_menu( $params ), '<a><strong>' );
                 ?>
-            </div>
-            <div class="col-md-5 col-sm-12 text-right">
-                <div class="badge badge-light">
-                    <a href="/personal/" class="d-block p-3">
-                        <img class="ava" src="<?= get_avatar_url(get_current_user_id()); ?>" alt="">
-                        <span class="ml-3 h4 text-dark align-middle">Profile</span>
-                    </a>
-                </div>
             </div>
         </nav>
 
