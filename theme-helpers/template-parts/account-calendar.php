@@ -23,9 +23,9 @@ if(isset($timers) && $timers ){
             <tr>
                 <td><a href="<?= get_the_permalink($timer[1]);?>"><?= get_the_title($timer[1]) ?></a>
                 </td>
-                <td>...</td>
+                <td><?= progress_icon($timer[1]); ?></td>
                 <td><?= display_day(getdate($timer[0])); ?></td>
-                <td><?= getdate($timer[0])['hours'].':'.getdate($timer[0])['minutes'] ?></td>
+                <td><?= getdate($timer[0])['hours'].':'.mins_trim(getdate($timer[0])['minutes']) ?></td>
             </tr>
             <?php } ?>
         </tbody>

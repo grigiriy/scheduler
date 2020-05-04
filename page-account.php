@@ -123,7 +123,7 @@ set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 </section>
 
 <script>
-const preview = document.getElementById('next_lesson_card').querySelector('figure');
+const preview = document.getElementById('next_lesson_card').querySelector('.lesson_thumbnail');
 if (preview.querySelector('img').naturalHeight < 720) {
     let oldSrc = preview.querySelector('img').getAttribute('src');
     let newSrc = oldSrc.replace('maxresdefault', '0');

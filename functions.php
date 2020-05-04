@@ -124,6 +124,10 @@ function mins_trim($min) {
   return ($min === 0) ? '00' : $min;
 }
 
+function progress_icon($lesson_id){
+  return '...';
+}
+
 function n_days_crop($days) {
   global $now_incTZ;
   global $_day;

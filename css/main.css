@@ -67,7 +67,7 @@ img.ava {
   border-color: transparent;
 }
 
-.flag_card {
+.new_day_card {
   background: url(/wp-content/themes/scheduler_mvp/img/new_day.png);
   background-repeat: no-repeat;
   background-size: 40%;
@@ -83,4 +83,8 @@ img.ava {
   background-size: contain;
   top: -2px;
   left: 20px;
+}
+
+.bold {
+  font-weight: bold;
 }
