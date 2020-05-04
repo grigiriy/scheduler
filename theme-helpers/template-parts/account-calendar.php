@@ -23,7 +23,16 @@ if(isset($timers) && $timers ){
             <tr>
                 <td><a href="<?= get_the_permalink($timer[1]);?>"><?= get_the_title($timer[1]) ?></a>
                 </td>
-                <td><?= progress_icon($timer[1]); ?></td>
+                <td>
+                    <svg viewBox="0 0 40 40" class="circular-chart green">
+                        <path class="circle-bg" d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path class="circle" stroke-dasharray="<?= progress_icon($timer[2],$frequency); ?>, 100" d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                </td>
                 <td><?= display_day(getdate($timer[0])); ?></td>
                 <td><?= getdate($timer[0])['hours'].':'.mins_trim(getdate($timer[0])['minutes']) ?></td>
             </tr>
@@ -34,6 +43,7 @@ if(isset($timers) && $timers ){
 <div class="card-footer text-left bg-white py-4 border-top-0">
     <a href="/account/calendar/" class="btn btn-outline-primary btn-round py-3 px-4">Go to calendar</a>
 </div>
+
 <?php } else { ?>
 <div class="m-3">
     <p class="h4">No courses yet</p>

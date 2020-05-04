@@ -10,11 +10,22 @@
         <div class="card-body">
             <div class="card-title mb-0 ml-3 pl-5">
                 <p class="h3">Repeat this material</p>
-                <p>
-                    <span
-                        class="text-primary bold"><?= getdate($next)['hours'] .':'.mins_trim(getdate($next)['minutes']) ?></span>
-                    <?= progress_icon($current_lesson) ?>
-                </p>
+                <div class="d-flex mb-3">
+                    <p class="text-primary h5">
+                        <?= getdate($next)['hours'] .':'.mins_trim(getdate($next)['minutes']) ?>
+                    </p>
+                    <div class="single-chart ml-3">
+                        <svg viewBox="0 0 40 40" class="circular-chart green">
+                            <path class="circle-bg" d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle"
+                                stroke-dasharray="<?= progress_icon($current_lesson_number,$frequency); ?>, 100" d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                    </div>
+                </div>
             </div>
 
             <div class="lesson_thumbnail row mb-5">

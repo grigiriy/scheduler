@@ -124,8 +124,10 @@ function mins_trim($min) {
   return ($min === 0) ? '00' : $min;
 }
 
-function progress_icon($lesson_id){
-  return '...';
+function progress_icon($lesson_number,$frequency){
+  $frequency = ($frequency === 'Light') ? 2 : 3;
+  return (100 / ($frequency + 1) * $lesson_number); 
+  // return($lesson_number.' '.$frequency);
 }
 
 function n_days_crop($days) {

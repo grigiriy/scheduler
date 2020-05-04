@@ -26,7 +26,7 @@ $args = array(
 $passed_lessons = count(get_posts($args));
 wp_reset_postdata();
 
-
+$frequency = get_user_meta($user_id)['frequency'][0];
 
 $args = array(
     'post_type'  => 'lessons',
@@ -44,18 +44,18 @@ if( count($wp_posts) ) {
 
         if( carbon_get_post_meta( $post->ID, '1_timecode') >= $now_incTZ && carbon_get_post_meta( $post->ID, '1_passed') !== 'true') {
             // if( $now_incTZ + n_days_crop(3) <= carbon_get_post_meta( $post->ID, '1_timecode') ) {
-                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '1_timecode' ),$post->ID]));
+                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '1_timecode' ),$post->ID,'1']));
             // }
         }
         if( carbon_get_post_meta( $post->ID, '2_timecode' ) >= $now_incTZ && carbon_get_post_meta( $post->ID, '2_passed') !== 'true') {
             // if( $now_incTZ + n_days_crop(3) <= carbon_get_post_meta( $post->ID, '1_timecode') ) {
-                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '2_timecode' ),$post->ID]));
+                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '2_timecode' ),$post->ID,'2']));
             // }
         }
         if( carbon_get_post_meta( $post->ID, '3_timecode' ) ) {
             if( carbon_get_post_meta( $post->ID, '3_timecode' ) >= $now_incTZ && carbon_get_post_meta( $post->ID, '3_passed') !== 'true') {
                 // if( $now_incTZ + n_days_crop(3) <= carbon_get_post_meta( $post->ID, '1_timecode') ) {
-                    array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '3_timecode' ),$post->ID]));
+                    array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '3_timecode' ),$post->ID,'3']));
                 // }
             }
         }
@@ -65,6 +65,7 @@ if( count($wp_posts) ) {
     $current_lessons = count(array_unique($current_lessons));
     $next = explode(',',$timers[0])[0];
     $current_lesson = explode(',',$timers[0])[1];
+    $current_lesson_number = explode(',',$timers[0])[2];
 
 } else {
     NotSoon:
@@ -89,11 +90,17 @@ if (isset($next) ) {
 if (isset($current_lesson) ) {
     set_query_var( 'current_lesson', $current_lesson );
 }
+if (isset($current_lesson_number) ) {
+    set_query_var( 'current_lesson_number', $current_lesson_number );
+}
 if (isset($passed_lessons) ) {
     set_query_var( 'passed_lessons', $passed_lessons );
 }
 if (isset($current_lessons) ) {
     set_query_var( 'current_lessons', $current_lessons );
+}
+if (isset($frequency) ) {
+    set_query_var( 'frequency', $frequency );
 }
 set_query_var( 'is_time_to_add', $is_time_to_add );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
