@@ -1,4 +1,4 @@
-<div class="card my-3 w-100 shadow-lg" id="next_lesson_card">
+<div class="card mb-3 w-100 shadow-lg" id="next_lesson_card">
 
 
     <?php if(isset($timers) && $timers ) { ?>

@@ -1,6 +1,5 @@
-<h1>What do you have to do today?</h1>
 <?php if ($is_time_to_add) { ?>
-<div class="card my-3 w-100 shadow-lg">
+<div class="card mb-3 w-100 shadow-lg">
     <div class="card-header">
         <p class="card-title h2 mb-0">Start learn a new material</p>
     </div>

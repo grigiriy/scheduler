@@ -1,15 +1,16 @@
-<div class="card-header bg-light p-3">
-    <h3>Schedule for next three days</h3>
+<div class="card-header bg-light p-3 border-bottom-0 border-top-0">
+    <h4>Schedule for next three days</h4>
 </div>
 
 <?php
 if(isset($timers) && $timers ){
 ?>
-<div class="card-body p-0">
-    <table class=" table m-0">
-        <thead class="table-primary">
+<div class="card-body p-0 border-bottom-0 border-top-0">
+    <table class="trans_borders table m-0">
+        <thead>
             <tr>
                 <th scope="col">Lesson</th>
+                <th scope="col">Status</th>
                 <th scope="col">Day</th>
                 <th scope="col">Time</th>
             </tr>
@@ -19,9 +20,10 @@ if(isset($timers) && $timers ){
             foreach($timers as $key=>$timer){
                 $timer = explode(',',$timer);
             ?>
-            <tr class="bg-<?= ($key%2===0)?'light':'white' ?>">
-                <td><a href="<?= get_the_permalink($timer[1]);?>" class="text-info"><?= get_the_title($timer[1]) ?></a>
+            <tr>
+                <td><a href="<?= get_the_permalink($timer[1]);?>"><?= get_the_title($timer[1]) ?></a>
                 </td>
+                <td>...</td>
                 <td><?= display_day(getdate($timer[0])); ?></td>
                 <td><?= getdate($timer[0])['hours'].':'.getdate($timer[0])['minutes'] ?></td>
             </tr>
@@ -29,12 +31,12 @@ if(isset($timers) && $timers ){
         </tbody>
     </table>
 </div>
-<div class="card-footer text-center bg-white">
-    <a href="/account/calendar/" class="btn btn-info">Go to calendar</a>
+<div class="card-footer text-left bg-white py-4 border-top-0">
+    <a href="/account/calendar/" class="btn btn-outline-primary btn-round">Go to calendar</a>
 </div>
 <?php } else { ?>
 <div class="m-3">
-    <p class="h3">No courses yet</p>
+    <p class="h4">No courses yet</p>
     <?php if ($is_time_to_add ) { ?>
     <p class="h4">Click <a href="/courses/">here</a> to start learning!</p>
     <?php } else { ?>

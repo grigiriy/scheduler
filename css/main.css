@@ -46,3 +46,25 @@ img.ava {
   max-width: 50px;
   border-radius: 50px;
 }
+
+.card,
+.card .card-footer,
+.card .card-footer:last-child {
+  border-radius: 0;
+}
+
+.bottom_rounded.card,
+.bottom_rounded.card .card-footer,
+.bottom_rounded.card .card-footer:last-child {
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.btn-round {
+  border-radius: 20px;
+}
+
+.table.trans_borders td,
+.table.trans_borders th {
+  border-color: transparent;
+}

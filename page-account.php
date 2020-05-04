@@ -99,29 +99,28 @@ set_query_var( 'is_time_to_add', $is_time_to_add );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 ?>
 
+<div class="col-12 mb-3">
+    <h1>What do you have to do today?</h1>
+</div>
+
 <section class="col-md-5 col-sm-12 order-3">
-    <div class="row mx-md-1">
-        <div class="shadow-lg d-flex flex-column">
-            <div class="card order-2">
-                <?php get_template_part('theme-helpers/template-parts/account','calendar');  ?>
-            </div>
-            <div class="card order-1">
-                <?php
+    <div class="d-flex flex-column border-top border-success">
+        <div class="card shadow-lg bottom_rounded">
+            <?php
                 get_template_part('theme-helpers/template-parts/account','new_course'); 
                 get_template_part('theme-helpers/template-parts/account','dashboard'); 
-                ?>
-            </div>
+
+                get_template_part('theme-helpers/template-parts/account','calendar');
+            ?>
         </div>
     </div>
 </section>
 
 <section class="col-md-7 col-sm-12 order-1">
-    <div class="row mx-md-1">
-        <?php
+    <?php
         get_template_part('theme-helpers/template-parts/account','today'); 
         get_template_part('theme-helpers/template-parts/account','new_lesson'); 
         ?>
-    </div>
 </section>
 
 
