@@ -120,6 +120,10 @@ function display_day($next) {
   return $next;
 };
 
+function mins_trim($min) {
+  return ($min === 0) ? '00' : $min;
+}
+
 function n_days_crop($days) {
   global $now_incTZ;
   global $_day;
