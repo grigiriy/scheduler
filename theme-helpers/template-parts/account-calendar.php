@@ -32,7 +32,7 @@ if(isset($timers) && $timers ){
     </table>
 </div>
 <div class="card-footer text-left bg-white py-4 border-top-0">
-    <a href="/account/calendar/" class="btn btn-outline-primary btn-round">Go to calendar</a>
+    <a href="/account/calendar/" class="btn btn-outline-primary btn-round py-3 px-4">Go to calendar</a>
 </div>
 <?php } else { ?>
 <div class="m-3">

@@ -103,26 +103,24 @@ set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
     <h1>What do you have to do today?</h1>
 </div>
 
-<section class="col-md-5 col-sm-12 order-3">
+<section class="col-md-7 col-sm-12 pr-5">
+    <?php
+        get_template_part('theme-helpers/template-parts/account','new_day'); 
+        get_template_part('theme-helpers/template-parts/account','new_lesson'); 
+    ?>
+</section>
+
+<section class="col-md-5 col-sm-12">
     <div class="d-flex flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
             <?php
                 get_template_part('theme-helpers/template-parts/account','new_course'); 
                 get_template_part('theme-helpers/template-parts/account','dashboard'); 
-
                 get_template_part('theme-helpers/template-parts/account','calendar');
             ?>
         </div>
     </div>
 </section>
-
-<section class="col-md-7 col-sm-12 order-1">
-    <?php
-        get_template_part('theme-helpers/template-parts/account','today'); 
-        get_template_part('theme-helpers/template-parts/account','new_lesson'); 
-        ?>
-</section>
-
 
 <script>
 const preview = document.getElementById('next_lesson_card').querySelector('figure');

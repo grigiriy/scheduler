@@ -2,11 +2,9 @@ body {
   background: rgb(255, 199, 237);
   background: linear-gradient(
     356deg,
-    rgb(199, 255, 205) 0%,
+    rgb(219, 255, 223) 0%,
     rgb(217, 246, 245) 100%
   );
-
-  min-height: 95vh;
 }
 nav {
   justify-content: space-between;
@@ -61,10 +59,27 @@ img.ava {
 }
 
 .btn-round {
-  border-radius: 20px;
+  border-radius: 30px;
 }
 
 .table.trans_borders td,
 .table.trans_borders th {
   border-color: transparent;
+}
+
+.flag_card {
+  background: url(/wp-content/themes/scheduler_mvp/img/new_day.png);
+  background-repeat: no-repeat;
+  background-size: 40%;
+  background-position: 55%;
+}
+.flag_card:before {
+  background: url(/wp-content/themes/scheduler_mvp/img/flag.png);
+  background-repeat: no-repeat;
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 80px;
+  background-size: contain;
+  top: -2px;
 }
