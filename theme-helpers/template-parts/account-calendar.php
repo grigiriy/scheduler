@@ -17,8 +17,11 @@ if(isset($timers) && $timers ){
         </thead>
         <tbody>
             <?php
+            global $now_incTZ;
             foreach($timers as $key=>$timer){
                 $timer = explode(',',$timer);
+
+                if( $now_incTZ + (24*60*60*3) >= $timer[0] ){
             ?>
             <tr>
                 <td><a href="<?= get_the_permalink($timer[1]);?>"><?= get_the_title($timer[1]) ?></a>
@@ -36,7 +39,10 @@ if(isset($timers) && $timers ){
                 <td><?= display_day(getdate($timer[0])); ?></td>
                 <td><?= getdate($timer[0])['hours'].':'.mins_trim(getdate($timer[0])['minutes']) ?></td>
             </tr>
-            <?php } ?>
+            <?php
+                }
+            }
+            ?>
         </tbody>
     </table>
 </div>
