@@ -1,7 +1,7 @@
 <div class="border-top border-success mb-5 ">
     <div class="card mb-3 w-100 shadow-lg bottom_rounded flag_card" id="next_lesson_card">
 
-        <?php if(isset($timers) && $timers ) {
+        <?php if(isset($timers) && $timers && (display_day(getdate($next)) === 'Today')) {
             $yt_code = get_post_custom($current_lesson)['yt_code'][0];
             preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
             $yt_code = $matches[0];
