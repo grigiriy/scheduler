@@ -33,8 +33,13 @@ while ( have_posts() ) :
 
     );
     if($this_page){
+
         $user_id = get_current_user_id();
         set_query_var('user_id',$user_id);
+
+        $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
+        set_query_var('selected_posts',$selected_posts);
+    
 
         if($this_page==='passed'){
 
@@ -61,9 +66,6 @@ while ( have_posts() ) :
             wp_reset_postdata();
 
             $args['post__not_in']=$par_list;
-
-            $selected_posts = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
-            set_query_var('selected_posts',$selected_posts);
             
         } else if ($this_page==='favorite') {
             $args['post__in']=$selected_posts;
@@ -77,28 +79,26 @@ while ( have_posts() ) :
         <?php get_template_part('theme-helpers/template-parts/courses','nav'); ?>
     </div>
 </div>
-<div class="container-fluid bg-white shadow-lg">
+<div class="container-fluid bg-white shadow-lg main">
     <div class="container pt-5">
         <div class="row">
             <div class="col-10">
+
+                <?php if(count($lessons_query) ){ ?>
                 <div class="card-columns count_2">
                     <?php
-                    if(count($lessons_query) ){
-                        foreach ($lessons_query as $post) {
-                            get_template_part('theme-helpers/template-parts/courses','card');
-                        }
-                    } else { ?>
-                    <div class="card my-3 mx-auto text-center">
-                        <div class="card-header bg-info text-light">
-                            <p class="h3 mb-0">No courses yet</p>
-                        </div>
-                        <div class="card-body bg-warning px-5">
-                            <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt="" style="max-width:100%">
-                            <p class="h4 mt-3">Click <a href="/courses/">here</a> to start learning!</p>
-                        </div>
-                    </div>
-                    <?php } ?>
+                    foreach ($lessons_query as $post) {
+                        get_template_part('theme-helpers/template-parts/courses','card');
+                    } ?>
                 </div>
+                <?php
+                    } else { ?>
+                <div class="text-center mb-5">
+                    <p class="h3 mb-0">No courses yet</p>
+                    <img class="w-50" src="/wp-content/themes/scheduler_mvp/img/all_done.png" alt="">
+                    <p class="h4 mt-3">Click <a href="/courses/">here</a> to start learning!</p>
+                </div>
+                <?php } ?>
             </div>
             <div class="col-2 bg-dark">
                 FILTER
@@ -112,8 +112,10 @@ while ( have_posts() ) :
     }
 ?>
     <script>
-    const main = document.querySelector('main');
+    const main = document.querySelector('.main');
     const previews = main.querySelectorAll('.card');
+
+    console.log(previews);
 
     previews.forEach((e) => {
         if (e.querySelector('img').naturalHeight < 720) {
