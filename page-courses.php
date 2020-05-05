@@ -67,55 +67,64 @@ while ( have_posts() ) :
     }
     $lessons_query = get_posts($args);
     ?>
-<div class="row">
-    <h1 class="mr-auto"><?= get_the_title();?></h1>
-    <?php 
-    set_query_var( 'this_page', $this_page );
-    get_template_part('theme-helpers/template-parts/courses','nav');
+</div>
+<div class="container-fluid border-bottom border-success">
+    <div class="row">
+        <?php 
+        set_query_var( 'this_page', $this_page );
+        get_template_part('theme-helpers/template-parts/courses','nav');
     ?>
-    <?php
+    </div>
+</div>
+<div class="container-fluid bg-white shadow-lg">
+    <div class="container pt-5">
+        <div class="row">
+            <?php
         if(count($lessons_query) ){
             foreach ($lessons_query as $post) {
                 get_template_part('theme-helpers/template-parts/courses','card');
             }
         } else { ?>
-    <div class="card my-3 mx-auto text-center">
-        <div class="card-header bg-info text-light">
-            <p class="h3 mb-0">No courses yet</p>
-        </div>
-        <div class="card-body bg-warning px-5">
-            <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt="" style="max-width:100%">
-            <p class="h4 mt-3">Click <a href="/courses/">here</a> to start learning!</p>
+            <div class="card my-3 mx-auto text-center">
+                <div class="card-header bg-info text-light">
+                    <p class="h3 mb-0">No courses yet</p>
+                </div>
+                <div class="card-body bg-warning px-5">
+                    <img src="/wp-content/themes/scheduler_mvp/img/default.png" alt="" style="max-width:100%">
+                    <p class="h4 mt-3">Click <a href="/courses/">here</a> to start learning!</p>
+                </div>
+            </div>
+            <?php } ?>
         </div>
     </div>
-    <?php } ?>
 </div>
-<?php 
+<div class="container">
+    <?php 
     endwhile; 
 }
 ?>
-<script>
-const main = document.querySelector('main');
-const previews = main.querySelectorAll('.card');
-const nav = main.querySelector('.btn-group');
-const navLinks = nav.querySelectorAll('a');
-const thisPage = nav.getAttribute('data-page');
-// const url = (thisPage === 'courses') ? '/courses/' : (thisPage === 'passed') ? '/passed/' : '/current/';
+    <script>
+    const main = document.querySelector('main');
+    const previews = main.querySelectorAll('.card');
+    const nav = main.querySelector('.btn-group');
+    const navLinks = nav.querySelectorAll('a');
+    const thisPage = nav.getAttribute('data-page');
+    // const url = (thisPage === 'courses') ? '/courses/' : (thisPage === 'passed') ? '/passed/' : '/current/';
 
-previews.forEach((e) => {
-    if (e.querySelector('img').naturalHeight < 720) {
-        let oldSrc = e.querySelector('img').getAttribute('src');
-        let newSrc = oldSrc.replace('maxresdefault', 0);
-        e.querySelector('img').setAttribute('src', newSrc);
-    }
-});
+    previews.forEach((e) => {
+        if (e.querySelector('img').naturalHeight < 720) {
+            let oldSrc = e.querySelector('img').getAttribute('src');
+            let newSrc = oldSrc.replace('maxresdefault', 0);
+            e.querySelector('img').setAttribute('src', newSrc);
+        }
+    });
 
-navLinks.forEach((e) => {
-    if ((e.href.split('/'))[e.href.split('/').length - 2] === thisPage) {
-        e.setAttribute('href', 'javascript:void(0)');
-        e.classList.add('text-primary', 'bg-white');
-    }
-});
-</script>
-<?php
+    navLinks.forEach((e) => {
+        if ((e.href.split('/'))[e.href.split('/').length - 2] === thisPage) {
+            e.setAttribute('href', 'javascript:void(0)');
+            e.classList.add('text-primary', 'bg-white');
+        }
+    });
+    </script>
+    <?php
 get_footer(); ?>

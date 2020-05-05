@@ -1,9 +1,12 @@
-<div class="btn-group" data-page="<?=$this_page?>">
-    <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold" href="/courses/">Availible
-        Courses</a>
-    <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold" href="/account/passed/">Already
-        Passed</a>
-    <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold" href="/account/current/">Current
-        Lessons</a>
-    <a type="button" class="btn btn-light btn-lg border-dark h3 font-weight-bold" href="/account/favorite/">Favorite</a>
+<div class="container d-flex courses_nav">
+    <?php
+    $params = array(
+        'container'=> false, // Без div обертки
+        'echo'=> false, // Чтобы можно было его предварительно вернуть
+        'items_wrap'=> '%3$s', // Разделитель элементов
+        'depth'=> 0, // Глубина вложенности
+        'menu' => 'courses_nav',
+    );
+    print strip_tags(wp_nav_menu( $params ), '<a>' );
+    ?>
 </div>

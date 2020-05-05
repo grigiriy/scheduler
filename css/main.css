@@ -19,6 +19,34 @@ nav a[aria-current='page'] {
   color: #fff;
   background: #67a880;
 }
+
+.courses_nav a {
+  background: rgba(255, 255, 255, 0.7);
+  margin: 0 20px;
+  padding: 20px 20px 15px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border: solid 1px transparent;
+  color: #333;
+}
+
+.courses_nav a:first-child {
+  margin-left: 0;
+}
+
+.courses_nav a:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+.courses_nav a[aria-current='page'] {
+  background: rgb(255, 255, 255);
+  margin-bottom: -1px;
+  border-color: #28a745;
+  border-bottom-color: transparent;
+  text-decoration: none;
+}
+
 #lesson_changed p {
   border-bottom: solid 1px #ccc;
   transition: all 0.2s;
@@ -83,10 +111,6 @@ img.ava {
   background-size: contain;
   top: -2px;
   left: 20px;
-}
-
-.bold {
-  font-weight: bold;
 }
 
 .circular-chart {
