@@ -141,3 +141,33 @@ img.ava {
 .circular-chart.green .circle {
   stroke: #4cc790;
 }
+
+.favorite_btn {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background-image: url('/wp-content/themes/scheduler_mvp/img/to_fav.svg');
+  background-repeat: no-repeat;
+}
+.favorite_btn.active {
+  background-image: url('/wp-content/themes/scheduler_mvp/img/in_fav.svg');
+}
+.favorite_btn:hover {
+  background-image: url('/wp-content/themes/scheduler_mvp/img/on_fav.svg');
+}
+
+.arrow_symbol {
+  line-height: 1px;
+  font-size: 24px;
+  vertical-align: initial;
+  margin-left: 20px;
+}
+
+.card-columns.count_2 {
+  column-count: 2;
+}
+@media (max-width: 991px) {
+  .card-columns.count_2 {
+    column-count: 1;
+  }
+}

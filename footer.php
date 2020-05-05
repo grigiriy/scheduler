@@ -58,23 +58,8 @@ $(document).ready(function() {
 
     $('#favorite').click(function() {
         let __action = $('#favorite').text() === 'Add to favorite' ? 'add_to_favor' : 'remove_favor';
-        $.ajax({
-            url: '/wp-admin/admin-ajax.php',
-            type: 'POST',
-            data: {
-                action: __action,
-                post_id: $post_id,
-                user_id: $user_id,
-            }, // можно также передать в виде объекта
-            success: function(data) {
-                $('#favorite').html('ОКИ');
-                console.log(data);
-            },
-            error: function(errorThrown) {
-                $('#favorite').html('error...');
-                console.log(errorThrown);
-            }
-        });
+        let res_text = $('#favorite').text() === 'Add to favorite' ? '⭐️ Favorite' : 'Add to favorite';
+        to_favorite($post_id, $user_id, __action, this, res_text);
     });
 
     $('#leave_course').click(function() {
@@ -137,6 +122,37 @@ $(document).ready(function() {
 function show_hint(e) {
     $(e).next().fadeToggle(300)
 };
+
+function to_favorite_before($_post_id, $_user_id, e) {
+    let __action = $(e).hasClass('active') ? 'remove_favor' : 'add_to_favor';
+    to_favorite($_post_id, $_user_id, __action, e);
+}
+
+function to_favorite($_post_id, $_user_id, __action, e, res_text) {
+    $.ajax({
+        url: '/wp-admin/admin-ajax.php',
+        type: 'POST',
+        data: {
+            action: __action,
+            post_id: $_post_id,
+            user_id: $_user_id,
+        }, // можно также передать в виде объекта
+        success: function(data) {
+            if (res_text) {
+                $(e).html(res_text);
+            } else {
+                $(e).toggleClass('active');
+            }
+            console.log(data);
+        },
+        error: function(errorThrown) {
+            if (res_text) {
+                $(e).html('error...');
+            }
+            console.log(errorThrown);
+        }
+    });
+}
 </script>
 </body>
 
