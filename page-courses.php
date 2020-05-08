@@ -48,15 +48,19 @@ while ( have_posts() ) :
 ?>
     <script>
     const main = document.querySelector('.main');
-    const previews = main.querySelectorAll('.card');
 
-    previews.forEach((e) => {
-        if (e.querySelector('img').naturalHeight < 720) {
-            let oldSrc = e.querySelector('img').getAttribute('src');
-            let newSrc = oldSrc.replace('maxresdefault', 0);
-            e.querySelector('img').setAttribute('src', newSrc);
-        }
-    });
+    const rerenderImages = () => {
+        let previews = main.querySelectorAll('.card');
+
+        previews.forEach((e) => {
+            if (e.querySelector('img').naturalHeight < 720) {
+                let oldSrc = e.querySelector('img').getAttribute('src');
+                let newSrc = oldSrc.replace('maxresdefault', 0);
+                e.querySelector('img').setAttribute('src', newSrc);
+            }
+        });
+    }
+    rerenderImages();
     </script>
     <?php
 get_footer(); ?>

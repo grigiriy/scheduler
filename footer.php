@@ -137,6 +137,7 @@ $(document).ready(function() {
                 filter.find('input[type="submit"]').val(
                     'Show lessons!'); // возвращаеи текст кнопки
                 $('#courses_wrapper').html(data);
+                rerenderImages();
             },
             error: function(errorThrown) {
                 filter.find('input[type="submit"]').val(

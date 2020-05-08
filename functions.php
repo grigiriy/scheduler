@@ -210,7 +210,8 @@ function render_courses($args) {
 // RENDER COURSE LOOP
 
 // FILTERING ON FRONTEND
-function myfilter($post_id) {
+function myfilter() {
+  $post_id = intval($_POST['post_id']);
   $args = set_course_loop($post_id);
   $data = json_decode(stripcslashes($_POST['data']));
 
