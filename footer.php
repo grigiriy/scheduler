@@ -117,6 +117,35 @@ $(document).ready(function() {
             }
         });
     });
+
+
+    $('#course_filter').submit(function() {
+        var filter = $(this);
+        console.log(JSON.stringify(filter.serializeArray()));
+        $.post({
+            url: '/wp-admin/admin-ajax.php',
+            data: {
+                action: 'myfilter',
+                post_id: $post_id,
+                data: JSON.stringify(filter.serializeArray())
+            },
+            beforeSend: function(xhr) {
+                filter.find('input[type="submit"]').val(
+                    'Progress...'); // изменяем текст кнопки
+            },
+            success: function(data) {
+                filter.find('input[type="submit"]').val(
+                    'Show lessons!'); // возвращаеи текст кнопки
+                $('#courses_wrapper').html(data);
+            },
+            error: function(errorThrown) {
+                filter.find('input[type="submit"]').val(
+                    'error...');
+                console.log(errorThrown);
+            }
+        });
+        return false;
+    });
 });
 
 function show_hint(e) {

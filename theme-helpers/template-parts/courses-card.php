@@ -1,14 +1,14 @@
 <?php
-$yt_code = get_post_custom($post->ID)['yt_code'][0];
+$yt_code = get_post_custom($_post->ID)['yt_code'][0];
 preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
 $yt_code = $matches[0];
 
-$in_fav = in_array($post->ID,$selected_posts);
+$in_fav = in_array($_post->ID,$selected_posts);
 
-$args = $post->ID.','.$user_id;
+$args = $_post->ID.','.$user_id;
 
-$course_level = get_the_terms($post->ID,'course_level');
-$course_duration = get_the_terms($post->ID,'course_duration');
+$course_level = get_the_terms($_post->ID,'course_level');
+$course_duration = get_the_terms($_post->ID,'course_duration');
 
 ?>
 <div class="card mb-3 shadow-lg p-0">
@@ -43,10 +43,10 @@ $course_duration = get_the_terms($post->ID,'course_duration');
                 <?= $course_duration[0]->name ?>
             </span>
         </p>
-        <p class="h4"><?= get_the_title($post->ID); ?></p>
-        <p class="text-muted"><?= $post->post_excerpt ?></p>
+        <p class="h4"><?= get_the_title($_post->ID); ?></p>
+        <p class="text-muted"><?= $_post->post_excerpt ?></p>
         <div class="d-flex mt-4 mb-3">
-            <a href="<?= get_the_permalink($post->ID); ?>" class="btn btn-primary btn-round px-4 py-3">Start
+            <a href="<?= get_the_permalink($_post->ID); ?>" class="btn btn-primary btn-round px-4 py-3">Start
                 learning <span class="arrow_symbol"> ⟶</span></a>
             <span class="favorite_btn ml-auto my-2 <?= $in_fav === true ? 'active' : '' ?>"
                 onclick="to_favorite_before(<?=$args?>,this)"></span>

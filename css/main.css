@@ -171,3 +171,22 @@ img.ava {
     column-count: 1;
   }
 }
+
+.btn.btn-shadow {
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3) !important;
+}
+.btn.btn-shadow:hover {
+  box-shadow: 0 0.1rem 1rem rgba(0, 0, 0, 0.4) !important;
+}
+.btn-checkbox {
+  padding: 0;
+}
+.btn-checkbox > input {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+}
+.btn-checkbox > input:checked + span {
+  background: #007bff;
+  color: #fff;
+}

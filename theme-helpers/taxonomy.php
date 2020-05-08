@@ -67,4 +67,19 @@ register_taxonomy(
         'singular_label' => 'Course Duration'
     ]
 );
+
+register_taxonomy(
+    'course_tag',
+    [
+        'lessons'
+    ],
+    [
+        'hierarchical' => false,
+        'label' => 'Course Tag',
+        'show_ui' => true,
+        'query_var' => true,
+        'has_archive' => false,
+        'singular_label' => 'Course Tag'
+    ]
+);
 flush_rewrite_rules(false);
