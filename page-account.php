@@ -110,14 +110,14 @@ set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
     <h1>What do you have to do today?</h1>
 </div>
 
-<section class="col-md-7 col-sm-12 pr-5">
+<section class="col-md-8 col-sm-12 pr-5">
     <?php
         get_template_part('theme-helpers/template-parts/account','new_day'); 
         get_template_part('theme-helpers/template-parts/account','new_lesson'); 
     ?>
 </section>
 
-<section class="col-md-5 col-sm-12">
+<section class="col-md-4 col-sm-12 px-0">
     <div class="d-flex flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
             <?php

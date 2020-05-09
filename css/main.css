@@ -11,8 +11,8 @@ nav {
   margin-bottom: 20px;
 }
 nav a {
-  padding: 12px 20px;
-  border-radius: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: 2rem;
   color: #333;
 }
 nav a[aria-current='page'] {
@@ -37,7 +37,7 @@ nav a[aria-current='page'] {
 
 .courses_nav a {
   background: rgba(255, 255, 255, 0.7);
-  margin: 0 20px;
+  margin: 0 7px;
   padding: 20px 20px 15px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -188,6 +188,9 @@ img.ava {
 .card-columns.count_2 {
   column-count: 2;
 }
+.card-columns.gap_3 {
+  column-gap: 3rem;
+}
 @media (max-width: 991px) {
   .card-columns.count_2 {
     column-count: 1;
@@ -233,16 +236,16 @@ img.rounded-image {
   border-left-color: #007bff;
 }
 .side_image {
-  margin-bottom: -7em;
+  margin-bottom: -7.5em;
 }
 @media (max-width: 1199px) {
   .side_image {
-    margin-bottom: -5em;
+    margin-bottom: -6em;
   }
 }
 @media (max-width: 991px) {
   .side_image {
-    margin-bottom: -3em;
+    margin-bottom: -4em;
   }
 }
 

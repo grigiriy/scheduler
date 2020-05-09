@@ -4,7 +4,7 @@
  */
 get_header(); ?>
 
-<section class="col-md-7 col-sm-12">
+<section class="col-md-8 col-sm-12 pr-5">
 
     <div class="card shadow-lg bottom_rounded top_rounded p-3">
         <div class="card-header border-bottom-0 bg-transparent d-flex">
@@ -26,7 +26,7 @@ get_header(); ?>
 
 </section>
 
-<section class="col-md-5 col-sm-12">
+<section class="col-md-4 col-sm-12 px-0">
     <?php get_template_part('theme-helpers/template-parts/settings','sidebar'); ?>
 </section>
 

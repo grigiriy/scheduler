@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <div class="row d-flex">
-            <div class="col-2 logo mr-auto mt-3">
+            <div class="col-3 logo mr-auto mt-3 pr-5">
                 <a href="/">
                     <img class="mw-100" src="/wp-content/themes/scheduler_mvp/img/logo.png" alt="">
                 </a>

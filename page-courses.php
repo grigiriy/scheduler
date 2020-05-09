@@ -25,16 +25,16 @@ while ( have_posts() ) :
 <div class="container-fluid bg-white shadow-lg main">
     <div class="container pt-5">
         <div class="row">
-            <div class="col-9">
+            <div class="col-10 pr-5">
 
-                <div class="card-columns count_2" id="courses_wrapper">
+                <div class="card-columns count_2 gap_3" id="courses_wrapper">
                     <?php
                     $args = set_course_loop($post->ID);
                     render_courses( $args );
                     ?>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-2 px-0">
                 <?php
                 get_template_part( 'theme-helpers/template-parts/courses','filter' ); ?>
             </div>

@@ -1,7 +1,7 @@
 <form class="mb-5" id="course_filter">
     <?php if( $terms = get_terms( 'course_level', 'orderby=name' ) ) : ?>
     <div>
-        <label class="mr-2" for="select_level">
+        <label class="h6" for="select_level">
             <svg class="bi bi-flag-fill mr-1 mb-1" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M3.5 1a.5.5 0 01.5.5v13a.5.5 0 01-1 0v-13a.5.5 0 01.5-.5z"
@@ -24,17 +24,18 @@
     
     if( $terms = get_terms( 'course_duration', 'orderby=name' ) ) : ?>
     <div>
-        <label class="mt-5 mr-2" for="select_duration">
-            <svg class="bi bi-clock-history mr-1 mb-1" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                    d="M8.515 1.019A7 7 0 008 1V0a8 8 0 01.589.022l-.074.997zm2.004.45a7.003 7.003 0 00-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 00-.439-.27l.493-.87a8.025 8.025 0 01.979.654l-.615.789a6.996 6.996 0 00-.418-.302zm1.834 1.79a6.99 6.99 0 00-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 00-.214-.468l.893-.45a7.976 7.976 0 01.45 1.088l-.95.313a7.023 7.023 0 00-.179-.483zm.53 2.507a6.991 6.991 0 00-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 01-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 01-.401.432l-.707-.707z"
-                    clip-rule="evenodd" />
-                <path fill-rule="evenodd" d="M8 1a7 7 0 104.95 11.95l.707.707A8.001 8.001 0 118 0v1z"
-                    clip-rule="evenodd" />
-                <path fill-rule="evenodd"
-                    d="M7.5 3a.5.5 0 01.5.5v5.21l3.248 1.856a.5.5 0 01-.496.868l-3.5-2A.5.5 0 017 9V3.5a.5.5 0 01.5-.5z"
-                    clip-rule="evenodd" />
+        <label class="h6 mt-5" for="select_duration">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" class="mr-1 mb-1" width="1em" height="1em" x="0px" y="0px"
+                viewBox="0 0 280.001 280.001" style="enable-background:new 0 0 280.001 280.001;" xml:space="preserve">
+                <!-- Icons made by Freepik (https://www.flaticon.com/authors/freepik) from Flaticon (https://www.flaticon.com/)  -->
+                <g id="XMLID_348_">
+                    <path id="XMLID_350_" d="M140.001,60.083c-8.284,0-15,6.716-15,15v49.981H75.02c-8.284,0-15,6.716-15,15c0,8.284,6.716,15,15,15
+		                h64.981c8.284,0,15-6.716,15-15V75.083C155.001,66.799,148.285,60.083,140.001,60.083z" />
+                    <path id="XMLID_351_" d="M140.001,0C62.804,0,0,62.804,0,140.001c0,77.196,62.804,140,140,140c77.196,0,140-62.804,140-140
+                        C280.001,62.804,217.197,0,140.001,0z M140.001,250.001c-60.654,0-110-49.346-110-110C30,79.346,79.346,30,140.001,30
+                        s110,49.346,110,110.001C250.001,200.655,200.655,250.001,140.001,250.001z" />
+                </g>
             </svg>
             Chose lesson duration
         </label>
@@ -46,7 +47,28 @@
         </select>
     </div>
 
-    <div class="d-flex mt-5 flex-wrap justify-content-between">
+    <div class="d-flex flex-wrap justify-content-between">
+        <label class="h6 mt-5 d-block w-100">
+            <svg class="mr-1 mb-1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1em" height="1em"
+                viewBox="0 0 345.567 345.567" style="enable-background:new 0 0 345.567 345.567;" xml:space="preserve">
+                <!-- Icons made by Good Ware (https://www.flaticon.com/authors/good-ware) from Flaticon (https://www.flaticon.com/) -->
+                <g>
+                    <g>
+                        <path d="M263.342,9.6c-5.98-5.995-14.092-9.375-22.56-9.4h-136V0c-8.481,0.015-16.61,3.396-22.6,9.4
+                        c-5.995,5.98-9.375,14.093-9.4,22.56v285.76c-0.128,7,2.145,13.832,6.44,19.36c6.028,7.745,16.469,10.539,25.56,6.84
+                        c7.998-3.506,14.628-9.532,18.88-17.16l49.12-78.32l49.12,78.32c4.252,7.628,10.882,13.654,18.88,17.16
+                        c9.125,3.746,19.628,0.949,25.68-6.84c4.252-5.544,6.482-12.375,6.32-19.36V31.96C272.694,23.556,269.303,15.525,263.342,9.6z
+                        M253.582,326.92c-0.788,1.037-1.878,1.806-3.12,2.2c-1.339,0.293-2.735,0.167-4-0.36c-4.67-2.242-8.518-5.893-11-10.44l-56-89.2
+                        c-0.676-1.126-1.618-2.069-2.744-2.744c-3.789-2.273-8.703-1.045-10.976,2.744l-56,89.08c-2.428,4.609-6.25,8.332-10.92,10.64
+                        c-1.264,0.53-2.661,0.656-4,0.36c-1.242-0.394-2.332-1.163-3.12-2.2c-1.917-2.688-2.875-5.942-2.72-9.24V32
+                        c0.108-8.681,7.119-15.692,15.8-15.8h68h68c8.601,0.152,15.5,7.158,15.52,15.76v285.72
+                        C256.457,320.978,255.499,324.232,253.582,326.92z" />
+                    </g>
+                </g>
+            </svg>
+
+            Themes</label>
         <?php endif;
     
         $course_tags = get_terms( 'course_tag', [
