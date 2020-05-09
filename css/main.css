@@ -11,13 +11,28 @@ nav {
   margin-bottom: 20px;
 }
 nav a {
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 20px;
   color: #333;
 }
 nav a[aria-current='page'] {
   color: #fff;
   background: #67a880;
+}
+
+.bg-mainSche {
+  background: #67a880;
+  color: #fff;
+}
+.text-mainSche {
+  color: #67a880;
+}
+.border-mainSche {
+  border-color: #67a880 !important;
+}
+
+.bg-lightGrey {
+  background: #efefef;
 }
 
 .courses_nav a {
@@ -84,6 +99,13 @@ img.ava {
 .bottom_rounded.card .card-footer:last-child {
   border-bottom-right-radius: 30px;
   border-bottom-left-radius: 30px;
+}
+
+.top_rounded.card,
+.top_rounded.card .card-header,
+.top_rounded.card .card-header:first-child {
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
 }
 
 .btn-round {
@@ -189,4 +211,90 @@ img.ava {
 .btn-checkbox > input:checked + span {
   background: #007bff;
   color: #fff;
+}
+
+img.rounded-image {
+  border: solid 5px;
+  border-radius: 100px;
+  padding: 10px 10px 12px 12px;
+}
+
+.bd-callout__no_bs {
+  border-left: solid 5px;
+  left: -1px;
+  position: relative;
+}
+
+.bd-callout-warning {
+  border-left-color: #f0ad4e;
+}
+
+.bd-callout-primary {
+  border-left-color: #007bff;
+}
+.side_image {
+  margin-bottom: -7em;
+}
+@media (max-width: 1199px) {
+  .side_image {
+    margin-bottom: -5em;
+  }
+}
+@media (max-width: 991px) {
+  .side_image {
+    margin-bottom: -3em;
+  }
+}
+
+#configs .edit svg {
+  margin-top: -5px;
+}
+#configs .edit {
+  cursor: pointer;
+  font-size: 0.8em;
+  border-bottom: solid 1px transparent;
+}
+#configs .edit:hover {
+  border-color: inherit;
+}
+.pseudocheckbox {
+  cursor: pointer;
+}
+.pseudocheckbox span {
+  width: 12px;
+  height: 12px;
+  border: solid 1px #ccc;
+  border-radius: 12px;
+  align-self: center;
+}
+.pseudocheckbox.active span {
+  border: solid 3px #007bff;
+}
+.pseudocheckbox.active span:before {
+  margin-left: 1px;
+  margin-top: 1px;
+  content: ' ';
+  width: 4px;
+  height: 4px;
+  display: block;
+  background-color: #007bff;
+  border-radius: 5px;
+}
+
+.ui-timepicker-standard a {
+  font-size: 0.8em;
+  text-align: left;
+}
+.timer_input {
+  position: relative;
+}
+.timer_input .top_angle,
+.timer_input .bottom_angle {
+  max-width: 8px;
+  position: absolute;
+  margin-left: -12px;
+}
+.timer_input .bottom_angle {
+  transform: rotate(180deg);
+  margin-top: 15px;
 }

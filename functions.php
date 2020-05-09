@@ -4,8 +4,8 @@
 
   //deregister unnessosary scripts
   function my_dequeue_scripts() {
-      wp_dequeue_script( 'jquery-ui-core' );
-      wp_dequeue_script( 'jquery-ui-sortable' );
+    wp_dequeue_script( 'jquery-ui-core' );
+    wp_dequeue_script( 'jquery-ui-sortable' );
   }
 
 
@@ -17,8 +17,8 @@
 
   // remove hAtom micromarkup
   function remove_hentry( $classes ) {
-      $classes = array_diff($classes, array('hentry'));
-      return $classes;
+    $classes = array_diff($classes, array('hentry'));
+    return $classes;
   }
   add_filter( 'post_class', 'remove_hentry' );
 
@@ -33,22 +33,24 @@
   remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
   add_filter( 'tiny_mce_plugins', 'disable_wp_emojis_in_tinymce' );
   function disable_wp_emojis_in_tinymce( $plugins ) {
-      if ( is_array( $plugins ) ) {
-          return array_diff( $plugins, array( 'wpemoji' ) );
-      } else {
-          return array();
-      }
+    if ( is_array( $plugins ) ) {
+      return array_diff( $plugins, array( 'wpemoji' ) );
+    } else {
+      return array();
+    }
   }
 
 
   // start
   function theme_styles()
   {
-      wp_enqueue_style('master-style', get_template_directory_uri() . '/css/main.css',[], STATIC_FILES_BUILD_VERSION);
+    wp_enqueue_style('timepicker','https:////cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css',[], STATIC_FILES_BUILD_VERSION);
+    wp_enqueue_style('master-style', get_template_directory_uri() . '/css/main.css',[], STATIC_FILES_BUILD_VERSION);
   }
   function theme_scripts()
   {
-      wp_enqueue_script('master-script', get_template_directory_uri() . '/js/main.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
+    wp_enqueue_script('master-script', get_template_directory_uri() . '/js/main.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
+    wp_enqueue_script('timepicker', 'https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
   }
   add_action('wp_print_styles', 'theme_styles');
   add_action('wp_print_styles', 'theme_scripts');
@@ -71,19 +73,19 @@
   add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
 
   function special_nav_class($classes, $item){
-      $classes[] = 'nav-item';
-      return $classes;
+    $classes[] = 'nav-item';
+    return $classes;
   }
 
   add_action( 'carbon_fields_register_fields', 'crb_register_custom_fields' );
   function crb_register_custom_fields() {
-      include_once __DIR__ . '/theme-helpers/custom-fields/lessons.php';
+    include_once __DIR__ . '/theme-helpers/custom-fields/lessons.php';
   }
 
   add_action( 'after_setup_theme', 'crb_load' );
   function crb_load() {
-      require_once( 'vendor/autoload.php' );
-      \Carbon_Fields\Carbon_Fields::boot();
+    require_once( 'vendor/autoload.php' );
+    \Carbon_Fields\Carbon_Fields::boot();
   }
 
   require_once __DIR__ . '/theme-helpers/cpt.php';
