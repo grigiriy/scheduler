@@ -8,3 +8,13 @@ $(document).ready(function () {
     showDuration: true,
   });
 });
+
+function showText(e) {
+  $(e).toggleClass('active');
+  $('#text').toggle(300);
+  $('#player').toggleClass('col-6');
+}
+
+$(function () {
+  $('[data-toggle="popover"]').popover();
+});

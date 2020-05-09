@@ -41,118 +41,107 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     $user_id = get_current_user_id();
 
 
+    $frequency = get_user_meta($user_id)['frequency'][0];
+
+    $passed_lessons = get_passed_lessons_arr($user_id);
+
     $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ?
-    carbon_get_user_meta( $user_id, 'next_lesson' ) :
-    strtotime(get_userdata( $user_id )->user_registered);
-
-
-    $list = carbon_get_user_meta( $user_id,'schedule' );
-    $lib_vals = [];
-    $less_vals=[];
-
-    foreach ($list as $key=>$el){
-        array_push($lib_vals,intval($el['lesson_id']));
-        if(intval($el['lesson_id'])===$post_id){
-            $current_lesson_key = $key;
-            $current_lesson_val = $el['current_lesson'];
-            array_push($less_vals,$el['first_reminder']);
-            array_push($less_vals,$el['second_reminder']);
-            if($el['third_reminder']){
-                array_push($less_vals,$el['third_reminder']);
-            }
-        }
-    }
-    $less_vals = ( empty($less_vals) ) ? [] : $less_vals;
+        carbon_get_user_meta( $user_id, 'next_lesson' ) :
+        strtotime(get_userdata( $user_id )->user_registered);
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
-    $is_learning = in_array($post_id, $lib_vals) ? true : false;
 
-    if(intval($post->post_author) === intval($user_id) ) {
-        $is_learning = true;
+
+    $is_learning = has_term( 'course_status', 'started', $post->ID );
+
+    $timers = [
+        carbon_get_post_meta( $post->ID, '1_timecode'),
+        carbon_get_post_meta( $post->ID, '2_timecode')
+    ];
+    carbon_get_post_meta( $post->ID, '3_timecode' ) ? array_push($timers,carbon_get_post_meta( $post->ID, '3_timecode' )) : null;
+    $current_lesson_number = 1;
+    foreach ($timers as $key=>$timer){
+        $current_lesson_number = $timer >= $now_incTZ ? $current_lesson_number + 1 : $current_lesson_number;
     }
 
-
-    $favs = explode(',',carbon_get_user_meta( $user_id, 'favor_lessons' ));
-    $is_favor = in_array($post_id, $favs) ? true : false;
-
-    $passed_lessons = explode(',',carbon_get_user_meta( $user_id, 'passed_lessons' ));
-    $is_passed = in_array($post_id, $passed_lessons) ? true : false;
-
-    if( $is_learning && !empty($less_vals) ) {
-        $is_lastLesson = ($now_incTZ>=$less_vals[count($less_vals)-1] && $current_lesson_val == count($less_vals));
-        check_current_lesson($user_id,$post_id,$is_lastLesson,$less_vals,$current_lesson_key);
-    }
 ?>
 
 <div data-can_add="<?= $is_time_to_add === true ? 'true' : '' ;?>"
     data-learning="<?= $is_learning === true ? 'true' : '' ;?>" class="col-12">
     <h1 class="d-flex" data-id="<?= $yt_code ?>">
+        <div class="single-chart mr-2 align-self-center">
+            <svg viewBox="0 0 40 40" class="circular-chart green">
+                <path class="circle-bg" d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" stroke-dasharray="<?= progress_icon($current_lesson_number,$frequency); ?>, 100" d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+        </div>
         <?= get_the_title(); ?>
     </h1>
 
     <?php
-            set_query_var( 'is_favor', $is_favor );
-            set_query_var( 'is_time_to_add', $is_time_to_add );
-            set_query_var( 'is_passed', $is_passed );
+    set_query_var( 'is_time_to_add', $is_time_to_add );
+    set_query_var( 'is_learning', $is_learning );
+    set_query_var( 'post_id', $post_id );
 
-            if (isset($is_learning) ) {
-                set_query_var( 'is_learning', $is_learning );
-            }
-            
-            if (isset($current_lesson_val) ) {
-                set_query_var( 'current_lesson_val', $current_lesson_val );
-            }
-            if (isset($less_vals) ) {
-                set_query_var( 'less_vals', $less_vals );
-            }
-            if (isset($next_lesson_adding_time) ) {
-                set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
-            }
-            ?>
+    
+    if (isset($current_lesson_val) ) {
+        set_query_var( 'current_lesson_val', $current_lesson_val );
+    }
+    if (isset($less_vals) ) {
+        set_query_var( 'less_vals', $less_vals );
+    }
+    if (isset($next_lesson_adding_time) ) {
+        set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
+    }
+    ?>
 
 
     <?php get_template_part('theme-helpers/template-parts/lesson','buttons');  ?>
 
 
 </div>
-<div id="player" class="mb-5 col-12"></div>
-<?php
-        $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
-        if( $type === 'with-teacher' ) {
-            $detailed_sentences = carbon_get_post_meta($post_id, 'detailed_sentences'); ?>
-<div class="col-12">
-    <table class="table table-dark">
-        <tbody>
+<div class="row col-12 mx-0">
+    <?php $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
+    if( $type === 'with-teacher' ) {
+    $detailed_sentences = carbon_get_post_meta($post_id, 'detailed_sentences'); ?>
+
+    <div class="col-6 pl-0" style="display:none" id="text">
+        <div class="bottom_rounded bg-white py-5 px-4">
+
+
             <?php foreach($detailed_sentences as $detailed_sentence){ ?>
-            <tr>
-                <td onclick="show_hint(this)"><?= $detailed_sentence['sentence'] ?></td>
-                <td style="display:none"><?= $detailed_sentence['note_1'] ?></td>
-            </tr>
+            <p class="py-1" data-toggle="popover" data-placement="top"
+                data-content='<?= $detailed_sentence["note_1"] ?>'>
+                <?= $detailed_sentence['sentence'] ?></p>
             <?php } ?>
-        </tbody>
-    </table>
-</div>
-<?php
+        </div>
+
+    </div>
+    <div id="player" class="mb-5"></div>
+    <?php
 
         } else if( $type === 'self'  ) {
 
         ?>
-<div class="pdf col-12">
-    <embed src="/wp-content/uploads/<?= $pdf; ?>" width="100%" height="470px" />
-    <div class="d-flex justify-content-between">
-        <a target="_blank" href="/wp-content/uploads/<?= $pdf; ?>">Open in new window</a>
-        <a download="<?= get_the_title(); ?> PDF" target="_blank" href="/wp-content/uploads/<?= $pdf; ?>">Download</a>
+    <div class="pdf col-12">
+        <embed src="/wp-content/uploads/<?= $pdf; ?>" width="100%" height="470px" />
+        <div class="d-flex justify-content-between">
+            <a target="_blank" href="/wp-content/uploads/<?= $pdf; ?>">Open in new window</a>
+            <a download="<?= get_the_title(); ?> PDF" target="_blank"
+                href="/wp-content/uploads/<?= $pdf; ?>">Download</a>
+        </div>
     </div>
-</div>
-<!-- <a href="http://www.google.com/calendar/event?
+    <!-- <a href="http://www.google.com/calendar/event?
             action=TEMPLATE
             &text=event-title
-            &dates=[start-custom format='Ymd\\THi00\\Z']/[end-custom format='Ymd\\THi00\\Z']
-            &details=[description]
-            &location=[location]
-            &trp=false
-            &sprop=
-            &sprop=name:" target="_blank" rel="nofollow">Add to my calendar</a> -->
-<?php } ?>
+            &dates=[start-custom format=' Ymd\\THi00\\Z']/[end-custom format='Ymd\\THi00\\Z' ] &details=[description]
+            &location=[location] &trp=false &sprop=&sprop=name:" target="_blank" rel="nofollow">Add to my calendar</a>
+            -->
+    <?php } ?>
+</div>
 </div>
 <script>
 var tag = document.createElement('script');

@@ -149,10 +149,6 @@ $(document).ready(function() {
     });
 });
 
-function show_hint(e) {
-    $(e).next().fadeToggle(300)
-};
-
 function to_favorite_before($_post_id, $_user_id, e) {
     let __action = $(e).hasClass('active') ? 'remove_favor' : 'add_to_favor';
     to_favorite($_post_id, $_user_id, __action, e);
