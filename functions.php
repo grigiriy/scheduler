@@ -417,6 +417,16 @@ function get_schedule($frequency,$user_id) {
   return $timer;
 }
 
+function get_passed_lessons_arr($user_id){
+  $args = array(
+    'post_type'  => 'lessons',
+    'author'     => $user_id,
+    'course_status'   => 'finished',
+);
+wp_reset_postdata();
+return count(get_posts($args));
+}
+
 // function add_to_missed($user_id,$current_lesson_key,$current_lesson_val){
 //   $missed = carbon_get_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/missed_lessons');
 

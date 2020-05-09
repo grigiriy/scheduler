@@ -18,15 +18,10 @@ global $now_incTZ;
 
 $user_id = get_current_user_id();
 
-$args = array(
-    'post_type'  => 'lessons',
-    'author'     => $user_id,
-    'course_status'   => 'finished',
-);
-$passed_lessons = count(get_posts($args));
-wp_reset_postdata();
+$passed_lessons = get_passed_lessons_arr($user_id);
 
 $frequency = get_user_meta($user_id)['frequency'][0];
+
 
 $args = array(
     'post_type'  => 'lessons',
@@ -43,20 +38,14 @@ if( count($wp_posts) ) {
         array_push($current_lessons,$post->ID);
 
         if( carbon_get_post_meta( $post->ID, '1_timecode') >= $now_incTZ && carbon_get_post_meta( $post->ID, '1_passed') !== 'true') {
-            // if( $now_incTZ + n_days_crop(3) <= carbon_get_post_meta( $post->ID, '1_timecode') ) {
-                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '1_timecode' ),$post->ID,'1']));
-            // }
+            array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '1_timecode' ),$post->ID,'1']));
         }
         if( carbon_get_post_meta( $post->ID, '2_timecode' ) >= $now_incTZ && carbon_get_post_meta( $post->ID, '2_passed') !== 'true') {
-            // if( $now_incTZ + n_days_crop(3) <= carbon_get_post_meta( $post->ID, '1_timecode') ) {
-                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '2_timecode' ),$post->ID,'2']));
-            // }
+            array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '2_timecode' ),$post->ID,'2']));
         }
         if( carbon_get_post_meta( $post->ID, '3_timecode' ) ) {
             if( carbon_get_post_meta( $post->ID, '3_timecode' ) >= $now_incTZ && carbon_get_post_meta( $post->ID, '3_passed') !== 'true') {
-                // if( $now_incTZ + n_days_crop(3) <= carbon_get_post_meta( $post->ID, '1_timecode') ) {
-                    array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '3_timecode' ),$post->ID,'3']));
-                // }
+                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '3_timecode' ),$post->ID,'3']));
             }
         }
     }
@@ -78,7 +67,7 @@ wp_reset_postdata();
 while ( have_posts() ) :
     the_post();
 
-    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);;
+    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);
     $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
 
 if (isset($timers) ) {
