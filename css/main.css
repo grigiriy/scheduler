@@ -6,6 +6,9 @@ body {
     rgb(217, 246, 245) 100%
   );
 }
+.smaller {
+  font-size: 0.8em;
+}
 nav {
   justify-content: space-between;
   margin-bottom: 20px;
@@ -29,6 +32,17 @@ nav a[aria-current='page'] {
 }
 .border-mainSche {
   border-color: #67a880 !important;
+}
+
+.bg-peach {
+  background: #f4934d;
+  color: #fff;
+}
+.text-peach {
+  color: #f4934d;
+}
+.border-peach {
+  border-color: #f4934d !important;
 }
 
 .bg-lightGrey {
@@ -315,4 +329,10 @@ img.rounded-image {
 }
 #text p:hover {
   color: #777;
+}
+.priceImg {
+  height: 110px;
+}
+.priceImg p {
+  margin-top: -20px;
 }

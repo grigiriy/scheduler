@@ -16,6 +16,7 @@ Container::make( 'user_meta', 'Календарь' )
 
 WpGraphQLCrbContainer::register(
 Container::make( 'post_meta', 'Course details' )
+->where( 'post_type', '=', 'lessons' )
 ->add_tab( 'course text', [
     Field::make( 'complex', 'detailed_sentences', 'Detailed sentences' )
     ->add_fields( [
