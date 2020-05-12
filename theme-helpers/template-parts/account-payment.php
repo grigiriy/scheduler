@@ -1,6 +1,6 @@
 <?php
 $role = wp_get_current_user()->roles[0];
-$paysoon = $now_incTZ + 7*24*60*60 >= $paid;
+$paysoon = $now_incTZ + 3*24*60*60 >= $paid;
 $is_personal = isset($calend_days); //КОСТЫЛЬ!
 if(
     // $role === 'administrator' ||
@@ -81,7 +81,7 @@ if(
                 </g>
             </svg>
             <?php } ?>
-            <div class="mr-auto mb-3 <?= ( $paysoon ) ? 'text-white' : '' ?>">
+            <div class="mr-auto <?= ( $paysoon ) ? 'text-white' : '' ?>">
                 <p class="mb-0">Lessons paid by</p>
                 <p class="h3">
                     <?= getdate($paid)['mday'] .' '. getdate($paid)['month'] .' '.getdate($paid)['year'] ?>
@@ -91,14 +91,15 @@ if(
                 if( !$is_personal ){?>
         </div>
         <?php } ?>
-        <a href="/payment/" class="d-flex align-self-center btn btn-warning btn-round px-5 py-3">
+        <a href="/payment/"
+            class="<?= ( $is_personal ) ? '' : 'mt-3' ?> mr-auto d-flex align-self-center btn btn-warning btn-round px-5 py-3">
             Buy new lessons!
         </a>
         <?php
+        }
     if( $is_personal ){?>
     </div>
-    <?php }
-} ?>
+    <?php } ?>
 </div>
 </div>
 <?php } ?>
