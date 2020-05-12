@@ -69,7 +69,6 @@ wp_reset_postdata();
 
 
 $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);
-$is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
 
 while ( have_posts() ) :
     the_post();
@@ -96,7 +95,7 @@ if (isset($current_lessons) ) {
 if (isset($frequency) ) {
     set_query_var( 'frequency', $frequency );
 }
-set_query_var( 'is_time_to_add', $is_time_to_add );
+set_query_var( 'is_time_to_add', is_time_to_add($next_lesson_adding_time) );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 set_query_var( 'paid', $paid );
 set_query_var( 'now_incTZ', $now_incTZ );
@@ -114,7 +113,7 @@ set_query_var( 'now_incTZ', $now_incTZ );
 </section>
 
 <section class="col-md-4 col-sm-12 px-0">
-    <div class="border-bottom border-success mb-2">
+    <div>
         <?php
         get_template_part('theme-helpers/template-parts/account','payment');
         get_template_part('theme-helpers/template-parts/account','new_course'); //not ready yet - teachers shield

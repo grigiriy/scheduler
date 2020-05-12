@@ -48,7 +48,6 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ?
         carbon_get_user_meta( $user_id, 'next_lesson' ) :
         strtotime(get_userdata( $user_id )->user_registered);
-    $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
 
 
     $is_learning = has_term( 'course_status', 'started', $post->ID );
@@ -65,7 +64,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 
 ?>
 
-<div data-can_add="<?= $is_time_to_add === true ? 'true' : '' ;?>"
+<div data-can_add="<?= is_time_to_add($next_lesson_adding_time) === true ? 'true' : '' ;?>"
     data-learning="<?= $is_learning === true ? 'true' : '' ;?>" class="col-12">
     <h1 class="d-flex" data-id="<?= $yt_code ?>">
         <div class="single-chart mr-2 align-self-center">
@@ -82,7 +81,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     </h1>
 
     <?php
-    set_query_var( 'is_time_to_add', $is_time_to_add );
+    set_query_var( 'is_time_to_add', is_time_to_add($next_lesson_adding_time) );
     set_query_var( 'is_learning', $is_learning );
     set_query_var( 'post_id', $post_id );
 
@@ -218,7 +217,7 @@ if(
 </div>
 <?php }
     }
-    if($is_time_to_add || $is_learning  || empty($list)) { ?>
+    if(is_time_to_add($next_lesson_adding_time) || $is_learning  || empty($list)) { ?>
 <div class=" modal fade" id="add_lesson" tabindex="-1" role="dialog" aria-labelledby="add_lesson__label"
     aria-hidden="true">
     <div class="modal-dialog" role="document">

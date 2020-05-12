@@ -240,6 +240,12 @@ add_action('wp_ajax_myfilter', 'myfilter');
 add_action('wp_ajax_nopriv_myfilter', 'myfilter');
 // FILTERING ON FRONTEND
 
+// IS_TIME_TO_ADD_CHECKER
+function is_time_to_add($next_lesson_adding_time){
+  return display_day(getdate($next_lesson_adding_time)) === 'Today' ? true : false;
+}
+// IS_TIME_TO_ADD_CHECKER
+
 
 // "ADDING NEW COURSE" TIMER
 function set_adding_timeout($user_id){
