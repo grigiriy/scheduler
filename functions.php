@@ -94,8 +94,8 @@
 
 
   $timeZone_msc = 180*60;
-  // $now_incTZ = strtotime("now")+$timeZone_msc;
-  $now_incTZ = strtotime("now");
+  $now_incTZ = strtotime("now")+$timeZone_msc;
+  // $now_incTZ = strtotime("now");
   $_day = 60 * 60 * 24;
 
 ?>

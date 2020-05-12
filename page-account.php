@@ -68,12 +68,12 @@ if( count($wp_posts) ) {
 wp_reset_postdata();
 
 
+$next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);
+$is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
 
 while ( have_posts() ) :
     the_post();
 
-    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);
-    $is_time_to_add = $next_lesson_adding_time <= $now_incTZ;
 
 if (isset($timers) ) {
     set_query_var( 'timers', $timers );
@@ -99,6 +99,7 @@ if (isset($frequency) ) {
 set_query_var( 'is_time_to_add', $is_time_to_add );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 set_query_var( 'paid', $paid );
+set_query_var( 'now_incTZ', $now_incTZ );
 ?>
 
 <div class="col-12 mb-3">
@@ -120,6 +121,9 @@ set_query_var( 'paid', $paid );
     <div class="d-flex flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
             <?php
+            set_query_var( 'calend_header', 'Schedule for next three days' );
+            set_query_var( 'calend_days', 3 );
+
             get_template_part('theme-helpers/template-parts/account','dashboard'); 
             get_template_part('theme-helpers/template-parts/account','calendar');
             ?>
