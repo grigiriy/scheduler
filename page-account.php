@@ -114,10 +114,12 @@ set_query_var( 'now_incTZ', $now_incTZ );
 </section>
 
 <section class="col-md-4 col-sm-12 px-0">
-    <?php
-    get_template_part('theme-helpers/template-parts/account','payment');
-    get_template_part('theme-helpers/template-parts/account','new_course'); //not ready yet - teachers shield
-    ?>
+    <div class="border-bottom border-success mb-2">
+        <?php
+        get_template_part('theme-helpers/template-parts/account','payment');
+        get_template_part('theme-helpers/template-parts/account','new_course'); //not ready yet - teachers shield
+        ?>
+    </div>
     <div class="d-flex flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
             <?php

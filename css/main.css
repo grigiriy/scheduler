@@ -265,15 +265,15 @@ img.rounded-image {
   }
 }
 
-#configs .edit svg {
+.edit svg {
   margin-top: -5px;
 }
-#configs .edit {
+.edit {
   cursor: pointer;
   font-size: 0.8em;
   border-bottom: solid 1px transparent;
 }
-#configs .edit:hover {
+.edit:hover {
   border-color: inherit;
 }
 .pseudocheckbox {
@@ -335,4 +335,9 @@ img.rounded-image {
 }
 .priceImg p {
   margin-top: -20px;
+}
+
+.add_icon {
+  border: 1px dashed !important;
+  cursor: pointer;
 }
