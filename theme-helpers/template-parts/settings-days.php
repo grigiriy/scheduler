@@ -1,5 +1,7 @@
-<div class="card-body row bd-callout__no_bs bd-callout-primary">
-    <div class="col-6 d-flex">
+<?php $is_modes = isset($is_modes); ?>
+
+<div class="card-body row <?= $is_modes ? 'px-0' : 'bd-callout__no_bs bd-callout-primary' ?>">
+    <div class="<?= $is_modes ? 'col-12' : 'col-6' ?> d-flex">
         <div class="mr-3">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 x="0px" y="0px" width="32.75px" height="32.75px" viewBox="0 0 32.75 32.75"
@@ -23,15 +25,15 @@
                 </g>
             </svg>
         </div>
-        <div class="">
+        <div class="<?= $is_modes ? 'smaller' : '' ?>">
             <p class="h5">First day</p>
-            <div class="mt-3">
-                <p class="text-mainSche h6">1st lesson with teacher</p>
+            <div class="<?= $is_modes ? 'mt-1' : 'mt-3' ?>">
+                <p class="text-mainSche h6 <?= $is_modes ? 'mb-0' : '' ?>">1st lesson with teacher</p>
                 <p>Adding and analysis of new material</p>
             </div>
         </div>
     </div>
-    <div class="col-6 d-flex">
+    <div class="<?= $is_modes ? 'col-12' : 'col-6' ?> d-flex">
         <div class="mr-3">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 x="0px" y="0px" width="32.75px" height="32.75px" viewBox="0 0 32.75 32.75"
@@ -55,14 +57,14 @@
                 </g>
             </svg>
         </div>
-        <div class="">
+        <div class="<?= $is_modes ? 'smaller' : '' ?>">
             <p class="h5">Next days</p>
-            <div class="mt-3">
-                <p class="text-mainSche h6">1st self lesson</p>
+            <div class="<?= $is_modes ? 'mt-1' : 'mt-3' ?>">
+                <p class="text-mainSche h6 <?= $is_modes ? 'mb-0' : '' ?>">1st self lesson</p>
                 <p>Repetition of yesterday's material</p>
             </div>
-            <div class="mt-4">
-                <p class="text-mainSche h6">2nd self lesson</p>
+            <div class="<?= $is_modes ? 'mt-1' : 'mt-4' ?>">
+                <p class="text-mainSche h6 <?= $is_modes ? 'mb-0' : '' ?>">2nd self lesson</p>
                 <p>Repetition of material passed 5 days ago</p>
             </div>
         </div>

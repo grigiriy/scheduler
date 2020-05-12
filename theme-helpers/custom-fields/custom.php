@@ -74,16 +74,27 @@ Container::make( 'post_meta', 'Course details' )
 WpGraphQLCrbContainer::register(
 Container::make( 'post_meta', 'Пакеты' )
 ->where( 'post_template', '=', 'page-payment.php' )
-->add_tab( 'default_price', [
-Field::make( 'text', 'default_price', 'Стоимость урока по умолчанию' )
-])
-->add_tab( 'prices', [
-Field::make( 'complex', 'prices', 'Пакеты' )
-    ->add_fields( [
-    Field::make( 'text', 'price', 'Сумма' )
-    ->set_width( 50 ),
-    Field::make( 'text', 'count', 'Количество уроков' )
-    ->set_width( 50 ),
-])
-])
+    ->add_tab( 'default_price', [
+        Field::make( 'text', 'default_price', 'Стоимость урока по умолчанию' )
+    ])
+    ->add_tab( 'prices', [
+    Field::make( 'complex', 'prices', 'Пакеты' )
+        ->add_fields( [
+            Field::make( 'text', 'price', 'Сумма' )
+            ->set_width( 50 ),
+            Field::make( 'text', 'count', 'Количество уроков' )
+            ->set_width( 50 ),
+        ])
+    ])
+);
+
+WpGraphQLCrbContainer::register(
+    Container::make( 'post_meta', 'Пакеты' )
+    ->where( 'post_template', '=', 'page-modes.php' )
+    ->add_tab( 'modes', [
+        Field::make( 'complex', 'modes', 'Режимы' )
+        ->add_fields( [
+            Field::make( 'text', 'name', 'Название режима' ),
+        ])
+    ])
 );

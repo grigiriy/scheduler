@@ -1,0 +1,37 @@
+<?php
+/**
+ * Template Name: Modes Page
+ */
+get_header();
+
+if( !is_user_logged_in() ) {
+?>
+<script>
+document.location.href = '/';
+</script>
+
+<?php
+} else {
+    global $now_incTZ;
+    $user_id = get_current_user_id();
+    $modes = carbon_get_post_meta($post->ID, 'modes');
+    while ( have_posts() ) :
+        the_post();
+?>
+<div class="col-8 offset-2 text-center">
+    <p class="h1">What mode is your?</p>
+    <p><?= the_content(); ?></p>
+</div>
+
+<?php
+
+foreach ($modes as $key=>$mode){
+    set_query_var('mode',$mode);
+    set_query_var('key',$key);
+    get_template_part('theme-helpers/template-parts/modes','offer');
+}
+
+
+endwhile;
+}
+get_footer(); ?>
