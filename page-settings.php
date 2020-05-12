@@ -2,7 +2,20 @@
 /**
  * Template Name: Settings Page
  */
-get_header(); ?>
+get_header();
+
+if( !is_user_logged_in() ) {
+    ?>
+<script>
+document.location.href = '/';
+</script>
+
+<?php
+    
+    } else {
+    $user_id = get_current_user_id();
+    set_query_var( 'user_id', $user_id );
+?>
 
 <section class="col-md-8 col-sm-12 pr-5">
 
@@ -30,4 +43,6 @@ get_header(); ?>
     <?php get_template_part('theme-helpers/template-parts/settings','sidebar'); ?>
 </section>
 
-<?php get_footer(); ?>
+<?php
+    }
+get_footer(); ?>

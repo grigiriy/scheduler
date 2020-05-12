@@ -365,6 +365,18 @@ function lesson_passed() {
 add_action('wp_ajax_lesson_passed', 'lesson_passed'); 
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED
 
+
+
+// UPDATE USER INFO
+function update_profile() {
+  $user_id = intval($_POST['user_id']);
+  $type = $_POST['type'];
+  $value = htmlspecialchars($_POST['val']);
+  carbon_set_user_meta( $user_id, $type, $value);
+}
+add_action('wp_ajax_update_profile', 'update_profile'); 
+// UPDATE USER INFO
+
 function notify_manager() { return false; }
 
 function finish_course($post_id) {
