@@ -79,8 +79,7 @@
 
   add_action( 'carbon_fields_register_fields', 'crb_register_custom_fields' );
   function crb_register_custom_fields() {
-    include_once __DIR__ . '/theme-helpers/custom-fields/lessons.php';
-    include_once __DIR__ . '/theme-helpers/custom-fields/prices.php';
+    include_once __DIR__ . '/theme-helpers/custom-fields/custom.php';
   }
 
   add_action( 'after_setup_theme', 'crb_load' );

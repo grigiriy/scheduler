@@ -15,6 +15,17 @@ Container::make( 'user_meta', 'Календарь' )
 );
 
 WpGraphQLCrbContainer::register(
+    Container::make( 'user_meta', 'Контактная информация' )
+    ->add_fields( [
+        Field::make( 'text', 'phone', 'Телефон' ),
+        Field::make( 'text', 'skype', 'Skype' ),
+        Field::make( 'text', 'notify_email', 'Имейл для уведомлений' ),
+        Field::make( 'checkbox', 'notify_browser', 'Уведомления в браузере (может быть не корректно)' )
+        ->set_option_value( 'true' ),
+    ])
+);
+
+WpGraphQLCrbContainer::register(
 Container::make( 'post_meta', 'Course details' )
 ->where( 'post_type', '=', 'lessons' )
 ->add_tab( 'course text', [
@@ -55,5 +66,24 @@ Container::make( 'post_meta', 'Course details' )
     Field::make( 'checkbox', 'passed_3', '3rd reminder passed' )
     ->set_width( 30 )
     ->set_option_value( 'true' ),
+])
+);
+
+
+
+WpGraphQLCrbContainer::register(
+Container::make( 'post_meta', 'Пакеты' )
+->where( 'post_template', '=', 'page-payment.php' )
+->add_tab( 'default_price', [
+Field::make( 'text', 'default_price', 'Стоимость урока по умолчанию' )
+])
+->add_tab( 'prices', [
+Field::make( 'complex', 'prices', 'Пакеты' )
+    ->add_fields( [
+    Field::make( 'text', 'price', 'Сумма' )
+    ->set_width( 50 ),
+    Field::make( 'text', 'count', 'Количество уроков' )
+    ->set_width( 50 ),
+])
 ])
 );
