@@ -306,7 +306,7 @@ add_action('wp_ajax_leave_course', 'leave_course');
 // AJAX FUNCTION TO JOIN COURSE
 function add_lesson() {
   $user_id = intval($_POST['user_id']);
-  $post_id = $_POST['post_id'];
+  $post_id = intval($_POST['post_id']);
 
   $my_postarr = array(
     'post_name'    => get_the_author_meta('user_login', $user_id),
@@ -330,11 +330,9 @@ function add_lesson() {
 
   set_adding_timeout($user_id);
 
+  set_timers($my_post_id,$user_id);
   if($type === 'with-teacher'){
-    set_timers($my_post_id,$user_id);
     notify_manager($my_post_id); //not done yet!
-  } else if( $type === 'self' ) {
-    set_timers($my_post_id,$user_id);
   } else {
     return false; //2do create show_error function
   }
@@ -349,21 +347,21 @@ function lesson_passed() {
 
   $post_id = $_POST['post_id'];
 
-if( !(carbon_get_post_meta( $post_id, '0_passed') ) ) {
-  carbon_set_post_meta( $post_id, '0_passed', true);
+if( !(carbon_get_post_meta( $post_id, 'passed_0') ) ) {
+  carbon_set_post_meta( $post_id, 'passed_0', true);
   return true;
 } else {
-  if ( carbon_get_post_meta( $post_id, '3_timecode') && (carbon_get_post_meta( $post_id, '3_timecode') <= $now_incTZ) ) {
+  if ( carbon_get_post_meta( $post_id, 'timecode_3') && (carbon_get_post_meta( $post_id, 'timecode_3') <= $now_incTZ) ) {
     
-    carbon_set_post_meta( $post_id, '3_passed', true);
+    carbon_set_post_meta( $post_id, 'passed_3', true);
     finish_course($post_id);
     return true;
       
-  } else if ( carbon_get_post_meta( $post_id, '2_timecode') <= $now_incTZ ) {
-    carbon_set_post_meta( $post_id, '2_passed', true);
+  } else if ( carbon_get_post_meta( $post_id, 'timecode_2') <= $now_incTZ ) {
+    carbon_set_post_meta( $post_id, 'passed_2', true);
     return true;
-  } else if ( carbon_get_post_meta( $post_id, '1_timecode') <= $now_incTZ ) {
-    carbon_set_post_meta( $post_id, '1_passed', true);
+  } else if ( carbon_get_post_meta( $post_id, 'timecode_1') <= $now_incTZ ) {
+    carbon_set_post_meta( $post_id, 'passed_1', true);
     return true;
   }
 }
@@ -386,7 +384,7 @@ function set_timers( $post_id, $user_id)  {
 
 function fill_lesson_cf ( $timers, $post_id ) {
   foreach ($timers as $key=>$timer) {
-    carbon_set_post_meta( $post_id, ($key+1).'_timecode', $timer );
+    carbon_set_post_meta( $post_id, 'timecode_'.($key+1), $timer );
   }
 }
 

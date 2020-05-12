@@ -18,9 +18,9 @@ document.location.href = '/';
     while ( have_posts() ) :
         the_post();
 ?>
-<div class="col-8 offset-2 text-center">
-    <p class="h1">What mode is your?</p>
-    <p><?= the_content(); ?></p>
+<div class="col-8 offset-2 text-center mb-5">
+    <p class="h1 mb-3">What mode is your?</p>
+    <?= the_content(); ?>
 </div>
 
 <?php

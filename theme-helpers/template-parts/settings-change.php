@@ -11,6 +11,6 @@
     <div class="col-6">
         <p>Variant 2</p>
         <p class="text-muted">Также вы можете изменить интенсивность повторов. Сделать чаще или реже.</p>
-        <button class="btn btn-primary btn-round px-4 py-3">Change mode!</button>
+        <a href="/modes/" class="btn btn-primary btn-round px-4 py-3">Change mode!</a>
     </div>
 </div>

@@ -5,13 +5,14 @@ $yt_code = $matches[0];
 
 $in_fav = in_array($_post->ID,$selected_posts);
 
-$args = $_post->ID.','.$user_id;
-
 $course_level = get_the_terms($_post->ID,'course_level');
 $course_duration = get_the_terms($_post->ID,'course_duration');
 
+$launch_btn = $is_time_to_add ?
+['onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary'] :
+['data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
 ?>
-<div class="card mb-3 shadow-lg p-0">
+<div class="card mb-3 shadow-lg p-0" id="<?= $_post->ID; ?>">
     <div class="card-head">
         <img class="" style="width:100%" src="https://i.ytimg.com/vi/<?=$yt_code; ?>/maxresdefault.jpg">
     </div>
@@ -48,10 +49,14 @@ $course_duration = get_the_terms($_post->ID,'course_duration');
         <p class="h4"><?= get_the_title($_post->ID); ?></p>
         <p class="text-muted"><?= $_post->post_excerpt ?></p>
         <div class="d-flex mt-4 mb-3">
-            <a href="<?= get_the_permalink($_post->ID); ?>" class="btn btn-primary btn-round px-4 py-3">Start
-                learning <span class="arrow_symbol"> ⟶</span></a>
+
+            <button class="btn btn-<?= $launch_btn[1] ?> btn-round px-4 py-3" <?= $launch_btn[0] ?>>Choose this lesson
+                <span class="arrow_symbol"> ⟶</span></button>
+
+
             <span class="favorite_btn ml-auto my-2 <?= $in_fav === true ? 'active' : '' ?>"
-                onclick="to_favorite_before(<?=$args?>,this)"></span>
+                onclick="to_favorite_before(this)"></span>
+
         </div>
     </div>
 </div>
