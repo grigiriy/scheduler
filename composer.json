@@ -1,0 +1,12 @@
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:matepaiva/wp-graphql-crb.git"
+    }
+  ],
+  "require": {
+    "htmlburger/carbon-fields": "^3.1",
+    "matepaiva/wp-graphql-crb": "dev-master"
+  }
+}

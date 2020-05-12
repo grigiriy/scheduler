@@ -15,6 +15,9 @@ function create_posttype() {
             'has_archive' => true,
             // 'rewrite' => array('slug' => 'lessons'),
             'show_in_rest' => true,
+            'show_in_graphql' => true,
+            'graphql_single_name' => 'Lesson',
+            'graphql_plural_name' => 'Lessons',
             'supports' => array(
                 'page-attributes',
                 'author',
