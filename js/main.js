@@ -93,3 +93,20 @@ function start_course($target_post_id, $user_id, e) {
     },
   });
 }
+
+function lesson_passed() {
+  $.ajax({
+    url: '/wp-admin/admin-ajax.php',
+    type: 'POST',
+    data: {
+      action: 'lesson_passed',
+      post_id: $post_id,
+    }, // можно также передать в виде объекта
+    success: function (data) {
+      console.log(data);
+    },
+    error: function (errorThrown) {
+      console.log(errorThrown);
+    },
+  });
+}

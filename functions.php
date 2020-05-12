@@ -344,27 +344,22 @@ add_action('wp_ajax_add_lesson', 'add_lesson');
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED
 function lesson_passed() {
   global $now_incTZ;
-
   $post_id = $_POST['post_id'];
 
-if( !(carbon_get_post_meta( $post_id, 'passed_0') ) ) {
-  carbon_set_post_meta( $post_id, 'passed_0', true);
-  return true;
-} else {
   if ( carbon_get_post_meta( $post_id, 'timecode_3') && (carbon_get_post_meta( $post_id, 'timecode_3') <= $now_incTZ) ) {
-    
     carbon_set_post_meta( $post_id, 'passed_3', true);
     finish_course($post_id);
     return true;
-      
   } else if ( carbon_get_post_meta( $post_id, 'timecode_2') <= $now_incTZ ) {
     carbon_set_post_meta( $post_id, 'passed_2', true);
     return true;
   } else if ( carbon_get_post_meta( $post_id, 'timecode_1') <= $now_incTZ ) {
     carbon_set_post_meta( $post_id, 'passed_1', true);
     return true;
+  } else {
+    carbon_set_post_meta( $post_id, 'passed_0', true);
+    return true;
   }
-}
 
 }
 add_action('wp_ajax_lesson_passed', 'lesson_passed'); 

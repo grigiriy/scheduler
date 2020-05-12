@@ -174,6 +174,9 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+        lesson_passed();
+    }
     console.log('cc -> ', player.getOptions('cc'));
 }
 
@@ -196,51 +199,8 @@ if(
         <button class="btn"><a href="/add_post/?rcl-post-edit=<?= $post->ID; ?>">Edit Post</a></button>
     </div>
 </div>
-<button id="lesson_passed" class="btn btn-success">
-    <h4 class='mb-0'>Finish</h4>
-</button>
-<?php }
-        if ($is_learning && !empty($less_vals)) {
-            if ($current_lesson_val==='0' || ( intval($current_lesson_val)>0 && $now_incTZ>=$less_vals[intval($current_lesson_val)-1]) ) {
-    ?>
-<div class="card mt-5">
-    <?php if($is_lastLesson){ ?>
-    <div class="card-header">
-        <h3>Congratulations! This is the last reiteration of this lesson</h3>
-    </div>
-    <?php } ?>
-    <div class="card-body">
-        <button id="lesson_passed" class="btn btn-success" data-last=<?= $is_lastLesson ? 'true' : 'false' ?>>
-            <h4 class='mb-0'>Finish <?= $is_lastLesson ? 'course!' : 'practice' ?></h4>
-        </button>
-    </div>
-</div>
-<?php }
-    }
-    if(is_time_to_add($next_lesson_adding_time) || $is_learning  || empty($list)) { ?>
-<div class=" modal fade" id="add_lesson" tabindex="-1" role="dialog" aria-labelledby="add_lesson__label"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><?= get_the_title(); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                lorem ipsum
-                <?= (isset(get_user_meta($user_id)['frequency'])) ? get_user_meta($user_id)['frequency'][0] : 'Norm'; ?>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="mx-auto btn btn-success" id="add_course">Start
-                    learning!</button>
-            </div>
-        </div>
-    </div>
-</div>
-<?php
-    } ?>
+
+<?php } ?>
 
 <?php endwhile; };?>
 
