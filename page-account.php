@@ -21,6 +21,7 @@ $user_id = get_current_user_id();
 $passed_lessons = get_passed_lessons_arr($user_id);
 
 $frequency = get_user_meta($user_id)['frequency'][0];
+$paid = carbon_get_user_meta( $user_id, 'paid_till' );
 
 
 $args = array(
@@ -28,7 +29,10 @@ $args = array(
     'author'     => $user_id,
     'course_status'   => 'started',
 );
+
 $wp_posts = get_posts($args);
+
+
 if( count($wp_posts) ) {
 
     $timers=[];
@@ -37,15 +41,15 @@ if( count($wp_posts) ) {
     foreach ( $wp_posts as $key=>$post ) {
         array_push($current_lessons,$post->ID);
 
-        if( carbon_get_post_meta( $post->ID, '1_timecode') >= $now_incTZ && carbon_get_post_meta( $post->ID, '1_passed') !== 'true') {
-            array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '1_timecode' ),$post->ID,'1']));
+        if( carbon_get_post_meta( $post->ID, 'timecode_1') >= $now_incTZ && carbon_get_post_meta( $post->ID, '1_passed') !== 'true') {
+            array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, 'timecode_1' ),$post->ID,'1']));
         }
-        if( carbon_get_post_meta( $post->ID, '2_timecode' ) >= $now_incTZ && carbon_get_post_meta( $post->ID, '2_passed') !== 'true') {
-            array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '2_timecode' ),$post->ID,'2']));
+        if( carbon_get_post_meta( $post->ID, 'timecode_2' ) >= $now_incTZ && carbon_get_post_meta( $post->ID, '2_passed') !== 'true') {
+            array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, 'timecode_2' ),$post->ID,'2']));
         }
-        if( carbon_get_post_meta( $post->ID, '3_timecode' ) ) {
-            if( carbon_get_post_meta( $post->ID, '3_timecode' ) >= $now_incTZ && carbon_get_post_meta( $post->ID, '3_passed') !== 'true') {
-                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, '3_timecode' ),$post->ID,'3']));
+        if( carbon_get_post_meta( $post->ID, 'timecode_3' ) ) {
+            if( carbon_get_post_meta( $post->ID, 'timecode_3' ) >= $now_incTZ && carbon_get_post_meta( $post->ID, '3_passed') !== 'true') {
+                array_push($timers,implode(',',[carbon_get_post_meta( $post->ID, 'timecode_3' ),$post->ID,'3']));
             }
         }
     }
@@ -60,6 +64,7 @@ if( count($wp_posts) ) {
     NotSoon:
     $current_lessons = 0;
 }
+
 wp_reset_postdata();
 
 
@@ -93,6 +98,7 @@ if (isset($frequency) ) {
 }
 set_query_var( 'is_time_to_add', $is_time_to_add );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
+set_query_var( 'paid', $paid );
 ?>
 
 <div class="col-12 mb-3">
@@ -107,12 +113,15 @@ set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 </section>
 
 <section class="col-md-4 col-sm-12 px-0">
+    <?php
+    get_template_part('theme-helpers/template-parts/account','payment');
+    get_template_part('theme-helpers/template-parts/account','new_course'); //not ready yet - teachers shield
+    ?>
     <div class="d-flex flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
             <?php
-                get_template_part('theme-helpers/template-parts/account','new_course'); 
-                get_template_part('theme-helpers/template-parts/account','dashboard'); 
-                get_template_part('theme-helpers/template-parts/account','calendar');
+            get_template_part('theme-helpers/template-parts/account','dashboard'); 
+            get_template_part('theme-helpers/template-parts/account','calendar');
             ?>
         </div>
     </div>

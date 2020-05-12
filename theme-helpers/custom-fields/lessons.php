@@ -10,6 +10,7 @@ Container::make( 'user_meta', 'Календарь' )
 ->add_fields( [
     Field::make( 'text', 'favor_lessons', 'Избранные уроки' ),
     Field::make( 'text', 'next_lesson', 'Cледующий урок' ),
+    Field::make( 'text', 'paid_till', 'Оплачено до' ),
 ])
 );
 

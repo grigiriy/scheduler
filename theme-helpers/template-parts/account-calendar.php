@@ -5,7 +5,7 @@
 <?php
 if(isset($timers) && $timers ){
 ?>
-<div class="card-body p-0 border-bottom-0 border-top-0">
+<div class="card-body p-0 px-1 border-bottom-0 border-top-0">
     <table class="trans_borders table m-0">
         <thead>
             <tr>
