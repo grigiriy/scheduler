@@ -1,4 +1,4 @@
-<div
+<div id="calend"
     class="card-header <?= $calend_days === '0' ? 'bg-transparent p-4' : 'bg-light p-3' ?>  border-bottom-0 border-top-0">
     <h4><?= $calend_header; ?></h4>
 </div>
@@ -16,7 +16,6 @@
         </thead>
         <tbody>
             <?php
-            global $now_incTZ;
             foreach($timers as $key=>$timer){
                 $timer = explode(',',$timer);
                     if( $calend_days === '0' || ($now_incTZ + (24*60*60*$calend_days) >= $timer[0]) ){

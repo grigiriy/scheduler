@@ -5,7 +5,7 @@ $user_id = get_current_user_id();
 ?>
 
 
-<div class="row mx-0 mb-3 p-3">
+<div class="row mx-0 mb-3 p-3" id="tutor">
     <div class="col-12">
         <p class="h2">Your tutor</p>
     </div>

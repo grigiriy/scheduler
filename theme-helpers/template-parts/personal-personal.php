@@ -5,7 +5,7 @@ $user_id = get_current_user_id();
 ?>
 
 
-<div class="card mx-0 mb-3 px-5 pb-5 pt-3 bg-white bottom_rounded shadow-lg">
+<div class="card mx-0 mb-3 px-5 pb-5 pt-3 bg-white bottom_rounded shadow-lg" id="data">
     <div class="row">
         <div class="col-12">
             <p class="h2">Your profile</p>
