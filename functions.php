@@ -98,9 +98,7 @@
   // $now_incTZ = strtotime("now");
   $_day = 60 * 60 * 24;
 
-?>
-
-<?php
+  
 // FINCTIONS, TO USE IN LAYOUT
 function display_day($next) {
   global $now_incTZ;
