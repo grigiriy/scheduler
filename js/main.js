@@ -105,6 +105,28 @@ $(document).ready(function () {
     $(this).parents('._not_set').next('._set').find('.edit').click();
   });
 
+  $('.timer_input')
+    .find('input')
+    .click(function () {
+      $(this).siblings('.edit').show();
+    });
+
+  $('.timer_input')
+    .find('.edit')
+    .click(function () {
+      val = $(this).siblings('input').val();
+      val =
+        val.indexOf('pm') !== -1
+          ? get_pm(val.replace(/\s\w\w/, ''))
+          : val.replace(/\s\w\w/, '');
+
+      function get_pm(val) {
+        _val = val.split(':');
+        _val[0] = parseInt(_val[0]) + 12;
+        return _val.join(':');
+      }
+    });
+
   $('#configs')
     .find('.edit')
     .click(function () {

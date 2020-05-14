@@ -51,9 +51,11 @@
                         </g>
                     </svg>
                 </span>
+                <span style="display:none" class="edit btn btn-link border-0 position-absolute mt-1">Update</span>
             </div>
 
         </div>
+
         <div class="d-flex">
             <div class="mr-3">
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +99,9 @@
 
                     </svg>
                 </span>
+                <span style="display:none" class="edit btn btn-link border-0 position-absolute mt-1">Update</span>
             </div>
+
         </div>
     </div>
 </div>
