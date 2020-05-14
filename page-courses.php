@@ -11,16 +11,8 @@ document.location.href = '/';
 </script>
 
 <?php
-} else {
-    global $now_incTZ;
+} else {    
     $user_id = get_current_user_id();
-    $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ?
-    carbon_get_user_meta( $user_id, 'next_lesson' ) :
-    strtotime(get_userdata( $user_id )->user_registered);
-    
-    set_query_var( 'now_incTZ', $now_incTZ );
-    set_query_var( 'is_time_to_add', is_time_to_add($next_lesson_adding_time) );
-    set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 
     while ( have_posts() ) :
         the_post();

@@ -1,4 +1,10 @@
 <?php
+global $now_incTZ;
+
+$next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ?
+carbon_get_user_meta( $user_id, 'next_lesson' ) :
+strtotime(get_userdata( $user_id )->user_registered);
+
 $yt_code = get_post_custom($_post->ID)['yt_code'][0];
 preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
 $yt_code = $matches[0];
@@ -8,7 +14,7 @@ $in_fav = in_array($_post->ID,$selected_posts);
 $course_level = get_the_terms($_post->ID,'course_level');
 $course_duration = get_the_terms($_post->ID,'course_duration');
 
-$launch_btn = $is_time_to_add ?
+$launch_btn = is_time_to_add($next_lesson_adding_time) ?
 ['onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary'] :
 ['data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
 ?>

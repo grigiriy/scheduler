@@ -35,7 +35,7 @@ $(document).ready(function () {
         filter.find('input[type="submit"]').val('Progress...'); // изменяем текст кнопки
       },
       success: function (data) {
-        filter.find('input[type="submit"]').val('Show lessons!'); // возвращаеи текст кнопки
+        filter.find('input[type="submit"]').val('Show lessons'); // возвращаеи текст кнопки
         $('#courses_wrapper').html(data);
         rerenderImages();
       },
@@ -129,8 +129,6 @@ $(document).ready(function () {
 
       let type = $(this).parents('.timer_input').data('type');
 
-      console.log('val', val);
-      console.log('type', type);
       save_data(type, val);
       hide();
     });
