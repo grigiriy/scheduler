@@ -17,6 +17,7 @@ Container::make( 'user_meta', 'Календарь' )
 WpGraphQLCrbContainer::register(
     Container::make( 'user_meta', 'Контактная информация' )
     ->add_fields( [
+        Field::make( 'text', 'avatar', 'Аватар' ),
         Field::make( 'text', 'phone', 'Телефон' ),
         Field::make( 'text', 'skype', 'Skype' ),
         Field::make( 'text', 'notify_email', 'Имейл для уведомлений' ),

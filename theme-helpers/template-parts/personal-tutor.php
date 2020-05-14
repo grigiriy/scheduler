@@ -10,7 +10,7 @@ $user_id = get_current_user_id();
         <p class="h2">Your tutor</p>
     </div>
     <div class="col-4 mt-3">
-        <img class="ava mw-100" src="<?= get_avatar_url($user_id); ?>" alt="">
+        <img class="ava mw-100" src="<?= carbon_get_user_meta($user_id,'avatar'); ?>" alt="">
     </div>
     <div class="col-8 mt-3">
         <p class="h5 mb-3">

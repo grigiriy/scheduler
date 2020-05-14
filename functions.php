@@ -51,6 +51,7 @@
   {
     wp_enqueue_script('master-script', get_template_directory_uri() . '/js/main.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
     wp_enqueue_script('timepicker', 'https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
+    // wp_enqueue_script('inputmask-multi', get_template_directory_uri() . '/js/jquery.inputmask-multi.min.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
   }
   add_action('wp_print_styles', 'theme_styles');
   add_action('wp_print_styles', 'theme_scripts');
@@ -366,13 +367,65 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED
 
 
+// UPDATE USER AVATAR
+function ava_file_upload(){
+  check_ajax_referer( 'uplfile', 'nonce' );
+  $user_id = intval($_POST['user_id']);
+  if( empty($_FILES) )
+    wp_send_json_error( 'Файлов нет...' );
+
+  $sizedata = getimagesize( $_FILES['upfile']['tmp_name'] );
+  $max_size = 2000;
+  
+  if( $sizedata[0]/*width*/ > $max_size || $sizedata[1]/*height*/ > $max_size )
+		wp_send_json_error( __('Картинка не может быть больше чем '. $max_size .'px в ширину или высоту...','km') );
+  
+  require_once ABSPATH . 'wp-admin/includes/image.php';
+  require_once ABSPATH . 'wp-admin/includes/file.php';
+  require_once ABSPATH . 'wp-admin/includes/media.php';
+
+  add_filter( 'upload_mimes', function( $mimes ){
+		return [
+			'jpg|jpeg|jpe' => 'image/jpeg',
+			'gif'          => 'image/gif',
+			'png'          => 'image/png',
+		];
+	} );
+
+	$uploaded_imgs = array();
+  
+	foreach( $_FILES as $file_id => $data ){
+    $attach_id = media_handle_upload( $file_id, 0 );
+
+		// ошибка
+		if( is_wp_error( $attach_id ) ) {
+			$uploaded_imgs[] = 'Ошибка загрузки файла `'. $data['name'] .'`: '. $attach_id->get_error_message();
+    } else {
+      $uploaded_imgs[] = wp_get_attachment_url( $attach_id );
+    }
+	}
+  carbon_set_user_meta($user_id,'avatar', $uploaded_imgs);
+	wp_send_json_success( $uploaded_imgs );
+}
+add_action('wp_ajax_ava_file_upload', 'ava_file_upload'); 
+// UPDATE USER AVATAR
 
 // UPDATE USER INFO
 function update_profile() {
   $user_id = intval($_POST['user_id']);
   $type = $_POST['type'];
   $value = htmlspecialchars($_POST['val']);
-  carbon_set_user_meta( $user_id, $type, $value);
+
+  if($type === 'first_name') {
+    $userdata = [
+      'ID' => $user_id,
+      'first_name' => $value,
+    ];
+    wp_update_user( $userdata );
+    print_r($userdata);
+  } else {
+    carbon_set_user_meta( $user_id, $type, $value);
+  }
 }
 add_action('wp_ajax_update_profile', 'update_profile'); 
 // UPDATE USER INFO

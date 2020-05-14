@@ -341,3 +341,12 @@ img.rounded-image {
   border: 1px dashed !important;
   cursor: pointer;
 }
+
+.name_field > span:first-child {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+
+input#_file {
+  display: none;
+}

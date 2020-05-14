@@ -3,6 +3,8 @@ const $ = jQuery;
 const $post_id = $('footer').data('post_id');
 const $user_id = $('footer').data('user_id');
 
+let file;
+
 function showText(e) {
   $(e).toggleClass('active');
   $('#text').toggle(300);
@@ -45,6 +47,64 @@ $(document).ready(function () {
     return false;
   });
 
+  $('#_file').change(function () {
+    $('#ava_img')[0].src = (window.URL ? URL : webkitURL).createObjectURL(
+      this.files[0]
+    );
+    file = this.files[0];
+  });
+
+  $('#_label').click(function () {
+    $(this).hide();
+    $('#_save').show();
+  });
+  $('#_save').click(function (e) {
+    event.stopPropagation();
+    e.preventDefault();
+    $(this).hide();
+    $('#_label').show();
+
+    if (typeof file == 'undefined') return;
+
+    let nonce = $(this).data('hash');
+    let data = new FormData();
+    data.append('fileName', file);
+    data.append('action', 'ava_file_upload');
+    data.append('nonce', nonce);
+    data.append('user_id', $user_id);
+
+    $.ajax({
+      url: '/wp-admin/admin-ajax.php',
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      data: data,
+      success: function (respond, status, jqXHR) {
+        if (typeof respond.error === 'undefined') {
+          // выведем пути загруженных файлов в блок '.ajax-reply'
+          var files_path = respond.files;
+          var html = '';
+          $.each(files_path, function (key, val) {
+            html += val + '<br>';
+          });
+          console.log(respond + ' - html');
+        } else {
+          console.log('ОШИБКА: ' + respond.data);
+        }
+      },
+      error: function (jqXHR, status, errorThrown) {
+        console.log('ОШИБКА: ' + jqXHR);
+      },
+    });
+  });
+
+  $('[data-new="true"]').click(function () {
+    $(this).parents('._not_set').hide();
+    $(this).parents('._not_set').next('._set').show();
+    $(this).parents('._not_set').next('._set').find('.edit').click();
+  });
+
   $('#configs')
     .find('.edit')
     .click(function () {
@@ -52,10 +112,12 @@ $(document).ready(function () {
       $(this).parent().next('.invalid-feedback').hide();
       if ($(this).hasClass('active')) {
         let text = $(this).prev('input').val();
-        if (validateEmail(text) !== true) {
+
+        if (validateField(text, type, this) !== true) {
           $(this).parent().next('.invalid-feedback').show();
           return false;
         }
+
         $(this).removeClass('active');
         $(this)
           .prev('input')
@@ -78,11 +140,23 @@ $(document).ready(function () {
     });
 });
 
-function validateEmail(mail) {
+function validateField(text, type) {
+  return type === 'notify_email' ? validateEmail(text) : validateText(text);
+}
+
+function validateText(text) {
+  if (text != '') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function validateEmail(text) {
   var pattern = /^[a-z0-9_-]+@[a-z0-9-]+\.[a-z]{2,6}$/i;
 
-  if (mail != '') {
-    if (mail.search(pattern) == 0) {
+  if (text != '') {
+    if (text.search(pattern) == 0) {
       return true;
     } else {
       return false;
@@ -100,6 +174,23 @@ function save_data(type, val) {
       action: 'update_profile',
       type: type,
       val: val,
+      user_id: $user_id,
+    }, // можно также передать в виде объекта
+    success: function (data) {
+      console.log(data);
+    },
+    error: function (errorThrown) {
+      console.log(errorThrown);
+    },
+  });
+}
+
+function file_upload(type, val) {
+  $.ajax({
+    url: '/wp-admin/admin-ajax.php',
+    type: 'POST',
+    data: {
+      action: 'file_upload',
       user_id: $user_id,
     }, // можно также передать в виде объекта
     success: function (data) {
@@ -175,3 +266,47 @@ function lesson_passed() {
     },
   });
 }
+
+// function validatePhone(_this) {
+//   var listCountries = $.masksSort(
+//     $.masksLoad(
+//       'https://cdn.rawgit.com/andr-04/inputmask-multi/master/data/phone-codes.json'
+//     ),
+//     ['#'],
+//     /[0-9]|#/,
+//     'mask'
+//   );
+//   var maskOpts = {
+//     inputmask: {
+//       definitions: {
+//         '#': {
+//           validator: '[0-9]',
+//           cardinality: 1,
+//         },
+//       },
+//       showMaskOnHover: false,
+//       autoUnmask: true,
+//       clearMaskOnLostFocus: false,
+//     },
+//     match: /[0-9]/,
+//     replace: '#',
+//     listKey: 'mask',
+//     onMaskChange: function (maskObj, completed) {
+//       if (completed) {
+//         var hint = maskObj.cc;
+//         $(_this).attr('data-hint', hint);
+//       }
+//     },
+//   };
+
+//   $(_this, 'input[name="mode"]').change(function () {
+//     $(_this).inputmask('remove');
+//     $(_this).inputmasks(
+//       $.extend(true, {}, maskOpts, {
+//         list: listCountries,
+//       })
+//     );
+//   });
+
+//   return true;
+// }
