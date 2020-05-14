@@ -10,7 +10,11 @@ switch ($key) {
         $color = 'peach';
         break;
 }
-$lesson_price = round($offer['price'] / $offer['count'], -1);
+$offer_price = preg_replace('~\D+~','', $offer['price']);
+
+$offer_count = preg_replace('~\D+~','', $offer['count']);
+
+$lesson_price = round($offer_price / $offer_count, -1);
 
 $discount = 100 -(($lesson_price * 100)/$default_price);
 ?>
@@ -20,8 +24,8 @@ $discount = 100 -(($lesson_price * 100)/$default_price);
         <div class="row">
             <div class="col-8">
                 <p class="mb-1 h6">Пакет из</p>
-                <p class="h4 mb-1"><?= $offer['count'];?> занятий</p>
-                <p class="text-muted smaller"> из них <?= $offer['count'] / 4 ?> с учителем</p>
+                <p class="h4 mb-1"><?= $offer_count;?> занятий</p>
+                <p class="text-muted smaller"> из них <?= $offer_count / 4 ?> с учителем</p>
             </div>
             <div class="col-4 pl-0 priceImg">
                 <img src="/wp-content/themes/scheduler_mvp/img/price_<?= $key; ?>.png?>"
@@ -34,7 +38,8 @@ $discount = 100 -(($lesson_price * 100)/$default_price);
 
         <div class="row mt-3">
             <div class="col-8">
-                <p class="h2 text-<?= $color;?>"><?= $offer['price']; ?> ₽</p>
+                <p class="h2 text-<?= $color;?> font-weight-bold"><?= number_format($offer_price,0,',',' '); ?> <span
+                        class="font-italic">₽</span></p>
             </div>
             <div class="col-4">
                 <p class="mb-0 h6"><?= $lesson_price;?> ₽</p>
