@@ -97,8 +97,10 @@ nav a[aria-current='page'] {
 .lesson_edit .rcl-custom-fields {
   display: none;
 }
-img.ava {
+.ava {
   max-width: 50px;
+}
+img.ava {
   border-radius: 50%;
 }
 
