@@ -11,6 +11,8 @@ Container::make( 'user_meta', 'Календарь' )
     Field::make( 'text', 'favor_lessons', 'Избранные уроки' ),
     Field::make( 'text', 'next_lesson', 'Cледующий урок' ),
     Field::make( 'text', 'paid_till', 'Оплачено до' ),
+    Field::make( 'text', 'mrng_practice', 'Утренняя практика' ),
+    Field::make( 'text', 'evng_practice', 'Вечерняя практика' ),
 ])
 );
 

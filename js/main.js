@@ -114,17 +114,25 @@ $(document).ready(function () {
   $('.timer_input')
     .find('.edit')
     .click(function () {
-      val = $(this).siblings('input').val();
+      let val = $(this).siblings('input').val();
+
       val =
         val.indexOf('pm') !== -1
           ? get_pm(val.replace(/\s\w\w/, ''))
           : val.replace(/\s\w\w/, '');
 
       function get_pm(val) {
-        _val = val.split(':');
-        _val[0] = parseInt(_val[0]) + 12;
-        return _val.join(':');
+        val = val.split(':');
+        val[0] = parseInt(val[0]) + 12;
+        return val.join(':');
       }
+
+      let type = $(this).parents('.timer_input').data('type');
+
+      console.log('val', val);
+      console.log('type', type);
+      save_data(type, val);
+      hide();
     });
 
   $('#configs')

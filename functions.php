@@ -251,7 +251,9 @@ function is_time_to_add($next_lesson_adding_time){
 // "ADDING NEW COURSE" TIMER
 function set_adding_timeout($user_id){
 
-  $user_timeRange = strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['mrng_practice'][0])+$timeZone_msc;
+  $user_timeRange = strtotime(carbon_get_user_meta($user_id,'mrng_practice'))
+  ? strtotime(carbon_get_user_meta($user_id,'mrng_practice'))+$timeZone_msc
+  : strtotime(carbon_get_user_meta(1,'mrng_practice'))+$timeZone_msc;
 
   global $now_incTZ;
   global $_day;
@@ -410,6 +412,7 @@ function ava_file_upload(){
 add_action('wp_ajax_ava_file_upload', 'ava_file_upload'); 
 // UPDATE USER AVATAR
 
+
 // UPDATE USER INFO
 function update_profile() {
   $user_id = intval($_POST['user_id']);
@@ -456,9 +459,13 @@ function get_schedule($frequency,$user_id) {
   global $timeZone_msc;
 
   $user_timeRange = [
-    strtotime(get_user_meta($user_id)['mrng_practice'][0]) ? strtotime(get_user_meta($user_id)['mrng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['mrng_practice'][0])+$timeZone_msc,
-    // strtotime(get_user_meta($user_id)['daily_practice'][0]) ? strtotime(get_user_meta($user_id)['daily_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['daily_practice'][0])+$timeZone_msc,
-    strtotime(get_user_meta($user_id)['evng_practice'][0]) ? strtotime(get_user_meta($user_id)['evng_practice'][0])+$timeZone_msc : strtotime(get_user_meta(1)['evng_practice'][0])+$timeZone_msc
+    strtotime(carbon_get_user_meta($user_id,'mrng_practice'))
+    ? strtotime(carbon_get_user_meta($user_id,'mrng_practice'))+$timeZone_msc
+    : strtotime(carbon_get_user_meta(1,'mrng_practice'))+$timeZone_msc,
+
+    strtotime(carbon_get_user_meta($user_id,'evng_practice'))
+    ? strtotime(carbon_get_user_meta($user_id,'evng_practice'))+$timeZone_msc
+    : strtotime(carbon_get_user_meta(1,'evng_practice'))+$timeZone_msc
   ];
 
 	$schedules['Light'] = [

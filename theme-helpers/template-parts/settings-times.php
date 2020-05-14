@@ -26,9 +26,10 @@
                     </g>
                 </svg>
             </div>
-            <div class="mb-3 timer_input">
+            <div class="mb-3 timer_input" data-type="mrng_practice">
                 <label>Learn new material with teacher</label>
-                <input type="text" class="w-50 p-2 timepicker bg-lightGrey rounded-lg border-0" placeholder="8:00 am">
+                <input type="text" class="w-50 p-2 timepicker bg-lightGrey rounded-lg border-0"
+                    value="<?= carbon_get_user_meta($user_id,'mrng_practice');?>">
                 <span class="top_angle">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
@@ -72,9 +73,10 @@
                     </g>
                 </svg>
             </div>
-            <div class="mb-3 timer_input">
+            <div class="mb-3 timer_input" data-type="evng_practice">
                 <label>Repetition of material</label>
-                <input type="text" class="w-50 p-2 timepicker bg-lightGrey rounded-lg border-0" placeholder="7:30 pm">
+                <input type="text" class="w-50 p-2 timepicker bg-lightGrey rounded-lg border-0"
+                    value="<?= carbon_get_user_meta($user_id,'evng_practice');?>">
                 <span class="top_angle">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
