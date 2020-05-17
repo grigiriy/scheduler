@@ -365,3 +365,15 @@ svg.icon {
   right: 0;
   bottom: -20px;
 }
+.me-modal {
+  margin-top: 30vh;
+}
+.me-modal button.close {
+  margin-top: -1.5em;
+  margin-right: -1em;
+  opacity: 1;
+}
+.me-modal button.close span {
+  font-size: 2.5em;
+  color: #333;
+}

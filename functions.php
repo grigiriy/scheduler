@@ -44,8 +44,9 @@
   // start
   function theme_styles()
   {
-    wp_enqueue_style('timepicker','https:////cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css',[], STATIC_FILES_BUILD_VERSION);
-    wp_enqueue_style('master-style', get_template_directory_uri() . '/css/main.css',[], STATIC_FILES_BUILD_VERSION);
+    wp_enqueue_style('bootstrap','https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',[], STATIC_FILES_BUILD_VERSION);
+    wp_enqueue_style('timepicker','https:////cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css',['bootstrap'], STATIC_FILES_BUILD_VERSION);
+    wp_enqueue_style('main', get_template_directory_uri() . '/css/main.css',['timepicker'], STATIC_FILES_BUILD_VERSION);
   }
   function theme_scripts()
   {
@@ -498,6 +499,18 @@ function get_passed_lessons_arr($user_id){
 );
 wp_reset_postdata();
 return count(get_posts($args));
+}
+
+## Оставляет пользователя на той же странице при вводе неверного логина/пароля в форме авторизации wp_login_form() //wp-kama
+add_action( 'wp_login_failed', 'my_front_end_login_fail' );
+function my_front_end_login_fail( $username ) {
+	$referrer = $_SERVER['HTTP_REFERER'];  // откуда пришел запрос
+
+	// Если есть referrer и это не страница wp-login.php
+	if( !empty($referrer) && !strstr($referrer,'wp-login') && !strstr($referrer,'wp-admin') ) {
+		wp_redirect( add_query_arg('login', 'failed', $referrer ) );  // редиркетим и добавим параметр запроса ?login=failed
+		exit;
+	}
 }
 
 // function add_to_missed($user_id,$current_lesson_key,$current_lesson_val){

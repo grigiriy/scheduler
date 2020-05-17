@@ -14,8 +14,11 @@
                     <p class="mt-3 mb-0">Get your free course!</p>
                     <p class="h3">8 (800) 555-45-22</p>
                 </div>
-                <button class="d-block btn btn-warning btn-round py-3 px-5 mx-auto align-self-center">Try free!</button>
-                <button class="d-block btn btn-primary btn-round py-3 px-5 ml-auto align-self-center">
+                <button type="button" class="d-block btn btn-warning btn-round py-3 px-5 mx-auto align-self-center"
+                    data-target="#regModal" data-toggle="modal">Try
+                    free!</button>
+                <button type="button" class="d-block btn btn-primary btn-round py-3 px-5 ml-auto align-self-center"
+                    data-target="#authModal" data-toggle="modal">
                     <svg viewBox="-42 0 512 512.002" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                         class="icon mr-1">
                         <!-- Icons made by Freepik(https://www.flaticon.com/authors/freepik) from Flaticon (https://www.flaticon.com/) -->
@@ -46,6 +49,7 @@
         </div>
     </div>
 </footer>
+<?php get_template_part('/theme-helpers/template-parts/modal','auth'); ?>
 <?php wp_footer() ?>
 </body>
 
