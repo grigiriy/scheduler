@@ -49,9 +49,13 @@
   }
   function theme_scripts()
   {
-    wp_enqueue_script('master-script', get_template_directory_uri() . '/js/main.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
-    wp_enqueue_script('timepicker', 'https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
     // wp_enqueue_script('inputmask-multi', get_template_directory_uri() . '/js/jquery.inputmask-multi.min.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
+    
+    wp_enqueue_script('timepicker', 'https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js',['jquery'], STATIC_FILES_BUILD_VERSION, true);
+    wp_enqueue_script('master-script', get_template_directory_uri() . '/js/main.js',['bootstrap'], STATIC_FILES_BUILD_VERSION, true);
+    wp_enqueue_script('popper', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',['timepicker'], STATIC_FILES_BUILD_VERSION, true);
+    wp_enqueue_script('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js',['popper'], STATIC_FILES_BUILD_VERSION, true);
+
   }
   add_action('wp_print_styles', 'theme_styles');
   add_action('wp_print_styles', 'theme_scripts');

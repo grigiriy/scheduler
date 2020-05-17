@@ -57,7 +57,7 @@ $launch_btn = is_time_to_add($next_lesson_adding_time) ?
         <div class="d-flex mt-4 mb-3">
 
             <button class="btn btn-<?= $launch_btn[1] ?> btn-round px-4 py-3" <?= $launch_btn[0] ?>>Choose this lesson
-                <span class="arrow_symbol"> ⟶</span></button>
+                <span class="arrow_symbol ml-3">⟶</span></button>
 
 
             <span class="favorite_btn ml-auto my-2 <?= $in_fav === true ? 'active' : '' ?>"

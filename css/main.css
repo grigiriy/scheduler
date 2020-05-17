@@ -9,6 +9,9 @@ body {
 .smaller {
   font-size: 0.8em;
 }
+.text-underline {
+  text-decoration: underline;
+}
 nav {
   justify-content: space-between;
   margin-bottom: 20px;
@@ -200,7 +203,7 @@ img.ava {
   line-height: 1px;
   font-size: 24px;
   vertical-align: initial;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 
 .card-columns.count_2 {
@@ -351,4 +354,14 @@ img.rounded-image {
 
 input#_file {
   display: none;
+}
+footer {
+  background-color: #e0f5e6;
+}
+svg.icon {
+  max-width: 25px;
+}
+._reg {
+  right: 0;
+  bottom: -20px;
 }

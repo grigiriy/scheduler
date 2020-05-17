@@ -18,6 +18,6 @@ $user_id = get_current_user_id();
         </p>
         <p class="smaller my-1">Phone: <span><?= carbon_get_user_meta( $user_id, 'phone' ) ?></span></p>
         <p class="smaller my-1">Skype: <span><?= carbon_get_user_meta( $user_id, 'skype' ) ?></span></p>
-        <a class="smaller my-1" href="/">Подробнее<span class="arrow_symbol">⟶</span></a>
+        <a class="smaller my-1" href="/">Подробнее<span class="arrow_symbol ml-3">⟶</span></a>
     </div>
 </div>
