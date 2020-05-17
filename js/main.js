@@ -295,6 +295,11 @@ function lesson_passed() {
   });
 }
 
+function changeModals(e) {
+  $(e).parents('.modal').modal('hide');
+  $(e).parents('.modal').siblings('.modal').modal('show');
+}
+
 // function validatePhone(_this) {
 //   var listCountries = $.masksSort(
 //     $.masksLoad(
