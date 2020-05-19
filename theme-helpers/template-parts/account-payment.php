@@ -8,8 +8,7 @@ if(
     $role !== 'editor' 
 ){ ?>
 
-<div class="card top_rounded shadow-lg <?= $is_personal ? 'p-5 ':'p-4'?><?= $paysoon ? 'bg-danger' : '' ?>">
-
+<div class="card top_rounded shadow-lg <?= $is_personal ? 'p-5 ':'p-4 '?><?= $paysoon ? 'bg-danger' : '' ?>">
     <div class="d-flex">
         <?php if ( $paysoon ) { ?>
         <svg class="mr-3" id="Layer_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512" width="55px"
