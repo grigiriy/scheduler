@@ -101,3 +101,13 @@ WpGraphQLCrbContainer::register(
         ])
     ])
 );
+
+
+
+WpGraphQLCrbContainer::register(
+Container::make( 'theme_options', 'Опции' )
+    ->add_fields( [
+        Field::make( 'checkbox', 'teacher', 'С учителем' )
+        ->set_option_value( 'true' ),
+    ] )
+);

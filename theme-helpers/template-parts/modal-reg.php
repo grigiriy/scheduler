@@ -1,5 +1,4 @@
 <div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-hidden="true">
-    aria-hidden="true">
     <div class="modal-dialog me-modal">
         <div class="modal-content bottom_rounded top_rounded">
             <div class="modal-header border-0 pb-0">
@@ -17,10 +16,11 @@
 
                         <input class="form-control" type="email" name="user_email" placeholder="Email" value="" />
                     </p>
+                    <?php if( carbon_get_theme_option( 'teacher' ) ) {?>
                     <p>
-
                         <input class="form-control" type="text" name="phone" placeholder="Phone" value="" />
                     </p>
+                    <?php } ?>
                     <p class="text-center my-4">
                         <input type="submit" name="wp-submit" class="btn btn-primary btn-round px-4 py-2"
                             value="Sign in" tabindex="100" />

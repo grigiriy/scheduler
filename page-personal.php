@@ -76,16 +76,8 @@ set_query_var( 'now_incTZ', $now_incTZ );
 set_query_var( 'frequency', $frequency );
 ?>
 
-<div class="col-12 ">
+<div class="col-12 mb-3">
     <h1>Your profile</h1>
-</div>
-
-<div class="col-12 mb-5">
-    <div class="d-flex justify-content-between w-50">
-        <a href="#data" class="text-dark"><u>Your data</u></a>
-        <a href="#calend" class="text-dark"><u>Learning calendar</u></a>
-        <a href="#tutor" class="text-dark"><u>Your tutor</u></a>
-    </div>
 </div>
 
 <div class="col-md-8 col-sm-12 pr-5">
@@ -103,12 +95,13 @@ set_query_var( 'frequency', $frequency );
 </div>
 
 <div class="col-md-4 col-sm-12 px-0">
+    <?php if( carbon_get_theme_option( 'teacher' ) ) { ?>
     <div class="card shadow-lg bottom_rounded top_rounded py-3 mb-5">
         <?php
         get_template_part('theme-helpers/template-parts/personal','tutor'); 
         ?>
     </div>
-
+    <?php } ?>
     <div class="card shadow-lg bottom_rounded top_rounded py-3">
         <?php
         get_template_part('theme-helpers/template-parts/account','dashboard'); 

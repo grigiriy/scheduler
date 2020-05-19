@@ -47,7 +47,7 @@
                     </div>
                 </p>
 
-
+                <?php if( carbon_get_theme_option( 'teacher' ) ) {?>
                 <div class="row mt-3 _not_set"
                     style="<?= carbon_get_user_meta( $user_id, 'phone') ? 'display:none' :'' ?>">
                     <div class="col-2">
@@ -77,7 +77,7 @@
                         Please write valid phone
                     </div>
                 </p>
-
+                <?php } ?>
 
                 <div class="row mt-3 _not_set"
                     style="<?= carbon_get_user_meta( $user_id, 'notify_email') ? 'display:none' :'' ?>">
@@ -111,7 +111,7 @@
                     </div>
                 </p>
 
-
+                <?php if( carbon_get_theme_option( 'teacher' ) ) {?>
                 <div class="row mt-3 _not_set"
                     style="<?= carbon_get_user_meta( $user_id, 'skype') ? 'display:none' :'' ?>">
                     <div class="col-2">
@@ -141,7 +141,7 @@
                         Your skype username can't be empty
                     </div>
                 </p>
-
+                <?php } ?>
 
 
                 <div class="row mt-3">

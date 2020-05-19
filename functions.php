@@ -519,8 +519,9 @@ function my_front_end_login_fail( $username ) {
 
 // output the form field (on base wp-login page)
 add_action('register_form', 'ad_register_fields');
-function ad_register_fields() {
-?>
+  function ad_register_fields() {
+    if( carbon_get_theme_option( 'teacher' ) ) {
+    ?>
 <p>
     <label for="phone"><br />
         <input type="firstname" name="phone" id="firstname" class="input"
@@ -528,32 +529,36 @@ function ad_register_fields() {
     </label>
 </p>
 <?php
+  }
 }
 
-// save phone
-add_filter('pre_user_login', 'ad_user_phone');
-function ad_user_phone($phone) {
-    if (isset($_POST['phone'])) {
-        $phone = $_POST['phone'];
+  // save phone
+  add_filter('pre_user_login', 'ad_user_phone');
+  function ad_user_phone($phone) {
+      if (isset($_POST['phone'])) {
+          $phone = $_POST['phone'];
+      }
+      return $phone;
+  }
+
+  add_filter( 'registration_errors', 'ma_validate_user_data' );
+  function ma_validate_user_data( $errors ){
+    if( carbon_get_theme_option( 'teacher' ) ) {
+      if( empty($_POST['phone']) ) {
+        $errors->add('empty_user_phone', 'Укажите номер телефона' );
     }
-    return $phone;
+  }
+  return $errors;
 }
+
+  // обновление метаданных пользователя
+  add_action( 'user_register', 'ma_user_registration' );
+  function ma_user_registration( $user_id ) {
+    carbon_set_user_meta( $user_id, 'phone', $_POST['phone'] );
+  }
 
 
 
-add_filter( 'registration_errors', 'ma_validate_user_data' );
-function ma_validate_user_data( $errors ){
-	if( empty($_POST['phone']) ) {
-		$errors->add('empty_user_phone', 'Укажите номер телефона' );
-}
-	return $errors;
-}
-
-// обновление метаданных пользователя
-add_action( 'user_register', 'ma_user_registration' );
-function ma_user_registration( $user_id ) {
-  carbon_set_user_meta( $user_id, 'phone', $_POST['phone'] );
-}
 
 // function add_to_missed($user_id,$current_lesson_key,$current_lesson_val){
 //   $missed = carbon_get_user_meta( intval($user_id), 'schedule['.$current_lesson_key.']/missed_lessons');
