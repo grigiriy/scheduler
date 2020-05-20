@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Single
+ * Template Name: Author
  */
 get_header();
 ?>

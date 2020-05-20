@@ -1,7 +1,6 @@
 <?php
 /**
 * Template Name: Lesson
- * Template Post Type: lessons
  */
 get_header();
 
@@ -32,7 +31,6 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     wp_reset_postdata();
 
     $yt_code = get_post_custom()['yt_code'][0];
-    $pdf = get_post_custom(get_post_custom()['PDF'][0])['_wp_attached_file'][0];
     preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
     $yt_code = $matches[0];
     
@@ -103,8 +101,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 
 </div>
 <div class="row col-12 mx-0">
-    <?php $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
-    if( $type === 'with-teacher' ) { ?>
+    <?php $type = get_the_terms( $post_id, 'course_type' )[0]->slug; ?>
 
 
     <div class="col-6 pl-0" style="display:none" id="text">
@@ -114,25 +111,6 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 
     </div>
     <div id="player" class="mb-5"></div>
-    <?php
-
-        } else if( $type === 'self'  ) {
-
-        ?>
-    <div class="pdf col-12">
-        <embed src="/wp-content/uploads/<?= $pdf; ?>" width="100%" height="470px" />
-        <div class="d-flex justify-content-between">
-            <a target="_blank" href="/wp-content/uploads/<?= $pdf; ?>">Open in new window</a>
-            <a download="<?= get_the_title(); ?> PDF" target="_blank"
-                href="/wp-content/uploads/<?= $pdf; ?>">Download</a>
-        </div>
-    </div>
-    <!-- <a href="http://www.google.com/calendar/event?
-            action=TEMPLATE
-            &text=event-title
-            &dates=[start-custom format=' Ymd\\THi00\\Z']/[end-custom format='Ymd\\THi00\\Z' ] &details=[description]
-            &location=[location] &trp=false &sprop=&sprop=name:" target="_blank" rel="nofollow">Add to my calendar</a>
-            -->
     <?php } ?>
 </div>
 </div>

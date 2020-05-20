@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Single
+ * Template Name: Archive
  */
 get_header();
 while ( have_posts() ) :
