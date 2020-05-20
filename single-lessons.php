@@ -30,13 +30,13 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     }
     wp_reset_postdata();
 
-    $yt_code = get_post_custom()['yt_code'][0];
-    preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
-    $yt_code = $matches[0];
-    
     global $now_incTZ;
     $post_id = $post->ID;
     $user_id = get_current_user_id();
+
+    $yt_code = carbon_get_post_meta($post_id,'yt_code');
+    preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
+    $yt_code = $matches[0];
 
 
     $frequency = get_user_meta($user_id)['frequency'][0];
@@ -111,7 +111,6 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 
     </div>
     <div id="player" class="mb-5"></div>
-    <?php } ?>
 </div>
 </div>
 <script>

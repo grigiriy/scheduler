@@ -5,7 +5,7 @@ $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ?
 carbon_get_user_meta( $user_id, 'next_lesson' ) :
 strtotime(get_userdata( $user_id )->user_registered);
 
-$yt_code = get_post_custom($_post->ID)['yt_code'][0];
+$yt_code = carbon_get_post_meta($post_id,'yt_code');
 preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
 $yt_code = $matches[0];
 

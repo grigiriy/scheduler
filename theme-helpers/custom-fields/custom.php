@@ -31,15 +31,16 @@ WpGraphQLCrbContainer::register(
 WpGraphQLCrbContainer::register(
 Container::make( 'post_meta', 'Course details' )
 ->where( 'post_type', '=', 'lessons' )
-// ->add_tab( 'course text', [
-//     Field::make( 'complex', 'detailed_sentences', 'Detailed sentences' )
-//     ->add_fields( [
-//         Field::make('rich_text', 'sentence', 'Sentence')
-//         ->set_width( 50 ),
-//         Field::make('textarea', 'note_1', 'Note')
-//         ->set_width( 50 ),
-//     ])
-// ])
+->add_tab( 'course info', [
+    // Field::make( 'complex', 'detailed_sentences', 'Detailed sentences' )
+    // ->add_fields( [
+    //     Field::make('rich_text', 'sentence', 'Sentence')
+    //     ->set_width( 50 ),
+    //     Field::make('textarea', 'note_1', 'Note')
+    //     ->set_width( 50 ),
+    // ])
+    Field::make('text', 'yt_code', 'YouTube code')
+])
 ->add_tab( 'lesson schedule', [
     Field::make('text', 'course_author_id', 'Teacher')
     ->set_width( 40 ),
