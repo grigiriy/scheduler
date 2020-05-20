@@ -300,6 +300,22 @@ function changeModals(e) {
   $(e).parents('.modal').siblings('.modal').modal('show');
 }
 
+function log_out() {
+  $.ajax({
+    url: '/wp-admin/admin-ajax.php',
+    type: 'POST',
+    data: {
+      action: 'log_out',
+    },
+    success: function (data) {
+      location.reload();
+    },
+    error: function (errorThrown) {
+      console.log(errorThrown);
+    },
+  });
+}
+
 // function validatePhone(_this) {
 //   var listCountries = $.masksSort(
 //     $.masksLoad(

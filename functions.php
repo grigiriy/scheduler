@@ -40,7 +40,6 @@
     }
   }
 
-
   // start
   function theme_styles()
   {
@@ -239,6 +238,14 @@ function myfilter() {
 // прояснить с тегами - ор или энд
 wp_die();
 }
+
+add_action('wp_ajax_log_out', 'log_out'); 
+function log_out(){
+  wp_logout();
+  wp_die();
+  return true;
+}
+
 
 add_action('wp_ajax_myfilter', 'myfilter'); 
 add_action('wp_ajax_nopriv_myfilter', 'myfilter');
