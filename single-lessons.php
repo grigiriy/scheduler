@@ -101,9 +101,6 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 
 </div>
 <div class="row col-12 mx-0">
-    <?php $type = get_the_terms( $post_id, 'course_type' )[0]->slug; ?>
-
-
     <div class="col-6 pl-0" style="display:none" id="text">
         <div class="bottom_rounded bg-white py-5 px-4">
             <?php the_content(); ?>
