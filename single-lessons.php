@@ -104,18 +104,12 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 </div>
 <div class="row col-12 mx-0">
     <?php $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
-    if( $type === 'with-teacher' ) {
-    $detailed_sentences = carbon_get_post_meta($post_id, 'detailed_sentences'); ?>
+    if( $type === 'with-teacher' ) { ?>
+
 
     <div class="col-6 pl-0" style="display:none" id="text">
         <div class="bottom_rounded bg-white py-5 px-4">
-
-
-            <?php foreach($detailed_sentences as $detailed_sentence){ ?>
-            <p class="py-1" data-toggle="popover" data-placement="top"
-                data-content='<?= $detailed_sentence["note_1"] ?>'>
-                <?= $detailed_sentence['sentence'] ?></p>
-            <?php } ?>
+            <?php the_content(); ?>
         </div>
 
     </div>

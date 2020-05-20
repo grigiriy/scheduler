@@ -31,15 +31,15 @@ WpGraphQLCrbContainer::register(
 WpGraphQLCrbContainer::register(
 Container::make( 'post_meta', 'Course details' )
 ->where( 'post_type', '=', 'lessons' )
-->add_tab( 'course text', [
-    Field::make( 'complex', 'detailed_sentences', 'Detailed sentences' )
-    ->add_fields( [
-        Field::make('textarea', 'sentence', 'Sentence')
-        ->set_width( 50 ),
-        Field::make('textarea', 'note_1', 'Note')
-        ->set_width( 50 ),
-    ])
-])
+// ->add_tab( 'course text', [
+//     Field::make( 'complex', 'detailed_sentences', 'Detailed sentences' )
+//     ->add_fields( [
+//         Field::make('rich_text', 'sentence', 'Sentence')
+//         ->set_width( 50 ),
+//         Field::make('textarea', 'note_1', 'Note')
+//         ->set_width( 50 ),
+//     ])
+// ])
 ->add_tab( 'lesson schedule', [
     Field::make('text', 'course_author_id', 'Teacher')
     ->set_width( 40 ),
@@ -92,7 +92,7 @@ Container::make( 'post_meta', 'Пакеты' )
 );
 
 WpGraphQLCrbContainer::register(
-    Container::make( 'post_meta', 'Пакеты' )
+    Container::make( 'post_meta', 'Режимы' )
     ->where( 'post_template', '=', 'page-modes.php' )
     ->add_tab( 'modes', [
         Field::make( 'complex', 'modes', 'Режимы' )

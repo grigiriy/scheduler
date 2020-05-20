@@ -329,12 +329,6 @@ img.rounded-image {
   transform: rotate(180deg);
 }
 
-#text p {
-  transition: all 0.2s;
-}
-#text p:hover {
-  color: #777;
-}
 .priceImg {
   height: 110px;
 }
