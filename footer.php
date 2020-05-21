@@ -1,6 +1,6 @@
 </main>
 </div>
-<footer class="container-fluid mt-5 pt-5" data-post_id="<?= $post->ID; ?>"
+<footer class="container-fluid mt-5 py-5" data-post_id="<?= $post->ID; ?>"
     data-user_id="<?= get_current_user_id(); ?> ">
     <div class="container">
         <div class="row">

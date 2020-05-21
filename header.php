@@ -23,9 +23,9 @@
             </div>
             <div class="mr-2">
                 <a href="/payment/" class="d-block p-2">
-                    <svg version="1.1" class="ava text-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512"
-                        fill="currentColor">
+                    <svg version="1.1" class="ava w-100 text-dark" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        enable-background="new 0 0 512 512" fill="currentColor">
                         <!-- Icons made by Vectors Market( https://www.flaticon.com/authors/vectors-market) from Flaticon (https://www.flaticon.com/) -->
                         <g>
                             <g>
@@ -42,7 +42,7 @@
             </div>
             <div>
                 <a href="/help/" class="d-block p-2">
-                    <svg version="1.1" class="ava text-dark" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    <svg version="1.1" class="ava w-100 text-dark" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
                         style="enable-background:new 0 0 512 512;" xml:space="preserve" fill="currentColor">
                         <!-- Icons made by Those Icons (https://www.flaticon.com/authors/those-icons) from Flaticon (https://www.flaticon.com/) -->

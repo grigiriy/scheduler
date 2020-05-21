@@ -1,6 +1,6 @@
-<div class="d-flex">
+<div class="d-flex soc_btns">
     <a href="#facebook" class="pr-3">
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        <svg version="1.1" class="w-100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             x="0px" y="0px" viewBox="0 0 112.196 112.196" style="enable-background:new 0 0 112.196 112.196;"
             xml:space="preserve">
             <g>
@@ -13,7 +13,7 @@
         </svg>
     </a>
     <a href="#vk" class="px-3">
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        <svg version="1.1" class="w-100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             x="0px" y="0px" viewBox="0 0 112.196 112.196" style="enable-background:new 0 0 112.196 112.196;"
             xml:space="preserve">
             <g>
@@ -36,7 +36,7 @@
         </svg>
     </a>
     <a href="#telegram" class="pl-3">
-        <svg enable-background="new 0 0 24 24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-100" enable-background="new 0 0 24 24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <!-- Icons made by Freepik (https://www.flaticon.com/authors/freepik) from Flaticon (https://www.flaticon.com/) -->
             <circle cx="12" cy="12" fill="#039be5" r="12" />
             <path

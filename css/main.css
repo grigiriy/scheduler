@@ -1,3 +1,19 @@
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1380px;
+  }
+}
+@media (min-width: 1680px) {
+  .container {
+    max-width: 1620px;
+  }
+}
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1860px;
+  }
+}
+
 body {
   background: rgb(255, 199, 237);
   background: linear-gradient(
@@ -160,6 +176,7 @@ img.ava {
   display: block;
   margin: auto;
   max-width: 30px;
+  width: 100%;
 }
 
 .circle-bg {
@@ -387,4 +404,8 @@ textarea.rounded_1 {
 }
 textarea.resize_none {
   resize: none;
+}
+
+.soc_btns svg {
+  max-width: 60px;
 }
