@@ -371,3 +371,20 @@ svg.icon {
   font-size: 2.5em;
   color: #333;
 }
+
+#help_accord > .card > .card-header svg {
+  transition: all 0.2s;
+  /* transform: rotate(-180deg); */
+}
+
+#help_accord > .card > .card-header[aria-expanded='true'] svg {
+  /* transform: rotate(0); */
+  transform: rotate(-180deg);
+}
+
+textarea.rounded_1 {
+  border-radius: 1rem;
+}
+textarea.resize_none {
+  resize: none;
+}
