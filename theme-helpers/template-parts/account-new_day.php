@@ -11,8 +11,7 @@
             </div>
 
             <div class="d-flex justify-content-around pt-5 my-5">
-                <a href="/courses/" class="btn btn-warning btn-round py-3 px-4">Add next material</a>
-                <a href="/courses/" class="btn btn-primary btn-round py-3 px-4">Choose next material</a>
+                <a href="/courses/" class="btn btn-warning btn-round py-3 px-5">Add next material</a>
             </div>
         </div>
     </div>
