@@ -111,7 +111,7 @@ $(document).ready(function () {
   $('.timer_input')
     .find('input')
     .click(function () {
-      $(this).siblings('.edit').show();
+      $(this).siblings('.edit').fadeIn(100);
     });
 
   $('.timer_input')
@@ -133,7 +133,8 @@ $(document).ready(function () {
       let type = $(this).parents('.timer_input').data('type');
 
       save_data(type, val);
-      hide();
+      $(this).text('Success!');
+      setTimeout(() => $(this).fadeOut(300), 500);
     });
 
   $('#configs')
@@ -170,6 +171,19 @@ $(document).ready(function () {
       }
     });
 });
+
+function go_third(e) {
+  const parents = [
+    $("[data-type='mrng_practice']").find('input').val(),
+    $("[data-type='evng_practice']").find('input').val(),
+  ];
+  if (parents[0] !== '' && parents[1] !== '') {
+    $('#element').popover('disable');
+    third_step();
+  } else {
+    $('#element').popover('enable');
+  }
+}
 
 function validateField(text, type) {
   return type === 'notify_email' ? validateEmail(text) : validateText(text);
@@ -318,6 +332,8 @@ function set_mode(e, $user_id) {
     success: function (data) {
       if (new_step) {
         second_step();
+      } else {
+        location.reload();
       }
     },
     error: function (errorThrown) {

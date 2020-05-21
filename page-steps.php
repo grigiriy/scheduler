@@ -29,6 +29,13 @@ document.location.href = '/';
 ?>
 <div class="container" id="steps">
 
+    <div class="row">
+        <button class="btn btn-light px-4 py-3" onclick="first_step()">1</button>
+        <button class="btn btn-light px-4 py-3" onclick="second_step()">2</button>
+        <button class="btn btn-light px-4 py-3" onclick="third_step()">3</button>
+        <button class="btn btn-light px-4 py-3" onclick="fourth_step()">4</button>
+    </div>
+
     <div id="step_1" class="row">
         <?php get_template_part('theme-helpers/template-parts/steps','first'); ?>
     </div>
@@ -51,14 +58,35 @@ const step_2 = steps.querySelector('#step_2');
 const step_3 = steps.querySelector('#step_3');
 const step_4 = steps.querySelector('#step_4');
 window.onload = function() {
+    first_step()
+};
+
+function first_step() {
+    step_1.style.display = 'flex';
     step_2.style.display = 'none';
     step_3.style.display = 'none';
     step_4.style.display = 'none';
-};
+}
 
 function second_step() {
     step_1.style.display = 'none';
-    step_2.style.display = 'block';
+    step_2.style.display = 'flex';
+    step_3.style.display = 'none';
+    step_4.style.display = 'none';
+}
+
+function third_step() {
+    step_1.style.display = 'none';
+    step_2.style.display = 'none';
+    step_3.style.display = 'flex';
+    step_4.style.display = 'none';
+}
+
+function fourth_step() {
+    step_1.style.display = 'none';
+    step_2.style.display = 'none';
+    step_3.style.display = 'none';
+    step_4.style.display = 'flex';
 }
 </script>
 <?php

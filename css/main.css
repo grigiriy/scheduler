@@ -443,3 +443,7 @@ textarea.resize_none {
 .mode_card.selected.recommended:before {
   content: 'Recommended';
 }
+
+.steps_view input {
+  width: 100%;
+}
