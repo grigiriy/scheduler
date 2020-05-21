@@ -198,7 +198,7 @@ function validateText(text) {
 }
 
 function validateEmail(text) {
-  var pattern = /^[a-z0-9_-]+@[a-z0-9-]+\.[a-z]{2,6}$/i;
+  var pattern = /^[a-z0-9._-]+@[a-z0-9-]+\.[a-z]{2,6}$/i;
 
   if (text != '') {
     if (text.search(pattern) == 0) {
