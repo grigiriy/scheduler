@@ -1,7 +1,10 @@
 <?php
 $role = wp_get_current_user()->roles[0];
-$paysoon = $now_incTZ + 3*24*60*60 >= $paid;
-$is_personal = isset($calend_days); //КОСТЫЛЬ!
+$paysoon = 3 >= $paid;
+$is_personal = isset($calend_days); //КОСТЫЛЬ - проверяет на какой странице по наличию переденной из родителя переменной календ_дейз
+
+
+
 if(
     // $role === 'administrator' ||
     $role !== 'author' &&
@@ -81,9 +84,12 @@ if(
         </svg>
         <?php } ?>
         <div class="mr-auto <?= ( $paysoon ) ? 'text-white' : '' ?>">
-            <p class="mb-0">Lessons paid by</p>
+            <p class="mb-0">You've got</p>
             <p class="h3">
-                <?= getdate($paid)['mday'] .' '. getdate($paid)['month'] .' '.getdate($paid)['year'] ?>
+                <?php
+                // echo getdate($paid)['mday'] .' '. getdate($paid)['month'] .' '.getdate($paid)['year'];
+                echo $paid . ' new lessons';
+                ?>
             </p>
         </div>
         <?php if ($paysoon){
@@ -92,7 +98,7 @@ if(
     <?php } ?>
     <a href="/payment/"
         class="<?= ( $is_personal ) ? '' : 'mt-3' ?> mr-auto d-flex align-self-center btn btn-warning btn-round px-5 py-3">
-        Buy new lessons!
+        Buy more lessons!
     </a>
     <?php
         }

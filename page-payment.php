@@ -18,7 +18,7 @@ document.location.href = '/';
 global $now_incTZ;
 $user_id = get_current_user_id();
 // $frequency = get_user_meta($user_id)['frequency'][0];
-$paid = carbon_get_user_meta( $user_id, 'paid_till' );
+$paid = carbon_get_user_meta( $user_id, 'new_lessons_left' );
 $offers = carbon_get_post_meta($post->ID, 'prices');
 
 $default_price = carbon_get_post_meta($post->ID, 'default_price');
@@ -29,9 +29,12 @@ set_query_var('default_price',$default_price);
     <img src="/wp-content/themes/scheduler_mvp/img/coffee.png" class="pl-5 w-75" alt="">
 </div>
 <div class="col-8">
-    <p class="h3">Lessons paid by
+    <p class="h3">You've got
         <span class="text-danger">
-            <?= getdate($paid)['mday'] .' '. getdate($paid)['month'] .' '.getdate($paid)['year'] ?>
+            <?php
+            // getdate($paid)['mday'] .' '. getdate($paid)['month'] .' '.getdate($paid)['year']
+            echo $paid . ' new lessons';
+            ?>
         </span>
     </p>
     <?= the_content(); ?>

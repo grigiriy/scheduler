@@ -10,7 +10,7 @@ Container::make( 'user_meta', 'Календарь' )
 ->add_fields( [
     Field::make( 'text', 'favor_lessons', 'Избранные уроки' ),
     Field::make( 'text', 'next_lesson', 'Cледующий урок' ),
-    Field::make( 'text', 'paid_till', 'Оплачено до' ),
+    Field::make( 'text', 'new_lessons_left', 'Осталось новых уроков' ),
     Field::make( 'text', 'mrng_practice', 'Утренняя практика' ),
     Field::make( 'text', 'evng_practice', 'Вечерняя практика' ),
 ])
@@ -105,6 +105,7 @@ WpGraphQLCrbContainer::register(
     Container::make( 'post_meta', 'Режимы' )
     ->where( 'post_template', '=', 'page-modes.php' )
     ->add_tab( 'modes', [
+        Field::make( 'text', 'days_to_new', 'Дней между уроками (новыми)' ),
         Field::make( 'complex', 'modes', 'Режимы' )
         ->add_fields( [
             Field::make( 'text', 'name', 'Название режима' ),

@@ -21,7 +21,7 @@ $user_id = get_current_user_id();
 $passed_lessons = get_passed_lessons_arr($user_id);
 
 $frequency = get_user_meta($user_id)['frequency'][0];
-$paid = carbon_get_user_meta( $user_id, 'paid_till' );
+$paid = carbon_get_user_meta( $user_id, 'new_lessons_left' );
 
 
 $args = array(
