@@ -20,7 +20,7 @@
                                 a 15.9155 15.9155 0 0 1 0 31.831
                                 a 15.9155 15.9155 0 0 1 0 -31.831" />
                             <path class="circle"
-                                stroke-dasharray="<?= progress_icon($current_lesson_number,$frequency); ?>, 100" d="M18 2.0845
+                                stroke-dasharray="<?= progress_icon($current_lesson_number,$active_mode); ?>, 100" d="M18 2.0845
                                 a 15.9155 15.9155 0 0 1 0 31.831
                                 a 15.9155 15.9155 0 0 1 0 -31.831" />
                         </svg>

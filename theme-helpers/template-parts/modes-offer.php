@@ -10,13 +10,23 @@ switch ($key) {
         $color = 'danger';
         break;
 }
+$selection = [];
+if (isset($active_mode)){
+    $selection = [$active_mode, true];
+} else {
+    $selection = ['Medium', false];
+}
+
+$classNames='mode_card';
+if($mode['name'] === $selection[0]){
+    $classNames .= ' selected border-'.$color;
+    $classNames .= $selection[1] ? '' : ' recommended';
+}
 
 ?>
-
 <div class="col-4">
-    <div class="card top_rounded bottom_rounded p-4 shadow-lg">
+    <div class="card top_rounded bottom_rounded p-4 shadow-lg <?= $classNames; ?>">
         <div class="row">
-
             <div class="col-4 pl-0 offset-8 priceImg">
                 <img src="/wp-content/themes/scheduler_mvp/img/mode_<?= $key; ?>.png?>"
                     class="mw-100 rounded-image border-<?= $color?>" alt="">
@@ -34,9 +44,10 @@ switch ($key) {
 
         <div class="row">
             <div class="col-12 text-center">
-                <a href="javascript:void(0)" class="btn btn-primary btn-round py-2 px-4">
+                <button onclick="set_mode(this,$user_id)" data-mode="<?= $mode['name']?>"
+                    class="btn btn-primary btn-round py-2 px-4">
                     Choose mode!
-                </a>
+                </button>
             </div>
         </div>
 

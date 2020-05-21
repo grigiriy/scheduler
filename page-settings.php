@@ -22,7 +22,8 @@ document.location.href = '/';
     <div class="card shadow-lg bottom_rounded top_rounded p-3">
         <div class="card-header border-bottom-0 bg-transparent d-flex">
             <div class="col-9 col-xl-10">
-                <h2>Your Current mode is <span class="text-mainSche">Light</span></h2>
+                <h2>Your Current mode is <span
+                        class="text-mainSche"><?= carbon_get_user_meta($user_id, 'mode');?></span></h2>
                 <p class="text-muted">Shedule for this mode:</p>
             </div>
             <div class="col-3 col-xl-2 px-0">

@@ -16,7 +16,7 @@ document.location.href = '/';
 $user_id = get_current_user_id();
 $passed_lessons = get_passed_lessons_arr($user_id);
 $paid = carbon_get_user_meta( $user_id, 'new_lessons_left' );
-$frequency = get_user_meta($user_id)['frequency'][0];
+$active_mode = carbon_get_user_meta($user_id, 'mode');
 $args = array(
     'post_type'  => 'lessons',
     'author'     => $user_id,
@@ -73,7 +73,7 @@ set_query_var( 'calend_header', 'Your learning calendar' );
 set_query_var( 'calend_days', '0' );
 set_query_var( 'paid', $paid );
 set_query_var( 'now_incTZ', $now_incTZ );
-set_query_var( 'frequency', $frequency );
+set_query_var( 'active_mode', $active_mode );
 ?>
 
 <div class="col-12 mb-3">

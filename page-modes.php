@@ -15,6 +15,7 @@ document.location.href = '/';
     global $now_incTZ;
     $user_id = get_current_user_id();
     $modes = carbon_get_post_meta($post->ID, 'modes');
+    $active_mode = carbon_get_user_meta($user_id, 'mode');
     while ( have_posts() ) :
         the_post();
 ?>
@@ -26,6 +27,7 @@ document.location.href = '/';
 <?php
 
 foreach ($modes as $key=>$mode){
+    set_query_var('active_mode',$active_mode);
     set_query_var('mode',$mode);
     set_query_var('key',$key);
     get_template_part('theme-helpers/template-parts/modes','offer');

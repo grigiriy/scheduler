@@ -20,7 +20,7 @@ $user_id = get_current_user_id();
 
 $passed_lessons = get_passed_lessons_arr($user_id);
 
-$frequency = get_user_meta($user_id)['frequency'][0];
+$active_mode = carbon_get_user_meta($user_id, 'mode');
 $paid = carbon_get_user_meta( $user_id, 'new_lessons_left' );
 
 
@@ -92,8 +92,8 @@ if (isset($passed_lessons) ) {
 if (isset($current_lessons) ) {
     set_query_var( 'current_lessons', $current_lessons );
 }
-if (isset($frequency) ) {
-    set_query_var( 'frequency', $frequency );
+if (isset($active_mode) ) {
+    set_query_var( 'active_mode', $active_mode );
 }
 set_query_var( 'is_time_to_add', is_time_to_add($next_lesson_adding_time) );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );

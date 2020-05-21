@@ -39,7 +39,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     $yt_code = $matches[0];
 
 
-    $frequency = get_user_meta($user_id)['frequency'][0];
+    $active_mode = carbon_get_user_meta($user_id, 'mode');
 
     $passed_lessons = get_passed_lessons_arr($user_id);
 
@@ -70,7 +70,8 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
                 <path class="circle-bg" d="M18 2.0845
                     a 15.9155 15.9155 0 0 1 0 31.831
                     a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path class="circle" stroke-dasharray="<?= progress_icon($current_lesson_number,$frequency); ?>, 100" d="M18 2.0845
+                <path class="circle" stroke-dasharray="<?= progress_icon($current_lesson_number,$active_mode); ?>, 100"
+                    d="M18 2.0845
                     a 15.9155 15.9155 0 0 1 0 31.831
                     a 15.9155 15.9155 0 0 1 0 -31.831" />
             </svg>

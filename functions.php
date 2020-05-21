@@ -128,10 +128,9 @@ function mins_trim($min) {
   return ($min === 0) ? '00' : $min;
 }
 
-function progress_icon($lesson_number,$frequency){
-  $frequency = ($frequency === 'Light') ? 2 : 3;
+function progress_icon($lesson_number,$active_mode){
+  $frequency = ($active_mode === 'Light') ? 2 : 3;
   return (100 / ($frequency + 1) * $lesson_number); 
-  // return($lesson_number.' '.$frequency);
 }
 
 function n_days_crop($days) {
@@ -256,6 +255,15 @@ function is_time_to_add($next_lesson_adding_time){
   return display_day(getdate($next_lesson_adding_time)) === 'Today' ? true : false;
 }
 // IS_TIME_TO_ADD_CHECKER
+
+//AJAX SET ACTIVE MODE
+function set_mode() {
+  $user_id = intval($_POST['user_id']);
+  $active_mode = $_POST['mode'];
+  carbon_set_user_meta( $user_id, 'mode', $active_mode );
+}
+add_action('wp_ajax_set_mode', 'set_mode'); 
+//AJAX SET ACTIVE MODE
 
 
 // "ADDING NEW COURSE" TIMER
@@ -450,8 +458,8 @@ function finish_course($post_id) {
 }
 
 function set_timers( $post_id, $user_id)  {
-  $frequency = get_user_meta( $user_id )['frequency'][0];
-  $timer = get_schedule( $frequency, $user_id );
+  $active_mode = carbon_get_user_meta($user_id, 'mode');
+  $timer = get_schedule( $active_mode, $user_id );
   fill_lesson_cf( $timer, $post_id );
 }
 
@@ -462,7 +470,7 @@ function fill_lesson_cf ( $timers, $post_id ) {
 }
 
 // GET USER SPECIFIED TIME BY ID
-function get_schedule($frequency,$user_id) {
+function get_schedule($active_mode,$user_id) {
   
   global $now_incTZ;
   global $_day;
@@ -482,18 +490,18 @@ function get_schedule($frequency,$user_id) {
     $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[1]),
     $now_incTZ + $_day * 4 - ($now_incTZ - $user_timeRange[1])
   ];
-	$schedules['Normal'] = [
+	$schedules['Medium'] = [
     $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[0]),
     $now_incTZ + $_day * 3 - ($now_incTZ - $user_timeRange[1]),
     $now_incTZ + $_day * 5 - ($now_incTZ - $user_timeRange[1])
   ];
-	$schedules['Zombo'] = [
+	$schedules['Fire'] = [
     $now_incTZ + 5*60*60,
     $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[1]),
     $now_incTZ + $_day * 7 - ($now_incTZ - $user_timeRange[1])
   ];
 
-  $timer = $schedules[$frequency];
+  $timer = $schedules[$active_mode];
 
   return $timer;
 }

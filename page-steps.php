@@ -27,19 +27,40 @@ document.location.href = '/';
         set_query_var( 'user_id', $user_id );
         set_query_var( 'yt_code', $yt_code );
 ?>
-<div class="container">
-    <div class="row">
+<div class="container" id="steps">
 
-        <?php get_template_part('theme-helpers/template-parts/steps','fisrs'); ?>
-
-        <?php get_template_part('theme-helpers/template-parts/steps','second'); ?>
-
-        <?php get_template_part('theme-helpers/template-parts/steps','third'); ?>
-
-        <?php get_template_part('theme-helpers/template-parts/steps','fourth'); ?>
-
+    <div id="step_1" class="row">
+        <?php get_template_part('theme-helpers/template-parts/steps','first'); ?>
     </div>
+    <div id="step_2" class="row">
+        <?php get_template_part('theme-helpers/template-parts/steps','second'); ?>
+    </div>
+    <div id="step_3" class="row">
+        <?php get_template_part('theme-helpers/template-parts/steps','third'); ?>
+    </div>
+    <div id="step_4" class="row">
+        <?php get_template_part('theme-helpers/template-parts/steps','fourth'); ?>
+    </div>
+
 </div>
+
+<script>
+const steps = document.querySelector('#steps');
+const step_1 = steps.querySelector('#step_1');
+const step_2 = steps.querySelector('#step_2');
+const step_3 = steps.querySelector('#step_3');
+const step_4 = steps.querySelector('#step_4');
+window.onload = function() {
+    step_2.style.display = 'none';
+    step_3.style.display = 'none';
+    step_4.style.display = 'none';
+};
+
+function second_step() {
+    step_1.style.display = 'none';
+    step_2.style.display = 'block';
+}
+</script>
 <?php
 endwhile;
 }

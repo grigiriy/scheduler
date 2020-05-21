@@ -8,6 +8,7 @@ use Carbon_Fields\Field;
 WpGraphQLCrbContainer::register(
 Container::make( 'user_meta', 'Календарь' )
 ->add_fields( [
+    Field::make( 'text', 'mode', 'Режим' ),
     Field::make( 'text', 'favor_lessons', 'Избранные уроки' ),
     Field::make( 'text', 'next_lesson', 'Cледующий урок' ),
     Field::make( 'text', 'new_lessons_left', 'Осталось новых уроков' ),

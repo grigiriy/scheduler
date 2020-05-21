@@ -303,6 +303,29 @@ function changeModals(e) {
   $(e).parents('.modal').siblings('.modal').modal('show');
 }
 
+function set_mode(e, $user_id) {
+  let mode = e.getAttribute('data-mode');
+  let new_step = location.href.indexOf('reg-intro') !== -1 ? true : false;
+
+  $.ajax({
+    url: '/wp-admin/admin-ajax.php',
+    type: 'POST',
+    data: {
+      action: 'set_mode',
+      user_id: $user_id,
+      mode: mode,
+    },
+    success: function (data) {
+      if (new_step) {
+        second_step();
+      }
+    },
+    error: function (errorThrown) {
+      console.log(errorThrown);
+    },
+  });
+}
+
 function log_out() {
   $.ajax({
     url: '/wp-admin/admin-ajax.php',
