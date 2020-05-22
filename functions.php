@@ -329,34 +329,48 @@ function add_lesson() {
   $user_id = intval($_POST['user_id']);
   $post_id = intval($_POST['post_id']);
 
-  $my_postarr = array(
-    'post_name'    => get_the_author_meta('user_login', $user_id),
-    'post_title'    => get_the_title($post_id),
-    'post_content'  => '', // контент
-    'post_parent'   => $post_id,
-    'post_type'   => 'lessons',
-    'post_author'   => $user_id,
-    'post_status'   => 'publish', // опубликованный пост
-  );
-  $my_post_id = wp_insert_post( $my_postarr );
+  if(
+    !carbon_get_user_meta( $user_id, 'new_lessons_left' ) ||
+    carbon_get_user_meta( $user_id, 'new_lessons_left' ) < 1
+  ) {
+    echo 'NO NEW LESSONS TO THIS USER!';
+    return false;
 
-  $post = get_post( intval($post_id) );
-
-  do_action( 'dp_duplicate_page', $my_post_id, $post, "");
-
-  $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
-
-  wp_set_post_terms( $my_post_id, 'started', 'course_status', false );
-  carbon_set_post_meta( $my_post_id, 'course_author_id', $post->post_author);
-
-  set_adding_timeout($user_id);
-
-  set_timers($my_post_id,$user_id);
-  if($type === 'with-teacher'){
-    notify_manager($my_post_id); //not done yet!
   } else {
-    return false; //2do create show_error function
-  }
+
+    $my_postarr = array(
+      'post_name'    => get_the_author_meta('user_login', $user_id),
+      'post_title'    => get_the_title($post_id),
+      'post_content'  => '', // контент
+      'post_parent'   => $post_id,
+      'post_type'   => 'lessons',
+      'post_author'   => $user_id,
+      'post_status'   => 'publish', // опубликованный пост
+    );
+    $my_post_id = wp_insert_post( $my_postarr );
+
+    $post = get_post( intval($post_id) );
+
+    $lessons_left = carbon_get_user_meta( $user_id, 'new_lessons_left' );
+
+    do_action( 'dp_duplicate_page', $my_post_id, $post, "");
+
+    $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
+
+    wp_set_post_terms( $my_post_id, 'started', 'course_status', false );
+    carbon_set_post_meta( $my_post_id, 'course_author_id', $post->post_author);
+
+    set_adding_timeout($user_id);
+
+    set_timers($my_post_id,$user_id);
+    if($type === 'with-teacher'){
+      notify_manager($my_post_id); //not done yet!
+    } else {
+      return false; //2do create show_error function
+    }
+
+    carbon_set_user_meta( $user_id, 'new_lessons_left', $lessons_left - 1 );
+  } 
 }
 add_action('wp_ajax_add_lesson', 'add_lesson'); 
 // AJAX FUNCTION TO JOIN COURSE
@@ -461,6 +475,8 @@ function set_timers( $post_id, $user_id)  {
   $active_mode = carbon_get_user_meta($user_id, 'mode');
   $timer = get_schedule( $active_mode, $user_id );
   fill_lesson_cf( $timer, $post_id );
+
+  set_scheduleMail($timer,$user_id,$post_id);
 }
 
 function fill_lesson_cf ( $timers, $post_id ) {
@@ -472,33 +488,31 @@ function fill_lesson_cf ( $timers, $post_id ) {
 // GET USER SPECIFIED TIME BY ID
 function get_schedule($active_mode,$user_id) {
   
-  global $now_incTZ;
+  // global $now_incTZ;
+  $today_midnight = strtotime('today midnight');
   global $_day;
   global $timeZone_msc;
 
-  $user_timeRange = [
-    strtotime(carbon_get_user_meta($user_id,'mrng_practice'))
-    ? strtotime(carbon_get_user_meta($user_id,'mrng_practice'))+$timeZone_msc
-    : strtotime(carbon_get_user_meta(1,'mrng_practice'))+$timeZone_msc,
 
-    strtotime(carbon_get_user_meta($user_id,'evng_practice'))
-    ? strtotime(carbon_get_user_meta($user_id,'evng_practice'))+$timeZone_msc
-    : strtotime(carbon_get_user_meta(1,'evng_practice'))+$timeZone_msc
+  $mrng = explode(':',carbon_get_user_meta($user_id,'mrng_practice'));
+  $evng = explode(':',carbon_get_user_meta($user_id,'evng_practice'));
+  $user_timeRange = [
+    ($mrng[0]*60+$mrng[1])*60,
+    ($evng[0]*60+$evng[1])*60
   ];
 
 	$schedules['Light'] = [
-    $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[1]),
-    $now_incTZ + $_day * 4 - ($now_incTZ - $user_timeRange[1])
+    $today_midnight + $_day * 1 + $user_timeRange[1],
+    $today_midnight + $_day * 4 + $user_timeRange[1],
   ];
 	$schedules['Medium'] = [
-    $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[0]),
-    $now_incTZ + $_day * 3 - ($now_incTZ - $user_timeRange[1]),
-    $now_incTZ + $_day * 5 - ($now_incTZ - $user_timeRange[1])
+    $today_midnight + $_day * 1 + $user_timeRange[0],
+    $today_midnight + $_day * 3 + $user_timeRange[1],
+    $today_midnight + $_day * 5 + $user_timeRange[1],
   ];
 	$schedules['Fire'] = [
-    $now_incTZ + 5*60*60,
-    $now_incTZ + $_day * 1 - ($now_incTZ - $user_timeRange[1]),
-    $now_incTZ + $_day * 7 - ($now_incTZ - $user_timeRange[1])
+    $today_midnight + $_day * 1 + $user_timeRange[1],
+    $today_midnight + $_day * 7 + $user_timeRange[1],
   ];
 
   $timer = $schedules[$active_mode];
@@ -516,7 +530,7 @@ wp_reset_postdata();
 return count(get_posts($args));
 }
 
-## Оставляет пользователя на той же странице при вводе неверного логина/пароля в форме авторизации wp_login_form() //wp-kama
+// Оставляет пользователя на той же странице при вводе неверного логина/пароля в форме авторизации wp_login_form() //wp-kama
 add_action( 'wp_login_failed', 'my_front_end_login_fail' );
 function my_front_end_login_fail( $username ) {
 	$referrer = $_SERVER['HTTP_REFERER'];  // откуда пришел запрос
@@ -550,3 +564,57 @@ function finish_reg(){
     $wp_user_object->set_role( 'subscriber' );
   }
 }
+
+
+// SENDING EMAIL FUNCTION
+add_action('send_notify', 'send_notify_fun',10,2);
+
+
+function send_notify_fun($post_id,$user_id) {
+
+  // move_cf_to_cf_archive($post_id,$user_id);
+  $headers = ['Content-type: text/html; charset=utf-8','From: Happy English <notify@cq77457.tmweb.ru>'];
+
+  $recepient = carbon_get_user_meta($user_id,'notify_email');
+  // $recepient = 'grigiriy.malyshev@gmail.com';
+  if($post_id === 'starter'){
+    $post_link = '<html><head></head><body><h3>Здравствуйте!</h3><p>Напоминаем, что сегодня вы можете добавить новый урок! "<a href="cq77457.tmweb.ru/cources/">Библиотека уроков</a>".</p></body></html>';
+    $post_header = 'Новый урок!';
+  } else {
+    $post_name = get_the_title($post_id);
+    $post_link = '<html><head></head><body><h3>Здравствуйте!</h3><p>Напоминаем, что у вас запланировано повторение урока "<a href="' . get_the_permalink($post_id) . '">' . get_the_title($post_id) . '</a>".</p></body></html>';
+    $post_header = 'Напоминание о повторении урока '.$post_name;
+  }
+  wp_mail($recepient, $post_header, $post_link, $headers);
+return true;
+}
+// SENDING EMAIL FUNCTION
+
+
+
+
+// // DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
+// function update_scheduleMail($timer,$user_id,$post_id){
+
+//   // foreach([0,1,2,3] as $key){
+//     wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] );
+//     // Удаляет все крон-задачи прикрепленные к указанному хуку и имеющие указанные параметры.
+//   // }
+//   set_scheduleMail($timer,$user_id,$post_id);
+// }
+// // DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
+
+
+
+// AND SET TIMERS
+// AND CALL A FUNCTION TO SEND LETTERS
+function set_scheduleMail($timer,$user_id,$post_id) {
+
+  if( !wp_next_scheduled('send_notify') )
+  foreach($timer as $key=>$_timer){
+    wp_schedule_single_event( $_timer, 'send_notify', [$post_id,$user_id] );
+  }
+  return true;
+}
+// AND SET TIMERS
+// AND CALL A FUNCTION TO SEND LETTERS

@@ -28,18 +28,21 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 </script>
 <?php
     }
+
+
+
     wp_reset_postdata();
 
     global $now_incTZ;
     $post_id = $post->ID;
     $user_id = get_current_user_id();
 
+    $active_mode = carbon_get_user_meta($user_id, 'mode');
+
     $yt_code = carbon_get_post_meta($post_id,'yt_code');
     preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
     $yt_code = $matches[0];
 
-
-    $active_mode = carbon_get_user_meta($user_id, 'mode');
 
     $passed_lessons = get_passed_lessons_arr($user_id);
 
