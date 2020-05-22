@@ -34,15 +34,16 @@ document.location.href = '/';
 <div class="container" id="steps">
 
     <?php
-    $role = wp_get_current_user()->roles[0];
-        if( $role === 'administrator' ) { ?>
-    <div class="row">
-        <button class="btn btn-light px-4 py-3" onclick="first_step()">1</button>
-        <button class="btn btn-light px-4 py-3" onclick="second_step()">2</button>
-        <button class="btn btn-light px-4 py-3" onclick="third_step()">3</button>
-        <button class="btn btn-light px-4 py-3" onclick="fourth_step()">4</button>
-    </div>
-    <?php } ?>
+    $role = get_userdata($user_id)->roles[0];
+        if( $role === 'administrator' ) {
+            ?>
+            <div class="row">
+                <button class="btn btn-light px-4 py-3" onclick="first_step()">1</button>
+                <button class="btn btn-light px-4 py-3" onclick="second_step()">2</button>
+                <button class="btn btn-light px-4 py-3" onclick="third_step()">3</button>
+                <button class="btn btn-light px-4 py-3" onclick="fourth_step()">4</button>
+            </div>
+        <?php } ?>
 
     <div id="step_1" class="row">
         <?php get_template_part('theme-helpers/template-parts/steps','first'); ?>
@@ -66,7 +67,7 @@ const step_2 = steps.querySelector('#step_2');
 const step_3 = steps.querySelector('#step_3');
 const step_4 = steps.querySelector('#step_4');
 window.onload = function() {
-    first_step()
+    first_step();
 };
 
 function first_step() {

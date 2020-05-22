@@ -29,7 +29,7 @@
         get_template_part('theme-helpers/template-parts/settings','timeInputs'); ?>
     </div>
     <div class="card-footer border-0 bg-transparent">
-        <button type="button" data-container="body" data-toggle="popover" data-placement="left"
+        <button type="button" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="left"
             data-content="Please set convenient time" class="d-block btn btn-primary btn-round py-3 px-5 mb-4"
             onclick="go_third(this)">Done!
             <span class="arrow_symbol ml-3">⟶</span></button>

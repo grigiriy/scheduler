@@ -18,6 +18,11 @@ global $now_incTZ;
 
 $user_id = get_current_user_id();
 
+$role = get_userdata($user_id)->roles[0];
+if( $role === 'need-confirm' ) { ?>
+    <script>document.location.href = '/reg-intro/'</script>
+<?php }
+
 $passed_lessons = get_passed_lessons_arr($user_id);
 
 $active_mode = carbon_get_user_meta($user_id, 'mode');

@@ -247,6 +247,24 @@ function file_upload(type, val) {
   });
 }
 
+function finish_reg($user_id) {
+  $.ajax({
+    url: '/wp-admin/admin-ajax.php',
+    type: 'POST',
+    data: {
+      action: 'finish_reg',
+      user_id: $user_id,
+    }, // можно также передать в виде объекта
+    success: function (data) {
+      console.log(data);
+      location.href = '/courses/';
+    },
+    error: function (errorThrown) {
+      console.log(errorThrown);
+    },
+  });
+}
+
 function to_favorite_before(e) {
   let $target_post_id = $(e).parents('.card').attr('id');
   let __action = $(e).hasClass('active') ? 'remove_favor' : 'add_to_favor';
@@ -357,47 +375,3 @@ function log_out() {
     },
   });
 }
-
-// function validatePhone(_this) {
-//   var listCountries = $.masksSort(
-//     $.masksLoad(
-//       'https://cdn.rawgit.com/andr-04/inputmask-multi/master/data/phone-codes.json'
-//     ),
-//     ['#'],
-//     /[0-9]|#/,
-//     'mask'
-//   );
-//   var maskOpts = {
-//     inputmask: {
-//       definitions: {
-//         '#': {
-//           validator: '[0-9]',
-//           cardinality: 1,
-//         },
-//       },
-//       showMaskOnHover: false,
-//       autoUnmask: true,
-//       clearMaskOnLostFocus: false,
-//     },
-//     match: /[0-9]/,
-//     replace: '#',
-//     listKey: 'mask',
-//     onMaskChange: function (maskObj, completed) {
-//       if (completed) {
-//         var hint = maskObj.cc;
-//         $(_this).attr('data-hint', hint);
-//       }
-//     },
-//   };
-
-//   $(_this, 'input[name="mode"]').change(function () {
-//     $(_this).inputmask('remove');
-//     $(_this).inputmasks(
-//       $.extend(true, {}, maskOpts, {
-//         list: listCountries,
-//       })
-//     );
-//   });
-
-//   return true;
-// }
