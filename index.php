@@ -2,7 +2,14 @@
 /**
  * Template Name: Main
  */
- get_header(); ?>
+ get_header(); 
 
 
- <?php get_footer(); ?>
+if( is_user_logged_in() ) {?>
+<script>
+document.location.href = '/account/';
+</script>
+
+<?php
+}
+get_footer(); ?>
