@@ -535,6 +535,9 @@ function finish_reg(){
 
   if( $role === 'need-confirm' ) {
 
+    $def_ava = '/wp-content/plugins/ultimate-member/assets/img/default_avatar.jpg';
+    carbon_set_user_meta($user_id,'avatar', $def_ava);
+
     $wp_user_object = new WP_User($user_id);
     $wp_user_object->set_role( 'subscriber' );
   }
