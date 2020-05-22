@@ -35,10 +35,13 @@ Container::make( 'post_meta', 'Video' )
 ->where( 'post_id', '=', '281' ) //NEED TO UPDATE LATER
 ->or_where( 'post_id', '=', '299' ) //NEED TO UPDATE LATER
 ->add_tab( 'course info', [
-    Field::make('text', 'yt_code', 'YouTube code')
+    Field::make('text', 'yt_code', 'YouTube code'),
+    Field::make('text', 'yt_code_2', 'YouTube code 2 (steps only)')
     ])
 );
-        
+
+
+
 WpGraphQLCrbContainer::register(
 Container::make( 'post_meta', 'Course details' )
 ->where( 'post_type', '=', 'lessons' )

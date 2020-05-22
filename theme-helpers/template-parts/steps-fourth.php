@@ -7,47 +7,5 @@
         <span class="arrow_symbol ml-3">⟶</span></a>
 </div>
 <div class="col-12 mx-0">
-    <div id="player" data-id="<?= $yt_code ?>" class="mb-5"></div>
+    <div id="player_2" data-id="<?= $yt_code_2 ?>" class="mb-5"></div>
 </div>
-<script>
-var tag = document.createElement('script');
-
-tag.src = "https://www.youtube.com/iframe_api";
-
-var player_place = document.getElementById('player');
-player_place.parentNode.insertBefore(tag, player_place);
-var player;
-var yt_code = document.querySelector('#player').getAttribute('data-id');
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        height: '500px',
-        width: '100%',
-        videoId: yt_code,
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
-    console.log('cc -> ', player.getOptions('cc'));
-}
-
-function onApiChange(event) {
-    console.log('something changed...');
-}
-
-function onPlayerReady(event) {
-    // event.target.playVideo();
-}
-
-function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING) {
-        lesson_passed();
-    }
-    console.log('cc -> ', player.getOptions('cc'));
-}
-
-function stopVideo() {
-    player.stopVideo();
-}
-</script>
