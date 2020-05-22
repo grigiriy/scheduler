@@ -55,9 +55,13 @@
 <?php } else { ?>
 <div class="m-3">
     <p class="h4">No courses yet</p>
-    <?php if ($is_time_to_add ) { ?>
+    <?php if ($is_time_to_add ) {
+    if($paid !== 0){
+    ?>
     <p class="h4">Click <a href="/courses/">here</a> to start learning!</p>
-    <?php } else { ?>
+    <?php
+    }
+    } else { ?>
     <p class="h3">You can add new lesson on
         <?= display_day(getdate($next_lesson_adding_time)); ?>
     </p>

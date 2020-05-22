@@ -52,6 +52,10 @@ nav a[aria-current='page'] {
 .border-mainSche {
   border-color: #67a880 !important;
 }
+.btn-mainSche {
+  background: #67a880;
+  border-color: #67a880;
+}
 
 .bg-peach {
   background: #f4934d;
@@ -62,6 +66,10 @@ nav a[aria-current='page'] {
 }
 .border-peach {
   border-color: #f4934d !important;
+}
+.btn-peach {
+  background: #f4934d;
+  border-color: #f4934d;
 }
 
 .bg-lightGrey {
@@ -169,6 +177,9 @@ form input[type='submit'].um-button {
   background-repeat: no-repeat;
   background-size: 40%;
   background-position: 55%;
+}
+.new_day_card.not_payed {
+  background-image: url(/wp-content/themes/scheduler_mvp/img/passed_icon.png);
 }
 .flag_card:before {
   background: url(/wp-content/themes/scheduler_mvp/img/flag.png);

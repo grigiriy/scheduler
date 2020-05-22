@@ -26,7 +26,7 @@ if( $role === 'need-confirm' ) { ?>
 $passed_lessons = get_passed_lessons_arr($user_id);
 
 $active_mode = carbon_get_user_meta($user_id, 'mode');
-$paid = carbon_get_user_meta( $user_id, 'new_lessons_left' );
+$paid = !empty(carbon_get_user_meta( $user_id, 'new_lessons_left' )) ? carbon_get_user_meta( $user_id, 'new_lessons_left' ) : 0;
 
 
 $args = array(
@@ -100,7 +100,8 @@ if (isset($current_lessons) ) {
 if (isset($active_mode) ) {
     set_query_var( 'active_mode', $active_mode );
 }
-set_query_var( 'is_time_to_add', is_time_to_add($next_lesson_adding_time) );
+$is_time_to_add = is_time_to_add($next_lesson_adding_time);
+set_query_var( 'is_time_to_add', $is_time_to_add );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 set_query_var( 'paid', $paid );
 set_query_var( 'now_incTZ', $now_incTZ );
@@ -112,8 +113,15 @@ set_query_var( 'now_incTZ', $now_incTZ );
 
 <section class="col-md-8 col-sm-12 pr-5">
     <?php
-        get_template_part('theme-helpers/template-parts/account','new_day'); 
+    if ($paid !== 0 && ( isset($timers) && $timers ) ) {
         get_template_part('theme-helpers/template-parts/account','new_lesson'); 
+    }
+    if ($paid !== 0 && $is_time_to_add ) {
+        get_template_part('theme-helpers/template-parts/account','new_day');
+    }
+    if( $paid === 0 ) {
+        get_template_part('theme-helpers/template-parts/account','not_payed'); 
+    }
     ?>
 </section>
 
@@ -121,7 +129,7 @@ set_query_var( 'now_incTZ', $now_incTZ );
     <div>
         <?php
         get_template_part('theme-helpers/template-parts/account','payment');
-        get_template_part('theme-helpers/template-parts/account','new_course'); //not ready yet - teachers shield
+        // get_template_part('theme-helpers/template-parts/account','new_course'); //not ready yet - teachers shield
         ?>
     </div>
     <div class="d-flex flex-column border-top border-success">

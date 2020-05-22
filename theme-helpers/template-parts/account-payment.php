@@ -87,7 +87,6 @@ if(
             <p class="mb-0">You've got</p>
             <p class="h3">
                 <?php
-                // echo getdate($paid)['mday'] .' '. getdate($paid)['month'] .' '.getdate($paid)['year'];
                 echo $paid . ' new lessons';
                 ?>
             </p>

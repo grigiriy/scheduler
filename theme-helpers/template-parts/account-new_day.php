@@ -1,4 +1,3 @@
-<?php if ($is_time_to_add) { ?>
 <div class="border-top border-success mb-5 ">
     <div class="card bg-white shadow-lg bottom_rounded flag_card new_day_card">
         <div class="card-body d-flex flex-column">
@@ -16,4 +15,3 @@
         </div>
     </div>
 </div>
-<?php } ?>

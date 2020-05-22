@@ -14,7 +14,7 @@ $in_fav = in_array($_post->ID,$selected_posts);
 $course_level = get_the_terms($_post->ID,'course_level');
 $course_duration = get_the_terms($_post->ID,'course_duration');
 
-$launch_btn = is_time_to_add($next_lesson_adding_time) ?
+$launch_btn = (is_time_to_add($next_lesson_adding_time) && $paid !== 0) ?
 ['onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary'] :
 ['data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day(getdate($next_lesson_adding_time)).'"','secondary'];
 ?>

@@ -17,6 +17,8 @@ document.location.href = '/';
     while ( have_posts() ) :
         the_post();
 
+    $paid = !empty(carbon_get_user_meta( $user_id, 'new_lessons_left' )) ? carbon_get_user_meta( $user_id, 'new_lessons_left' ) : 0;
+    set_query_var( 'paid', $paid );
 ?>
 </div>
 <div class="container-fluid border-bottom border-success">
