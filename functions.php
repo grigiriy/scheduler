@@ -537,6 +537,14 @@ function finish_reg(){
 
     $def_ava = '/wp-content/plugins/ultimate-member/assets/img/default_avatar.jpg';
     carbon_set_user_meta($user_id,'avatar', $def_ava);
+    
+    $def_free = (carbon_get_theme_option('free_courses') ) &&
+    !empty(carbon_get_theme_option('free_courses')
+    ) ?
+    carbon_get_theme_option('free_courses')
+    :
+    $def_free = 0;
+    carbon_set_user_meta($user_id,'new_lessons_left', $def_free);
 
     $wp_user_object = new WP_User($user_id);
     $wp_user_object->set_role( 'subscriber' );

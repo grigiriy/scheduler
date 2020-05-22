@@ -111,15 +111,16 @@ set_query_var( 'now_incTZ', $now_incTZ );
     <h1>What do you have to do today?</h1>
 </div>
 
+
 <section class="col-md-8 col-sm-12 pr-5">
     <?php
-    if ($paid !== 0 && ( isset($timers) && $timers ) ) {
+    if (isset($timers) && $timers ) {
         get_template_part('theme-helpers/template-parts/account','new_lesson'); 
     }
     if ($paid !== 0 && $is_time_to_add ) {
         get_template_part('theme-helpers/template-parts/account','new_day');
     }
-    if( $paid === 0 ) {
+    if( $paid === 0 && $is_time_to_add) {
         get_template_part('theme-helpers/template-parts/account','not_payed'); 
     }
     ?>
