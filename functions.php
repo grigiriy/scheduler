@@ -104,22 +104,26 @@
 
   
 // FINCTIONS, TO USE IN LAYOUT
-function display_day($next) {
+function display_day($next_lesson_adding_time) {
+  $next_formated = getdate($next_lesson_adding_time);
   global $now_incTZ;
-    if(getdate($now_incTZ)['mday'] === $next['mday']){
+    if(getdate($now_incTZ) > $next_lesson_adding_time){
       $next = 'Today';
       goto fin;
-    } else if($next['mday'] - getdate($now_incTZ)['mday'] == 1) {
+    } else if(getdate($now_incTZ)['mday'] === $next_formated['mday']){
+      $next = 'Today';
+      goto fin;
+    } else if($next_formated['mday'] - getdate($now_incTZ)['mday'] == 1) {
       $next = 'Tomorrow';
       goto fin;
-    } else if($next['mday'] - getdate($now_incTZ)['mday'] == 7){
+    } else if($next_formated['mday'] - getdate($now_incTZ)['mday'] == 7){
       $next = 'In a week';
       goto fin;
     } else {
-      $next = $next['weekday'];
+      $next = $next_formated['weekday'];
       goto fin;
     }
-    $next = $next['weekday'];
+    $next = $next_formated['weekday'];
   fin:
   return $next;
 };
@@ -252,7 +256,8 @@ add_action('wp_ajax_nopriv_myfilter', 'myfilter');
 
 // IS_TIME_TO_ADD_CHECKER
 function is_time_to_add($next_lesson_adding_time){
-  return display_day(getdate($next_lesson_adding_time)) === 'Today' ? true : false;
+  global $now_incTZ;
+  return $next_lesson_adding_time <= $now_incTZ;
 }
 // IS_TIME_TO_ADD_CHECKER
 

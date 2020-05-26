@@ -35,7 +35,7 @@
                         <a href="<?= get_the_permalink($timer[1]);?>"><?= get_the_title($timer[1]) ?></a>
                     </div>
                 </td>
-                <td><?= display_day(getdate($timer[0])); ?></td>
+                <td><?= display_day($timer[0]); ?></td>
                 <td><?= getdate($timer[0])['hours'].':'.mins_trim(getdate($timer[0])['minutes']) ?></td>
             </tr>
             <?php
@@ -50,9 +50,9 @@
 <div class="card-footer text-left bg-white pb-4 border-top-0">
     <a href="/personal#calendar" class="btn btn-outline-primary btn-round py-3 px-4">Go to calendar</a>
 </div>
-<?php } ?>
+<?php } 
 
-<?php } else { ?>
+} else { ?>
 <div class="m-3">
     <p class="h4">No courses yet</p>
     <?php if ($is_time_to_add ) {
@@ -63,7 +63,9 @@
     }
     } else { ?>
     <p class="h3">You can add new lesson on
-        <?= display_day(getdate($next_lesson_adding_time)); ?>
+        <?=
+        display_day($next_lesson_adding_time);
+        ?>
     </p>
     <?php } ?>
 </div>
