@@ -172,6 +172,30 @@ $(document).ready(function () {
     });
 });
 
+function preview_video(e, id) {
+  e.appendChild(createIframe(id));
+  e.querySelector('img').remove();
+  e.removeAttribute('onclick');
+  e.querySelector('iframe').style.width = '100%';
+  e.querySelector('iframe').style.height = e.offsetWidth * 0.55 + 'px';
+}
+
+//// for videos
+function createIframe(id) {
+  let iframe = document.createElement('iframe');
+
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('allow', 'autoplay');
+  iframe.setAttribute('src', generateURL(id));
+
+  return iframe;
+}
+function generateURL(id) {
+  let query = '?rel=0&showinfo=0&autoplay=1';
+  return 'https://www.youtube.com/embed/' + id + query;
+}
+//// for videos
+
 function go_third(e) {
   const parents = [
     $("[data-type='mrng_practice']").find('input').val(),

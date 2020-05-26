@@ -19,8 +19,16 @@ $launch_btn = (is_time_to_add($next_lesson_adding_time) && $paid !== 0) ?
 ['data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day($next_lesson_adding_time).'"','secondary'];
 ?>
 <div class="card mb-3 shadow-lg p-0" id="<?= $_post->ID; ?>">
-    <div class="card-head">
-        <img class="" style="width:100%" src="https://i.ytimg.com/vi/<?=$yt_code; ?>/maxresdefault.jpg">
+    <div class="card-head video_wrapper" onclick="preview_video(this,'<?=$yt_code; ?>')">
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        width="36px" height="36px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+            <g>
+            <!-- Icons made by Freepik(https://www.flaticon.com/authors/freepik) from Flaticon (https://www.flaticon.com/) -->
+                <path d="M30.434,6.333H5.567C2.491,6.333,0,8.99,0,12.266v11.469c0,3.275,2.491,5.932,5.567,5.932h24.867
+                    c3.074,0,5.566-2.654,5.566-5.932V12.266C36,8.991,33.508,6.333,30.434,6.333z M13.899,25.332V10.667L26.768,18L13.899,25.332z"/>
+            </g>
+        </svg>
+        <img style="width:100%" src="https://i.ytimg.com/vi/<?=$yt_code; ?>/maxresdefault.jpg">
     </div>
     <div class="card-body">
         <p class="text-muted d-flex">

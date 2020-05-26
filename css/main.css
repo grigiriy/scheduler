@@ -468,3 +468,21 @@ textarea.resize_none {
 .steps_view input {
   width: 100%;
 }
+
+.video_wrapper {
+  cursor: pointer;
+  position: relative;
+}
+.video_wrapper svg {
+  position: absolute;
+  opacity: 0.6;
+  width: 100px;
+  height: 80px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  transition: all 0.1s;
+}
+.video_wrapper:hover svg {
+  opacity: 0.8;
+}
