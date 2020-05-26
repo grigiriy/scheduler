@@ -29,8 +29,6 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 <?php
     }
 
-
-
     wp_reset_postdata();
 
     global $now_incTZ;
@@ -54,15 +52,29 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     $is_learning = has_term( 'course_status', 'started', $post->ID );
 
     $timers = [
-        carbon_get_post_meta( $post->ID, '1_timecode'),
-        carbon_get_post_meta( $post->ID, '2_timecode')
+        carbon_get_post_meta( $post->ID, 'timecode_1'),
+        carbon_get_post_meta( $post->ID, 'timecode_2')
     ];
-    carbon_get_post_meta( $post->ID, '3_timecode' ) ? array_push($timers,carbon_get_post_meta( $post->ID, '3_timecode' )) : null;
-    $current_lesson_number = 1;
-    foreach ($timers as $key=>$timer){
-        $current_lesson_number = $timer >= $now_incTZ ? $current_lesson_number + 1 : $current_lesson_number;
-    }
+    carbon_get_post_meta( $post->ID, 'timecode_3' ) ? array_push($timers,carbon_get_post_meta( $post->ID, 'timecode_3' )) : null;
 
+    $checkboxes = [
+        carbon_get_post_meta( $post->ID, 'passed_0'),
+        carbon_get_post_meta( $post->ID, 'passed_1'),
+        carbon_get_post_meta( $post->ID, 'passed_2')
+    ];
+    carbon_get_post_meta( $post->ID, 'passed_3' ) ? array_push($checkboxes,carbon_get_post_meta( $post->ID, 'passed_3' )) : null;
+
+
+    $current_lesson_number = 0;
+    foreach ($timers as $key=>$timer){
+        if ($timer <= $now_incTZ) {
+            $current_lesson_number = $current_lesson_number + 1;
+            if ($checkboxes[$key+1]) {
+                $current_lesson_number += 1;
+            }
+            $current_lesson_number = $current_lesson_number;
+        }
+    }
 ?>
 
 <div data-can_add="<?= is_time_to_add($next_lesson_adding_time) === true ? 'true' : '' ;?>"
@@ -87,7 +99,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     set_query_var( 'is_learning', $is_learning );
     set_query_var( 'post_id', $post_id );
 
-    
+
     if (isset($current_lesson_val) ) {
         set_query_var( 'current_lesson_val', $current_lesson_val );
     }
@@ -97,10 +109,8 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     if (isset($next_lesson_adding_time) ) {
         set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
     }
-    ?>
 
-
-    <?php get_template_part('theme-helpers/template-parts/lesson','buttons');  ?>
+    get_template_part('theme-helpers/template-parts/lesson','buttons');  ?>
 
 
 </div>
@@ -109,7 +119,6 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
         <div class="bottom_rounded bg-white py-5 px-4">
             <?php the_content(); ?>
         </div>
-
     </div>
     <div id="player" class="mb-5"></div>
 </div>
