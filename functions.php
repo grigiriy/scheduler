@@ -406,6 +406,22 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED
 
 
+// MOVE CURRENT TO PASSED
+
+// function countdown_course($lesson_id) {
+//   global $now_incTZ;
+//   $timers = [
+//     carbon_get_post_meta( $lesson_id, 'timecode_2')
+//   ];
+//   carbon_get_post_meta( $lesson_id, 'timecode_3' ) ? array_push($timers,carbon_get_post_meta( $lesson_id, 'timecode_3' )) : null;
+
+//   if($timers[count($timers-1)] + 60*60*24 >=$now_incTZ){
+//     finish_course($lesson_id);
+//   }
+// }
+// MOVE CURRENT TO PASSED
+
+
 // UPDATE USER AVATAR
 function ava_file_upload(){
   check_ajax_referer( 'uplfile', 'nonce' );
@@ -573,7 +589,6 @@ function finish_reg(){
 
 // SENDING EMAIL FUNCTION
 add_action('send_notify', 'send_notify_fun',10,2);
-
 
 function send_notify_fun($post_id,$user_id) {
 
