@@ -37,6 +37,7 @@
                     <span class="ml-2 h5 text-dark align-middle">Profile</span>
                 </a>
             </div>
+            <?php if( carbon_get_theme_option( 'teacher' ) ) { ?>
             <div class="mr-2">
                 <a href="/payment/" class="d-block p-2">
                     <svg version="1.1" class="ava w-100 text-dark" xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +57,7 @@
                     <span class="ml-2 h5 text-dark align-middle">Payment</span>
                 </a>
             </div>
+            <?php } ?>
             <div>
                 <a href="/help/" class="d-block p-2">
                     <svg version="1.1" class="ava w-100 text-dark" id="Capa_1" xmlns="http://www.w3.org/2000/svg"

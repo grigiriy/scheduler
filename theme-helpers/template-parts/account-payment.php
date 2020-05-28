@@ -1,6 +1,6 @@
 <?php
 $role = wp_get_current_user()->roles[0];
-$paysoon = 3 >= $paid;
+$paysoon = 3 >= intval($is_paid);
 $is_personal = isset($calend_days); //КОСТЫЛЬ - проверяет на какой странице по наличию переденной из родителя переменной календ_дейз
 
 
@@ -87,7 +87,7 @@ if(
             <p class="mb-0">You've got</p>
             <p class="h3">
                 <?php
-                echo $paid . ' new lessons';
+                echo intval($is_paid) . ' new lessons';
                 ?>
             </p>
         </div>

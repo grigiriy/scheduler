@@ -15,7 +15,10 @@ document.location.href = '/';
 } else {
 $user_id = get_current_user_id();
 $passed_lessons = get_passed_lessons_arr($user_id);
-$paid = carbon_get_user_meta( $user_id, 'new_lessons_left' );
+
+$is_paid = is_paid($user_id);
+set_query_var( 'is_paid', $is_paid );
+
 $active_mode = carbon_get_user_meta($user_id, 'mode');
 $args = array(
     'post_type'  => 'lessons',
@@ -71,7 +74,6 @@ set_query_var( 'is_time_to_add', is_time_to_add($next_lesson_adding_time) );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 set_query_var( 'calend_header', 'Your learning calendar' );
 set_query_var( 'calend_days', '0' );
-set_query_var( 'paid', $paid );
 set_query_var( 'now_incTZ', $now_incTZ );
 set_query_var( 'active_mode', $active_mode );
 ?>
@@ -82,8 +84,12 @@ set_query_var( 'active_mode', $active_mode );
 
 <div class="col-md-8 col-sm-12 pr-5">
     <div class="mb-5">
-        <?php get_template_part('theme-helpers/template-parts/account','payment'); ?>
-        <?php get_template_part('theme-helpers/template-parts/personal','personal'); ?>
+        <?php
+        if( carbon_get_theme_option( 'teacher' ) ) {
+        get_template_part('theme-helpers/template-parts/account','payment');
+        }
+        get_template_part('theme-helpers/template-parts/personal','personal');
+        ?>
     </div>
     <div class="d-flex flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
@@ -109,10 +115,6 @@ set_query_var( 'active_mode', $active_mode );
     </div>
 </div>
 
-
-<?php
-// echo do_shortcode('[wp-recall]');
-?>
 
 <?php
     }

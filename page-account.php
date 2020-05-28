@@ -18,6 +18,7 @@ global $now_incTZ;
 
 $user_id = get_current_user_id();
 
+
 $role = get_userdata($user_id)->roles[0];
 if( $role === 'need-confirm' ) { ?>
     <script>document.location.href = '/reg-intro/'</script>
@@ -26,8 +27,10 @@ if( $role === 'need-confirm' ) { ?>
 $passed_lessons = get_passed_lessons_arr($user_id);
 
 $active_mode = carbon_get_user_meta($user_id, 'mode');
-$paid = !empty(carbon_get_user_meta( $user_id, 'new_lessons_left' )) ? carbon_get_user_meta( $user_id, 'new_lessons_left' ) : 0;
 
+$is_paid = is_paid($user_id);
+
+set_query_var( 'is_paid', $is_paid );
 
 $args = array(
     'post_type'  => 'lessons',
@@ -103,7 +106,6 @@ if (isset($active_mode) ) {
 $is_time_to_add = is_time_to_add($next_lesson_adding_time);
 set_query_var( 'is_time_to_add', $is_time_to_add );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
-set_query_var( 'paid', $paid );
 set_query_var( 'now_incTZ', $now_incTZ );
 ?>
 
@@ -114,14 +116,24 @@ set_query_var( 'now_incTZ', $now_incTZ );
 
 <section class="col-md-8 col-sm-12 pr-5">
     <?php
+    echo $next_lesson_adding_time;
+    echo '<hr>';
+    echo $now_incTZ;
+    echo '<hr>';
+    echo 60*60*12;
     if (isset($timers) && $timers ) {
         get_template_part('theme-helpers/template-parts/account','new_lesson'); 
     }
-    if ($paid !== 0 && $is_time_to_add ) {
+   
+    if( carbon_get_theme_option( 'teacher' ) ) {
+        if ( $is_time_to_add ) {
+            if( $paid === 0 && $is_time_to_add ){
+                get_template_part('theme-helpers/template-parts/account','not_payed'); 
+            }
+            get_template_part('theme-helpers/template-parts/account','new_day');
+        }
+    } else {
         get_template_part('theme-helpers/template-parts/account','new_day');
-    }
-    if( $paid === 0 && $is_time_to_add) {
-        get_template_part('theme-helpers/template-parts/account','not_payed'); 
     }
     ?>
 </section>
@@ -129,7 +141,9 @@ set_query_var( 'now_incTZ', $now_incTZ );
 <section class="col-md-4 col-sm-12 px-0">
     <div>
         <?php
-        get_template_part('theme-helpers/template-parts/account','payment');
+        if( carbon_get_theme_option( 'teacher' ) ) {
+            get_template_part('theme-helpers/template-parts/account','payment');
+        }
         // get_template_part('theme-helpers/template-parts/account','new_course'); //not ready yet - teachers shield
         ?>
     </div>

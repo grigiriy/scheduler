@@ -329,20 +329,24 @@ function leave_course() {
 add_action('wp_ajax_leave_course', 'leave_course'); 
 //AJAX FUNCTION LEAVE COURSE
 
+// if PAID FUN
+function is_paid($user_id){
+  if (carbon_get_theme_option( 'teacher' )) {
+    return !empty(carbon_get_user_meta( $user_id, 'new_lessons_left' )) ? carbon_get_user_meta( $user_id, 'new_lessons_left' ) : false;
+  } else {
+    return true;
+  }
+}
+// if PAID FUN
+
 // AJAX FUNCTION TO JOIN COURSE
 function add_lesson() {
   $user_id = intval($_POST['user_id']);
   $post_id = intval($_POST['post_id']);
 
-  if(
-    !carbon_get_user_meta( $user_id, 'new_lessons_left' ) ||
-    carbon_get_user_meta( $user_id, 'new_lessons_left' ) < 1
-  ) {
-    echo 'NO NEW LESSONS TO THIS USER!';
-    return false;
 
-  } else {
 
+  if (is_paid($user_id)){
     $my_postarr = array(
       'post_name'    => get_the_author_meta('user_login', $user_id),
       'post_title'    => get_the_title($post_id),
@@ -356,8 +360,6 @@ function add_lesson() {
 
     $post = get_post( intval($post_id) );
 
-    $lessons_left = carbon_get_user_meta( $user_id, 'new_lessons_left' );
-
     do_action( 'dp_duplicate_page', $my_post_id, $post, "");
 
     $type = get_the_terms( $post_id, 'course_type' )[0]->slug;
@@ -368,14 +370,25 @@ function add_lesson() {
     set_adding_timeout($user_id);
 
     set_timers($my_post_id,$user_id);
-    if($type === 'with-teacher'){
-      notify_manager($my_post_id); //not done yet!
-    } else {
-      return false; //2do create show_error function
+
+    if( carbon_get_theme_option( 'teacher' ) ) {
+      $lessons_left = carbon_get_user_meta( $user_id, 'new_lessons_left' );
+
+      carbon_set_user_meta( $user_id, 'new_lessons_left', $lessons_left - 1 );
+
+      if($type === 'with-teacher'){ // it seems like rudiment.... need to check on eatans over
+        notify_manager($my_post_id); //not done yet!
+      } else {
+        return false; //2do create show_error function
+      }
+
     }
 
-    carbon_set_user_meta( $user_id, 'new_lessons_left', $lessons_left - 1 );
-  } 
+  } else {
+    echo 'NO NEW LESSONS TO THIS USER!';
+    return false;
+  }
+    
 }
 add_action('wp_ajax_add_lesson', 'add_lesson'); 
 // AJAX FUNCTION TO JOIN COURSE
@@ -420,6 +433,8 @@ add_action('wp_ajax_lesson_passed', 'lesson_passed');
 //   }
 // }
 // MOVE CURRENT TO PASSED
+
+
 
 
 // UPDATE USER AVATAR
