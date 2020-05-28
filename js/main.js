@@ -315,8 +315,11 @@ function to_favorite($target_post_id, $user_id, __action, e) {
 }
 
 function start_course_before(e) {
+  $('#proofModal').modal('show');
   let $target_post_id = $(e).parents('.card').attr('id');
-  start_course($target_post_id, $user_id, e);
+  $('#proofModal button[data-action="start_lesson"]').click(function () {
+    start_course($target_post_id, $user_id, e);
+  });
 }
 
 function start_course($target_post_id, $user_id, e) {

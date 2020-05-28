@@ -56,9 +56,12 @@
 </footer>
 <?php
 if( !is_user_logged_in() ) {
-
 get_template_part('/theme-helpers/template-parts/modal','auth');
 get_template_part('/theme-helpers/template-parts/modal','reg');
+} else {
+    if(is_page_template('page-courses.php') ) {
+        get_template_part('/theme-helpers/template-parts/modal','fulishProof');
+    }
 }
 
 wp_footer() ?>
