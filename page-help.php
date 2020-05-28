@@ -12,7 +12,7 @@ document.location.href = '/';
 
 <?php
 } else {
-    while ( have_posts() ) :
+    while ( have_posts() ) {
         the_post();
 ?>
 <div class="container">
@@ -130,11 +130,16 @@ document.location.href = '/';
                 </div>
             </div>
         </div>
+
+
+
         <div class="col-5">
-            <p>Call us</p>
-            <p class="h3">
+            <div class="shadow-lg bottom_rounded bg-white p-5 border-top border-success">
+                <p class="h3 pb-4">Support Team</p>
+            <p class="h4">
                 <a class="text-dark" href="tel:+79998888877">+7 999 888-88-77</a>
             </p>
+            </div>
             <form class="form-group card my-5 p-5 top_rounded bottom_rounded border-0 shadow-lg">
                 <label class="h3" for="textarea">Write your question</label>
                 <textarea class="my-4 form-control border-dark rounded_1 resize_none" id="textarea" rows="3"></textarea>
@@ -143,12 +148,13 @@ document.location.href = '/';
             </form>
             <div class="card my-5 p-5 top_rounded bottom_rounded border-0 shadow-lg">
                 <p class="h3 pb-4">Write us here</p>
-                <?php get_template_part('/theme-helpers/template-parts/footer','social'); ?>
+                <?php  get_template_part('/theme-helpers/template-parts/footer','social'); ?>
             </div>
         </div>
     </div>
 </div>
 <?php
-endwhile;
+    }
 }
+
 get_footer(); ?>
