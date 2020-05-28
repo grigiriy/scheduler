@@ -116,24 +116,20 @@ set_query_var( 'now_incTZ', $now_incTZ );
 
 <section class="col-md-8 col-sm-12 pr-5">
     <?php
-    echo $next_lesson_adding_time;
-    echo '<hr>';
-    echo $now_incTZ;
-    echo '<hr>';
-    echo 60*60*12;
     if (isset($timers) && $timers ) {
         get_template_part('theme-helpers/template-parts/account','new_lesson'); 
     }
-   
-    if( carbon_get_theme_option( 'teacher' ) ) {
-        if ( $is_time_to_add ) {
-            if( $paid === 0 && $is_time_to_add ){
+
+    if ( $is_time_to_add ) {
+        if( carbon_get_theme_option( 'teacher' ) ) {
+            if( $paid === 0 ){
                 get_template_part('theme-helpers/template-parts/account','not_payed'); 
+            } else {
+                get_template_part('theme-helpers/template-parts/account','new_day');
             }
+        } else {
             get_template_part('theme-helpers/template-parts/account','new_day');
         }
-    } else {
-        get_template_part('theme-helpers/template-parts/account','new_day');
     }
     ?>
 </section>
