@@ -223,7 +223,7 @@ function myfilter() {
   $args = set_course_loop($post_id);
   $data = json_decode(stripcslashes($_POST['data']));
 
-  $args['tax_query'] = [ 'relation'=>'AND' ];
+  $args['tax_query'] = [ 'relation'=>'OR' ];
 
   foreach ($data as $param){
     if($param->value !== 'any'){
@@ -238,7 +238,6 @@ function myfilter() {
   render_courses($args);
   
 //нужно будет делать проверку и писать в пост__нот_ин как на сет_курс_луп. пока на паузу (не помню зачем - надо будет разобраться)
-// прояснить с тегами - ор или энд
 wp_die();
 }
 
