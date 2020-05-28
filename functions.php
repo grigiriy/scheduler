@@ -107,7 +107,7 @@
 function display_day($next_lesson_adding_time) {
   $next_formated = getdate($next_lesson_adding_time);
   global $now_incTZ;
-    if(getdate($now_incTZ) > $next_lesson_adding_time){
+    if($now_incTZ > $next_lesson_adding_time){
       $next = 'Today';
       goto fin;
     } else if(getdate($now_incTZ)['mday'] === $next_formated['mday']){
