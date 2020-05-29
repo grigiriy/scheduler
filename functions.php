@@ -160,8 +160,8 @@ function set_course_loop($post_id){
 
   $args = array(
     'orderby' => 'post_date',
-    'post_type' => 'lessons'
-
+    'post_type' => 'lessons',
+    'numberposts' => -1
   );
   if($this_page){
 
@@ -185,17 +185,16 @@ function set_course_loop($post_id){
     } else if ($this_page==='courses') {
         
         $sub_args = $args;
-        $args['post_parent']=0;
         $sub_args['author']=$user_id;
-        
+
         $par_list=[];
         $cur_list = get_posts($sub_args);
-
         foreach ($cur_list as $post){
-            array_push($par_list, wp_get_post_parent_id( $post ));
+          array_push( $par_list, wp_get_post_parent_id( $post ) );
         }
         wp_reset_postdata();
-
+        
+        $args['post_parent']=0;
         $args['post__not_in']=$par_list;
     } else if ($this_page==='favorite') {
         $args['post__in']=$selected_posts;
