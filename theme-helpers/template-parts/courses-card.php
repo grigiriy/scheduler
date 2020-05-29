@@ -14,9 +14,21 @@ $in_fav = in_array($_post->ID,$selected_posts);
 $course_level = get_the_terms($_post->ID,'course_level');
 $course_duration = get_the_terms($_post->ID,'course_duration');
 
-$launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
-['onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary'] :
-['data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day($next_lesson_adding_time).'"','secondary'];
+$is_course_checker = (
+    get_the_title($post_id) === 'Current lessons' ||
+    get_the_title($post_id) === 'Already passed'
+) ? true : false;
+
+if( $is_course_checker){
+    $launch_btn = ['href="'.get_the_permalink($_post->ID).'"','info','Go to lesson
+    <span class="arrow_symbol ml-3">⟶</span>'];
+} else {
+    $launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
+    ['onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary','Choose this lesson
+    <span class="arrow_symbol ml-3">⟶</span>'] :
+    ['data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day($next_lesson_adding_time).'"','secondary','Choose this lesson
+    <span class="arrow_symbol ml-3">⟶</span>'];
+}
 ?>
 <div class="card mb-3 shadow-lg p-0" id="<?= $_post->ID; ?>">
     <div class="card-head video_wrapper" onclick="preview_video(this,'<?=$yt_code; ?>')">
@@ -64,8 +76,7 @@ $launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
         <p class="text-muted"><?= $_post->post_excerpt ?></p>
         <div class="d-flex mt-4 mb-3">
 
-            <button class="btn btn-<?= $launch_btn[1] ?> btn-round px-4 py-3" <?= $launch_btn[0] ?>>Choose this lesson
-                <span class="arrow_symbol ml-3">⟶</span></button>
+            <button class="btn btn-<?= $launch_btn[1] ?> btn-round px-4 py-3" <?= $launch_btn[0] ?>><?= $launch_btn[2] ?></button>
 
 
             <span class="favorite_btn ml-auto my-2 <?= $in_fav === true ? 'active' : '' ?>"

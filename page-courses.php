@@ -18,6 +18,7 @@ document.location.href = '/';
         the_post();
         $is_paid = is_paid($user_id);
         set_query_var( 'is_paid', $is_paid );
+        set_query_var( 'post_id', $post->ID );
 ?>
 </div>
 <div class="container-fluid border-bottom border-success">
