@@ -24,9 +24,9 @@ if( $is_course_checker){
     <span class="arrow_symbol ml-3">⟶</span>'];
 } else {
     $launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
-    ['onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary','Choose this lesson
+    ['href="javascript:void(0)" onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary','Choose this lesson
     <span class="arrow_symbol ml-3">⟶</span>'] :
-    ['data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day($next_lesson_adding_time).'"','secondary','Choose this lesson
+    ['href="javascript:void(0) data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day($next_lesson_adding_time).'"','secondary','Choose this lesson
     <span class="arrow_symbol ml-3">⟶</span>'];
 }
 ?>
@@ -76,7 +76,7 @@ if( $is_course_checker){
         <p class="text-muted"><?= $_post->post_excerpt ?></p>
         <div class="d-flex mt-4 mb-3">
 
-            <button class="btn btn-<?= $launch_btn[1] ?> btn-round px-4 py-3" <?= $launch_btn[0] ?>><?= $launch_btn[2] ?></button>
+            <a class="btn btn-<?= $launch_btn[1] ?> btn-round px-4 py-3" <?= $launch_btn[0] ?>><?= $launch_btn[2] ?></a>
 
 
             <span class="favorite_btn ml-auto my-2 <?= $in_fav === true ? 'active' : '' ?>"
