@@ -344,7 +344,7 @@ function add_lesson() {
 
 
 
-  if (is_paid($user_id)){
+  if (is_paid($user_id) && !is_post_exist($post_id,$user_id)){
     $my_postarr = array(
       'post_name'    => get_the_author_meta('user_login', $user_id),
       'post_title'    => get_the_title($post_id),
@@ -391,6 +391,17 @@ function add_lesson() {
 add_action('wp_ajax_add_lesson', 'add_lesson'); 
 // AJAX FUNCTION TO JOIN COURSE
 
+// check if there is same post
+function is_post_exist($parent,$author){
+  $posts = get_posts([
+    'post_type'  => 'lessons',
+    'author'=>$author,
+    'post_parent'=>$parent
+  ]);
+  wp_reset_postdata();
+  return count($posts);
+}
+// check if there is same post
 
 // AJAX FUNCTION TO MARK LESSON AS COMPLETED
 function lesson_passed() {
