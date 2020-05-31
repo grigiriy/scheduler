@@ -120,7 +120,9 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
             <?php the_content(); ?>
         </div>
     </div>
-    <div id="player" class="mb-5"></div>
+    <div class="player_wrapper" style="width:100%">
+        <div id="player" class="mb-5"></div>
+    </div>
 </div>
 </div>
 <script>
@@ -135,8 +137,8 @@ var yt_code = document.querySelector('h1').getAttribute('data-id');
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        height: '500px',
         width: '100%',
+        height: '100%',
         videoId: yt_code,
         events: {
             'onReady': onPlayerReady,
@@ -164,6 +166,7 @@ function onPlayerStateChange(event) {
 function stopVideo() {
     player.stopVideo();
 }
+document.querySelector('#player').style.height = (0.56*document.querySelector('#player').clientWidth)+'px';
 </script>
 
 <?php
