@@ -61,6 +61,8 @@ document.location.href = '/';
 </div>
 
 <script>
+document.querySelector('nav').style.opacity = 0;
+
 const steps = document.querySelector('#steps');
 const step_1 = steps.querySelector('#step_1');
 const step_2 = steps.querySelector('#step_2');
