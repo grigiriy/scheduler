@@ -263,7 +263,12 @@ function is_time_to_add($next_lesson_adding_time){
 function set_mode() {
   $user_id = intval($_POST['user_id']);
   $active_mode = $_POST['mode'];
+  $sche = $_POST['sche'];
+  
   carbon_set_user_meta( $user_id, 'mode', $active_mode );
+  if($sche){
+    update_schedulers($user_id);
+  }
 }
 add_action('wp_ajax_set_mode', 'set_mode'); 
 //AJAX SET ACTIVE MODE
@@ -342,8 +347,6 @@ function add_lesson() {
   $user_id = intval($_POST['user_id']);
   $post_id = intval($_POST['post_id']);
 
-
-
   if (is_paid($user_id) && !is_post_exist($post_id,$user_id)){
     $my_postarr = array(
       'post_name'    => get_the_author_meta('user_login', $user_id),
@@ -367,7 +370,7 @@ function add_lesson() {
 
     set_adding_timeout($user_id);
 
-    set_timers($my_post_id,$user_id);
+    set_timers($my_post_id,$user_id,false);
 
     if( carbon_get_theme_option( 'teacher' ) ) {
       $lessons_left = carbon_get_user_meta( $user_id, 'new_lessons_left' );
@@ -494,6 +497,7 @@ add_action('wp_ajax_ava_file_upload', 'ava_file_upload');
 function update_profile() {
   $user_id = intval($_POST['user_id']);
   $type = $_POST['type'];
+  $sche = $_POST['sche'];
   $value = htmlspecialchars($_POST['val']);
 
   if($type === 'first_name') {
@@ -505,6 +509,9 @@ function update_profile() {
     print_r($userdata);
   } else {
     carbon_set_user_meta( $user_id, $type, $value);
+    if($sche){
+      update_schedulers($user_id);
+    }
   }
 }
 add_action('wp_ajax_update_profile', 'update_profile'); 
@@ -516,27 +523,54 @@ function finish_course($post_id) {
   wp_set_post_terms( $post_id, 'finished', 'course_status', false );
 }
 
-function set_timers( $post_id, $user_id)  {
-  $active_mode = carbon_get_user_meta($user_id, 'mode');
-  $timer = get_schedule( $active_mode, $user_id );
-  fill_lesson_cf( $timer, $post_id );
+function set_timers( $post_id, $user_id, $update)  {
+  $timer = get_schedule( $user_id, $update );
 
+  fill_lesson_cf( $timer, $post_id );
+  
   set_scheduleMail($timer,$user_id,$post_id);
 }
 
 function fill_lesson_cf ( $timers, $post_id ) {
   foreach ($timers as $key=>$timer) {
     carbon_set_post_meta( $post_id, 'timecode_'.($key+1), $timer );
+    if(!$timers[2] && carbon_get_post_meta( $post_id, 'timecode_3') ){
+      carbon_set_post_meta( $post_id, 'timecode_3', '' );
+    }
   }
 }
 
-// GET USER SPECIFIED TIME BY ID
-function get_schedule($active_mode,$user_id) {
+// UPDATE SCHEDULERS ON MODE/TIME CHANGE
+function update_schedulers($user_id){
   
-  // global $now_incTZ;
-  $today_midnight = strtotime('today midnight');
+  $list = get_posts([
+    'post_type'  => 'lessons',
+    'author'=> $user_id,
+  ]);
+
+  foreach( $list as $_post ){
+    set_timers($_post->ID,$user_id,get_the_time('U',$_post->ID));
+  }
+
+}
+// UPDATE SCHEDULERS ON MODE/TIME CHANGE
+
+// GET USER SPECIFIED TIME BY ID
+function get_schedule( $user_id, $update ) {
+  
+  $active_mode = carbon_get_user_meta($user_id, 'mode');
+
   global $_day;
   global $timeZone_msc;
+
+  if($update){
+    $today_midnight = $update - $update % (3600*24);
+    $__now = $update;
+  } else {
+    global $now_incTZ;
+    $today_midnight = strtotime('today midnight');
+    $__now = $now_incTZ;
+  }
 
 
   $mrng = explode(':',carbon_get_user_meta($user_id,'mrng_practice'));
@@ -550,14 +584,19 @@ function get_schedule($active_mode,$user_id) {
     $today_midnight + $_day * 1 + $user_timeRange[1],
     $today_midnight + $_day * 4 + $user_timeRange[1],
   ];
-	$schedules['Medium'] = [
+  
+  $schedules['Medium'] = [
     $today_midnight + $_day * 1 + $user_timeRange[0],
     $today_midnight + $_day * 3 + $user_timeRange[1],
     $today_midnight + $_day * 5 + $user_timeRange[1],
   ];
-	$schedules['Fire'] = [
-    $today_midnight + $_day * 1 + $user_timeRange[1],
-    $today_midnight + $_day * 7 + $user_timeRange[1],
+  
+  $var = ( ($today_midnight + $user_timeRange[1]) > $__now ) ? 1 : 0;
+  
+  $schedules['Fire'] = [
+    $today_midnight + $user_timeRange[1],
+    $today_midnight + ( $_day * (1 + $var) ) + $user_timeRange[1],
+    $today_midnight + ( $_day * (7 + $var) ) + $user_timeRange[1],
   ];
 
   $timer = $schedules[$active_mode];
@@ -636,25 +675,13 @@ return true;
 
 
 
-
-// // DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
-// function update_scheduleMail($timer,$user_id,$post_id){
-
-//   // foreach([0,1,2,3] as $key){
-//     wp_clear_scheduled_hook( 'send_notify',[$post_id,$user_id] );
-//     // Удаляет все крон-задачи прикрепленные к указанному хуку и имеющие указанные параметры.
-//   // }
-//   set_scheduleMail($timer,$user_id,$post_id);
-// }
-// // DELETE OLD AND CREATE NEW TIMERS (ALSO DELETE CRON SCHEDULERS FOR MAIL)
-
-
-
 // AND SET TIMERS
 // AND CALL A FUNCTION TO SEND LETTERS
 function set_scheduleMail($timer,$user_id,$post_id) {
+  // if( !wp_next_scheduled('send_notify')
 
-  if( !wp_next_scheduled('send_notify') )
+  wp_clear_scheduled_hook('send_notify', [$post_id,$user_id] );
+
   foreach($timer as $key=>$_timer){
     wp_schedule_single_event( $_timer, 'send_notify', [$post_id,$user_id] );
   }

@@ -84,9 +84,8 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING) {
-        lesson_passed();
-    }
+    // if (event.data == YT.PlayerState.PLAYING) {
+    // }
     console.log('cc -> ', player.getOptions('cc'));
 }
 
