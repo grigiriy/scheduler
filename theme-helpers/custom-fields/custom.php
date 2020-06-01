@@ -114,6 +114,9 @@ WpGraphQLCrbContainer::register(
         Field::make( 'complex', 'modes', 'Режимы' )
         ->add_fields( [
             Field::make( 'text', 'name', 'Название режима' ),
+            Field::make( 'text', 'color', 'Цвет режима' ),
+            Field::make( 'rich_text', 'first_day', 'Первый день' ),
+            Field::make( 'rich_text', 'second_day', 'Другие дни' ),
         ])
     ])
 );

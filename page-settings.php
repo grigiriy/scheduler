@@ -15,6 +15,17 @@ document.location.href = '/';
     } else {
     $user_id = get_current_user_id();
     set_query_var( 'user_id', $user_id );
+
+
+    $mode = carbon_get_user_meta($user_id, 'mode');
+    $modes = carbon_get_post_meta(238, 'modes');
+    foreach ($modes as $key=>$_mode){
+        if($_mode['name'] === carbon_get_user_meta($user_id, 'mode')){
+            $mode = $_mode;
+            $icon = $key;
+        }
+    }
+    set_query_var( 'mode', $mode );
 ?>
 
 <section class="col-md-8 col-sm-12 pr-5">
@@ -23,12 +34,12 @@ document.location.href = '/';
         <div class="card-header border-bottom-0 bg-transparent d-flex">
             <div class="col-9 col-xl-10">
                 <h2>Your Current mode is <span
-                        class="text-mainSche"><?= carbon_get_user_meta($user_id, 'mode');?></span></h2>
+                        class="text-<?= $mode['color'] ;?>"><?= $mode['name'] ;?></span></h2>
                 <p class="text-muted">Shedule for this mode:</p>
             </div>
             <div class="col-3 col-xl-2 px-0">
-                <img class="mw-100 rounded-image border-mainSche"
-                    src="/wp-content/themes/scheduler_mvp/img/current_icon.png" alt="">
+                <img class="mw-100 rounded-image border-<?= $mode['color'] ;?>"
+                    src="/wp-content/themes/scheduler_mvp/img/mode_<?= $icon; ?>.png" alt="">
             </div>
         </div>
         <?php get_template_part('theme-helpers/template-parts/settings','days'); ?>

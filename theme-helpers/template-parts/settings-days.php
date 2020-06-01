@@ -25,12 +25,8 @@
                 </g>
             </svg>
         </div>
-        <div class="<?= $is_modes ? 'smaller' : '' ?>">
-            <p class="h5">First day</p>
-            <div class="<?= $is_modes ? 'mt-1' : 'mt-3' ?>">
-                <p class="text-mainSche h6 <?= $is_modes ? 'mb-0' : '' ?>">1st lesson with teacher</p>
-                <p>Adding and analysis of new material</p>
-            </div>
+        <div class="<?= $is_modes ? 'smaller is_modes_page modes_text' : 'modes_text' ?>">
+        <?= $mode['first_day'] ?>
         </div>
     </div>
     <div class="<?= $is_modes ? 'col-12' : 'col-6' ?> d-flex">
@@ -57,16 +53,8 @@
                 </g>
             </svg>
         </div>
-        <div class="<?= $is_modes ? 'smaller' : '' ?>">
-            <p class="h5">Next days</p>
-            <div class="<?= $is_modes ? 'mt-1' : 'mt-3' ?>">
-                <p class="text-mainSche h6 <?= $is_modes ? 'mb-0' : '' ?>">1st self lesson</p>
-                <p>Repetition of yesterday's material</p>
-            </div>
-            <div class="<?= $is_modes ? 'mt-1' : 'mt-4' ?>">
-                <p class="text-mainSche h6 <?= $is_modes ? 'mb-0' : '' ?>">2nd self lesson</p>
-                <p>Repetition of material passed 5 days ago</p>
-            </div>
+        <div class="<?= $is_modes ? 'smaller is_modes_page modes_text' : 'modes_text' ?>">
+        <?= $mode['second_day'] ?>
         </div>
     </div>
 </div>

@@ -505,3 +505,12 @@ textarea.resize_none {
 .video_wrapper:hover svg {
   opacity: 0.8;
 }
+
+.modes_text h6 {
+  margin-top: 1rem;
+  color: #67a880;
+}
+.modes_text.is_modes h6 {
+  margin-bottom: 0;
+  margin-top: 0.25rem;
+}

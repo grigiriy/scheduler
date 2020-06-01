@@ -1,15 +1,5 @@
 <?php
-switch ($key) {
-    case 0:
-        $color = 'mainSche';
-        break;
-    case 1:
-        $color = 'peach';
-        break;
-    case 2:
-        $color = 'danger';
-        break;
-}
+
 $selection = [];
 if (isset($active_mode)){
     $selection = [$active_mode, true];
@@ -19,7 +9,7 @@ if (isset($active_mode)){
 
 $classNames='mode_card';
 if($mode['name'] === $selection[0]){
-    $classNames .= ' selected border-'.$color;
+    $classNames .= ' selected border-'.$mode['color'];
     $classNames .= $selection[1] ? '' : ' recommended';
 }
 
@@ -29,12 +19,12 @@ if($mode['name'] === $selection[0]){
         <div class="row">
             <div class="col-4 pl-0 offset-8 priceImg">
                 <img src="/wp-content/themes/scheduler_mvp/img/mode_<?= $key; ?>.png?>"
-                    class="mw-100 rounded-image border-<?= $color?>" alt="">
+                    class="mw-100 rounded-image border-<?= $mode['color'] ?>" alt="">
             </div>
         </div>
         <div class="row">
             <div class="col-8 offset-2 px-2">
-                <p class="mb-2 mx-auto h3 text-<?= $color?>"><?= $mode['name']; ?>&nbsp;mode</p>
+                <p class="mb-2 mx-auto h3 text-<?= $mode['color'] ?>"><?= $mode['name']; ?>&nbsp;mode</p>
                 <p class="text-muted">Shedule for this mode:</p>
             </div>
         </div>
