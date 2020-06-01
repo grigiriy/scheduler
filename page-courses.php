@@ -65,6 +65,16 @@ document.location.href = '/';
         });
     }
     rerenderImages();
+
+
+let navList = document.querySelector('nav').querySelectorAll('a');
+
+navList.forEach(function(item){
+    if(item.getAttribute('href').indexOf('courses') != -1 ){
+        item.setAttribute('aria-current','page');
+    }
+}) 
+
     </script>
     <?php
 get_footer(); ?>

@@ -35,5 +35,16 @@ foreach ($modes as $key=>$mode){
 
 
 endwhile;
+?>
+<script>
+let navList = document.querySelector('nav').querySelectorAll('a');
+
+navList.forEach(function(item){
+    if(item.getAttribute('href').indexOf('settings') != -1 ){
+        item.setAttribute('aria-current','page');
+    }
+}) 
+</script>
+<?php
 }
 get_footer(); ?>
