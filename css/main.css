@@ -360,6 +360,25 @@ img.rounded-image {
   transform: rotate(180deg);
   margin-top: 15px;
 }
+
+.timer_input input.onload {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 1rem,
+    #ccc 1rem,
+    #ccc 2rem
+  );
+  background-size: 200% 200%;
+  animation: barberpole 10s linear infinite;
+}
+
+@keyframes barberpole {
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
 #show_text svg {
   transition: all 0.5s;
 }

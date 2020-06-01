@@ -15,13 +15,6 @@ function showText(e) {
 }
 
 $(document).ready(function () {
-  $('input.timepicker').timepicker({
-    timeFormat: 'h:mm a',
-    minTime: '6:00am',
-    maxTime: '11:30pm',
-    showDuration: true,
-  });
-
   $('[data-toggle="popover"]').popover();
 
   $('#course_filter').submit(function () {
@@ -108,35 +101,6 @@ $(document).ready(function () {
     $(this).parents('._not_set').next('._set').find('.edit').click();
   });
 
-  $('.timer_input')
-    .find('input')
-    .click(function () {
-      $(this).siblings('.edit').fadeIn(100);
-    });
-
-  $('.timer_input')
-    .find('.edit')
-    .click(function () {
-      let val = $(this).siblings('input').val();
-
-      val =
-        val.indexOf('pm') !== -1
-          ? get_pm(val.replace(/\s\w\w/, ''))
-          : val.replace(/\s\w\w/, '');
-
-      function get_pm(val) {
-        val = val.split(':');
-        val[0] = parseInt(val[0]) + 12;
-        return val.join(':');
-      }
-
-      let type = $(this).parents('.timer_input').data('type');
-
-      save_data(type, val);
-      $(this).text('Success!');
-      setTimeout(() => $(this).fadeOut(300), 500);
-    });
-
   $('#configs')
     .find('.edit')
     .click(function () {
@@ -170,7 +134,95 @@ $(document).ready(function () {
           );
       }
     });
+
+  let $first = $($('.timer_input')[0]).find('input');
+
+  let $second = $($('.timer_input')[1]).find('input');
+
+  $first.val(set_pmam($first.val()));
+
+  $second.val(set_pmam($second.val()));
+
+  $first.timepicker({
+    timeFormat: 'h:mm a',
+    minTime: '5:00am',
+    maxTime: $second.val() === '' ? '11:30pm' : $second.val(),
+    showDuration: true,
+    dynamic: false,
+  });
+
+  $('.timer_input')
+    .find('input')
+    .click(function () {
+      let $this = $(this);
+
+      if ($second[0] !== $this[0]) {
+        // $second.val('');
+      }
+
+      $('.ui-timepicker-viewport').click(function () {
+        $this.addClass('onload');
+        $this.attr('disabled', 'disabled');
+        $second.addClass('onload');
+
+        setTimeout(() => {
+          $first.timepicker(
+            'option',
+            'maxTime',
+            $second.val() === '' ? '11:30pm' : $second.val()
+          );
+
+          $this.removeClass('onload');
+          $this.removeAttr('disabled');
+
+          $second.removeClass('onload');
+          $second.removeAttr('disabled');
+
+          $second.timepicker(
+            'option',
+            'minTime',
+            $first.val() === '' ? '06:00am' : $first.val()
+          );
+          $second.timepicker({
+            timeFormat: 'h:mm a',
+            minTime: $first.val() === '' ? '06:00am' : $first.val(),
+            maxTime: '11:30pm',
+            showDuration: true,
+            dynamic: false,
+          });
+
+          let val = $this.val();
+          val =
+            val.indexOf('pm') !== -1
+              ? get_pm(val.replace(/\s\w\w/, ''))
+              : val.replace(/\s\w\w/, '');
+
+          let type = $this.parents('.timer_input').data('type');
+
+          save_data(type, val);
+        }, 1000);
+      });
+    });
 });
+
+function set_pmam(val) {
+  if (val !== '') {
+    if (val.indexOf('pm') === -1 || val.indexOf('am') === -1) {
+      val = val.split(':');
+      is_pm = parseInt(val[0]) > 12 ? true : false;
+      val[0] = is_pm ? parseInt(val[0]) - 12 : parseInt(val[0]);
+      val = val.join(':');
+      val = is_pm ? val + ' pm' : val + ' am';
+    }
+  }
+  return val;
+}
+
+function get_pm(val) {
+  val = val.split(':');
+  val[0] = parseInt(val[0]) === 12 ? parseInt(val[0]) : parseInt(val[0]) + 12;
+  return val.join(':');
+}
 
 function preview_video(e, id) {
   e.appendChild(createIframe(id));
@@ -202,10 +254,7 @@ function go_third(e) {
     $("[data-type='evng_practice']").find('input').val(),
   ];
   if (parents[0] !== '' && parents[1] !== '') {
-    $('#element').popover('disable');
     third_step();
-  } else {
-    $('#element').popover('enable');
   }
 }
 

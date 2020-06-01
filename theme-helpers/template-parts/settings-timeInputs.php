@@ -17,7 +17,8 @@
         <label class="<?= isset($is_step) ? 'mb-4' : 'mr-3'; ?>">First lesson</label>
         <input type="text"
             class="<?= isset($is_step) ? 'w-100 ml-n5' : 'w-50'; ?> p-2 timepicker bg-lightGrey rounded-lg border-0"
-            value="<?= carbon_get_user_meta($user_id,'mrng_practice');?>">
+            value="<?= carbon_get_user_meta($user_id,'mrng_practice');?>"
+            >
         <span class="top_angle">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
@@ -40,7 +41,6 @@
                 </g>
             </svg>
         </span>
-        <span style="display:none" class="edit btn btn-link border-0 position-absolute mt-1">Update</span>
     </div>
 
 </div>
@@ -64,7 +64,9 @@
         <label class="<?= isset($is_step) ? 'mb-4' : 'mr-3'; ?>">Second lesson</label>
         <input type="text"
             class="<?= isset($is_step) ? 'w-100 ml-n5' : 'w-50'; ?> p-2 timepicker bg-lightGrey rounded-lg border-0"
-            value="<?= carbon_get_user_meta($user_id,'evng_practice');?>">
+            value="<?= carbon_get_user_meta($user_id,'evng_practice');?>"
+            disabled="disapled"
+            >
         <span class="top_angle">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
@@ -89,7 +91,6 @@
 
             </svg>
         </span>
-        <span style="display:none" class="edit btn btn-link border-0 position-absolute mt-1">Update</span>
     </div>
 
 </div>
