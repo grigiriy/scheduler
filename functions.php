@@ -690,13 +690,30 @@ function set_scheduleMail($timer,$user_id,$post_id) {
 // AND SET TIMERS
 // AND CALL A FUNCTION TO SEND LETTERS
 
+if ( ! wp_next_scheduled( 'cur_to_passed_sche' ) ) {
+  wp_schedule_event( '1590876000', 'daily', 'cur_to_passed_sche');
+}
 
+add_action('cur_to_passed_sche', 'cur_to_passed_sche_fun');
 
+function cur_to_passed_sche_fun() {
+  global $now_incTZ;
+  $args = array(
+    'post_type'  => 'lessons',
+    'course_status'   => 'started',
+  );
+  $list = get_posts($args);
 
-
-
-
-
+  foreach($list as $_post){
+    if (
+      (carbon_get_post_meta( $_post->ID, 'timecode_3') && (carbon_get_post_meta( $post->ID, 'timecode_3') <= $now_incTZ) )
+      ||
+      (!carbon_get_post_meta( $post->ID, 'timecode_2') && (carbon_get_post_meta( $post->ID, 'timecode_2') <= $now_incTZ) )
+      ) {
+        wp_set_post_terms( $post->ID, 'finished', 'course_status', false );
+    }
+  }
+}
 
 
 
