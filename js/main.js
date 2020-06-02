@@ -17,6 +17,16 @@ function showText(e) {
 $(document).ready(function () {
   $('[data-toggle="popover"]').popover();
 
+  if (window.location.href.indexOf('#signin') != -1) {
+    $('#signin').modal('show');
+  }
+  if (window.location.href.indexOf('#login') != -1) {
+    $('#login').modal('show');
+  }
+  if (window.location.href.indexOf('#reset') != -1) {
+    $('#reset').modal('show');
+  }
+
   $('#course_filter').submit(function () {
     var filter = $(this);
     console.log(JSON.stringify(filter.serializeArray()));
@@ -404,9 +414,18 @@ function lesson_passed() {
   });
 }
 
+function push_hash(e) {
+  window.location = $(e).data('target');
+}
+
 function changeModals(e) {
   $(e).parents('.modal').modal('hide');
-  $(e).parents('.modal').siblings('.modal').modal('show');
+  let new_modal = $(e).data('modalto');
+  $(e)
+    .parents('.modal')
+    .siblings('#' + new_modal)
+    .modal('show');
+  window.location = '#' + new_modal;
 }
 
 function set_mode(e, $user_id) {
