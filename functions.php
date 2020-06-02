@@ -581,7 +581,7 @@ function get_schedule( $user_id, $update ) {
   ];
 
 	$schedules['Light'] = [
-    $today_midnight + $_day * 1 + $user_timeRange[1],
+    $today_midnight + $_day * 1 + $user_timeRange[0],
     $today_midnight + $_day * 5 + $user_timeRange[1],
   ];
   
@@ -596,7 +596,7 @@ function get_schedule( $user_id, $update ) {
   $schedules['Fire'] = [
     $today_midnight + $user_timeRange[1],
     $today_midnight + ( $_day * (1 + $var) ) + $user_timeRange[1],
-    $today_midnight + ( $_day * (8 + $var) ) + $user_timeRange[1],
+    $today_midnight + ( $_day * (8 + $var) ) + $user_timeRange[0],
   ];
 
   $timer = $schedules[$active_mode];
