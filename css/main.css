@@ -313,7 +313,17 @@ img.rounded-image {
 }
 @media (max-width: 991px) {
   .side_image {
-    margin-bottom: -4em;
+    margin-bottom: -15em;
+  }
+}
+@media (max-width: 768px) {
+  .side_image {
+    margin-bottom: -8em;
+  }
+}
+@media (max-width: 450px) {
+  .side_image {
+    margin-bottom: -5em;
   }
 }
 
@@ -359,11 +369,14 @@ img.rounded-image {
 .timer_input {
   position: relative;
 }
+.timer_input label {
+  line-height: 1;
+}
 .timer_input .top_angle,
 .timer_input .bottom_angle {
   max-width: 8px;
   position: absolute;
-  margin-left: -12px;
+  right: 10px;
 }
 .timer_input .bottom_angle {
   transform: rotate(180deg);

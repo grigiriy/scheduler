@@ -28,16 +28,16 @@ document.location.href = '/';
     set_query_var( 'mode', $mode );
 ?>
 
-<section class="col-md-8 col-sm-12 pr-5">
+<section class="col-lg-8 col-12 pr-0 pl-0 pl-lg-3 pr-lg-3 pr-xl-5">
 
     <div class="card shadow-lg bottom_rounded top_rounded p-3">
         <div class="card-header border-bottom-0 bg-transparent d-flex">
-            <div class="col-9 col-xl-10">
+            <div class="col-12 col-sm-9 col-xl-10">
                 <h2>Your Current mode is <span
                         class="text-<?= $mode['color'] ;?>"><?= $mode['name'] ;?></span></h2>
                 <p class="text-muted">Shedule for this mode:</p>
             </div>
-            <div class="col-3 col-xl-2 px-0">
+            <div class="d-none d-sm-block col-3 col-xl-2 px-0">
                 <img class="mw-100 rounded-image border-<?= $mode['color'] ;?>"
                     src="/wp-content/themes/scheduler_mvp/img/mode_<?= $icon; ?>.png" alt="">
             </div>
@@ -51,7 +51,7 @@ document.location.href = '/';
 
 </section>
 
-<section class="col-md-4 col-sm-12 px-0">
+<section class="col-lg-4 col-12 px-0">
     <?php get_template_part('theme-helpers/template-parts/settings','sidebar'); ?>
 </section>
 

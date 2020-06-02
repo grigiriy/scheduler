@@ -13,10 +13,10 @@
             </g>
         </svg>
     </div>
-    <div class="mb-3 timer_input mr-5" data-type="mrng_practice">
-        <label class="<?= isset($is_step) ? 'mb-4' : 'mr-3'; ?>">First lesson</label>
+    <div class="mb-3 timer_input d-flex" data-type="mrng_practice">
+        <label class="align-self-center">First lesson</label>
         <input type="text"
-            class="<?= isset($is_step) ? 'w-100 ml-n5' : 'w-50'; ?> p-2 timepicker bg-lightGrey rounded-lg border-0"
+            class="ml-auto <?= isset($is_step) ? 'w-100 ml-n5' : 'w-50'; ?> p-2 timepicker bg-lightGrey rounded-lg border-0"
             value="<?= carbon_get_user_meta($user_id,'mrng_practice');?>"
             >
         <span class="top_angle">
@@ -60,10 +60,10 @@
             </g>
         </svg>
     </div>
-    <div class="mb-3 timer_input mr-5" data-type="evng_practice">
-        <label class="<?= isset($is_step) ? 'mb-4' : 'mr-3'; ?>">Second lesson</label>
+    <div class="mb-3 timer_input d-flex" data-type="evng_practice">
+        <label class="align-self-center">Second lesson</label>
         <input type="text"
-            class="<?= isset($is_step) ? 'w-100 ml-n5' : 'w-50'; ?> p-2 timepicker bg-lightGrey rounded-lg border-0"
+            class="ml-auto <?= isset($is_step) ? 'w-100 ml-n5' : 'w-50'; ?> p-2 timepicker bg-lightGrey rounded-lg border-0"
             value="<?= carbon_get_user_meta($user_id,'evng_practice');?>"
             disabled="disapled"
             >

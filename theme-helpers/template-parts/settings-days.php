@@ -1,7 +1,7 @@
 <?php $is_modes = isset($is_modes); ?>
 
 <div class="card-body row <?= $is_modes ? 'px-0' : 'bd-callout__no_bs bd-callout-primary' ?>">
-    <div class="<?= $is_modes ? 'col-12' : 'col-6' ?> d-flex">
+    <div class="<?= $is_modes ? 'col-12' : 'col-sm-6 col-12' ?> d-flex">
         <div class="mr-3">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 x="0px" y="0px" width="32.75px" height="32.75px" viewBox="0 0 32.75 32.75"
@@ -29,7 +29,7 @@
         <?= $mode['first_day'] ?>
         </div>
     </div>
-    <div class="<?= $is_modes ? 'col-12' : 'col-6' ?> d-flex">
+    <div class="<?= $is_modes ? 'col-12' : 'col-sm-6 col-12' ?> d-flex">
         <div class="mr-3">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 x="0px" y="0px" width="32.75px" height="32.75px" viewBox="0 0 32.75 32.75"
