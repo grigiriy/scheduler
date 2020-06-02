@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body pt-0">
                 <div class="h4 text-center text-warning pb-3">Reset password</div>
-                <div class="px-5">
+                <div class="px-sm-5 px-0">
                     <?= do_shortcode('[ultimatemember_password]'); ?>
                 </div>
             </div>
