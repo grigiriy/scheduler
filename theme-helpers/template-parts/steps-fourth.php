@@ -1,9 +1,9 @@
-<div class="col-7 mb-5">
+<div class="col-lg-6 col-xl-7 col-12 mb-5">
     <h1>Intro-how to learn</h1>
 </div>
-<div class="col-5 mb-5">
-    <span class="h5 align-middle mr-3">If everithing's clear, just </span>
-    <button class="btn btn-primary btn-round py-3 px-4 ml-auto align-self-center text-white"
+<div class="col-lg-6 col-xl-5 col-12 mb-5">
+    <span class="h5 align-middle mr-3 d-block d-sm-inline">If everithing's clear, just </span>
+    <button class="btn btn-primary btn-round mt-3 mt-sm-0 py-3 px-4 ml-auto align-self-center text-white"
         onclick="finish_reg(<?= $user_id; ?>)">Choose video
         <span class="arrow_symbol ml-3">⟶</span></button>
 </div>

@@ -399,6 +399,9 @@ img.rounded-image {
   transform: rotate(180deg);
   margin-top: 15px;
 }
+.steps_view .timer_input span {
+  left: calc(100% - 70px);
+}
 
 .timer_input input.onload {
   background-image: repeating-linear-gradient(
@@ -497,7 +500,11 @@ textarea.resize_none {
   font-weight: 700;
   border-right: black 5px solid;
 }
-
+@media (max-width: 460px) {
+  .step_header h1 {
+    font-size: 2.5rem;
+  }
+}
 .mode_card {
   position: relative;
   border: solid 5px transparent;

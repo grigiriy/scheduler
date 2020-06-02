@@ -14,7 +14,7 @@ if($mode['name'] === $selection[0]){
 }
 
 ?>
-<div class="card top_rounded bottom_rounded p-4 p-lg-2 p-xl-4 shadow-lg <?= $classNames; ?>">
+<div class="card top_rounded bottom_rounded py-4 px-4 px-lg-2 px-xl-4 shadow-lg <?= $classNames; ?>">
     <div class="row">
         <div class="col-4 pl-0 offset-8 priceImg">
             <img src="/wp-content/themes/scheduler_mvp/img/mode_<?= $key; ?>.png?>"

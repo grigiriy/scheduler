@@ -1,4 +1,4 @@
-<div class="col-6 mb-5">
+<div class="col-lg-6 col-12 mb-5">
     <div class="row mx-0 mb-5 step_header">
         <h1 class="h1 pr-4">Step&nbsp;1</h1>
         <div class="pl-4">
@@ -19,7 +19,7 @@
             adipiscing elit. </p>
     </div>
 </div>
-<div class="col-6 mb-5">
+<div class="col-lg-6 col-12 mb-5">
     <div id="player" data-id="<?= $yt_code ?>" class="mb-5"></div>
 </div>
 
@@ -35,7 +35,7 @@ foreach ($modes as $key=>$mode){
     set_query_var('mode',$mode);
     set_query_var('key',$key);
     ?>
-    <div class="col-lg-4 col-12 mb-lg-0 mb-5">
+    <div class="col-lg-4 col-12 mb-lg-0 my-lg-3 my-5">
     <?php
     get_template_part('theme-helpers/template-parts/modes','offer');
     ?>

@@ -31,7 +31,7 @@ foreach ($modes as $key=>$mode){
     set_query_var('mode',$mode);
     set_query_var('key',$key);
     ?>
-    <div class="col-lg-4 col-12 mb-lg-0 mb-5">
+    <div class="col-lg-4 col-12 mb-lg-0 my-lg-3 my-5">
     <?php
     get_template_part('theme-helpers/template-parts/modes','offer');
     ?>

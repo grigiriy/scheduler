@@ -31,7 +31,7 @@ document.location.href = '/';
         set_query_var( 'yt_code', $yt_code );
         set_query_var( 'yt_code_2', $yt_code_2 );
 ?>
-<div class="container" id="steps">
+<div class="container mt-5" id="steps">
 
     <?php
     $role = get_userdata($user_id)->roles[0];
@@ -61,7 +61,7 @@ document.location.href = '/';
 </div>
 
 <script>
-document.querySelector('nav').style.opacity = 0;
+document.querySelector('nav').style.display = 'none';
 
 const steps = document.querySelector('#steps');
 const step_1 = steps.querySelector('#step_1');

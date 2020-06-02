@@ -1,4 +1,4 @@
-<div class="col-6 mb-5">
+<div class="col-lg-6 col-12 mb-5">
     <div class="row mx-0 mb-5 step_header">
         <h1 class="h1 pr-4">Step&nbsp;3</h1>
         <div class="pl-4">
@@ -19,11 +19,11 @@
             adipiscing elit. </p>
     </div>
 </div>
-<div class="col-6 mb-5 card top_rounded bottom_rounded">
+<div class="col-lg-6 col-12 mb-5 card top_rounded bottom_rounded">
     <div class="card-header border-0 pt-5 bg-transparent">
         <p class="h5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.</p>
     </div>
-    <div class="card-body d-flex steps_view">
+    <div class="card-body d-block steps_view">
         <?php
         set_query_var('is_step',true);
         get_template_part('theme-helpers/template-parts/settings','notifyConfig'); ?>
