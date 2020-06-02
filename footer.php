@@ -4,21 +4,21 @@
     data-user_id="<?= get_current_user_id(); ?> ">
     <div class="container">
         <div class="row">
-            <div class="col-3 logo mr-auto mt-3 pr-5">
+            <div class="col-12 col-md-3 logo mr-auto mt-3 pr-5 mb-5 mb-md-0">
                 <a href="/">
                     <img class="mw-100" src="/wp-content/themes/scheduler_mvp/img/logo.png" alt="">
                 </a>
             </div>
-            <div class="col-8 offset-1 d-flex pr-0">
+            <div class="col-12 col-md-8 offset-md-1 offset-0 d-block d-md-flex pr-0">
                 <div class="mr-auto">
                     <p class="mt-3 mb-0">Get your free course!</p>
                     <p class="h3">8 (800) 555-45-22</p>
                 </div>
                 <?php if( !is_user_logged_in() ) { ?>
-                <button type="button" class="d-block btn btn-warning btn-round py-3 px-5 mx-auto align-self-center"
+                <button type="button" class="d-block mt-3 mt-md-0 btn btn-warning btn-round py-3 px-5 mx-auto align-self-center"
                     data-target="#regModal" data-toggle="modal">Try
                     free!</button>
-                <button type="button" class="d-block btn btn-primary btn-round py-3 px-5 ml-auto align-self-center"
+                <button type="button" class="d-block mt-3 mt-md-0 btn btn-primary btn-round py-3 px-5 ml-auto align-self-center"
                     data-target="#authModal" data-toggle="modal">
                     <svg viewBox="-42 0 512 512.002" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                         class="icon mr-1">
@@ -32,16 +32,17 @@
                 <a class="position-absolute _reg text-dark" href="javascript:void(0)" data-target="#regModal"
                     data-toggle="modal">Registration<span class="arrow_symbol ml-1">⟶</span></a>
                 <?php } else { ?>
-                <button type="button" class="d-block btn btn-light btn-round py-3 px-5 mx-auto align-self-center"
+                <button type="button" class="d-block mt-3 mt-md-0 btn btn-light btn-round py-3 px-5 mx-auto align-self-center"
                     onclick="log_out()">Log out</button>
                 <?php } ?>
             </div>
         </div>
+
         <div class="row mt-3">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
                 <?php get_template_part('/theme-helpers/template-parts/footer','social'); ?>
             </div>
-            <div class="col-4 offset-1 d-flex">
+            <div class="col-12 col-md-4 offset-0 offset-md-1 mt-5 mt-md-0 d-flex">
                 <ul class="mt-auto nav justify-content-between w-100 justify-content-between">
                     <li class="align-self-end"><a class="text-underline text-dark" href="/about/">О
                             проекте</a></li>
