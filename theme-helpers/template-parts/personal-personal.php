@@ -146,7 +146,7 @@
 
             <div class="row mt-3">
                 <div class="col-2">
-                    <a href="/training-settings/">
+                    <a href="/settings/">
                         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="text-primary">
                             <!-- Icons made by Freepik( https://www.flaticon.com/authors/freepik) from Flaticon (https://www.flaticon.com/) -->
                             <path fill="currentColor"
@@ -155,7 +155,7 @@
                     </a>
                 </div>
                 <div class="col-10 smaller pl-0 d-flex">
-                    <a class="mb-1 align-self-center" href="/training-settings/">Trainig and notification
+                    <a class="mb-1 align-self-center" href="/settings/">Trainig and notification
                         settings</a>
                 </div>
             </div>
