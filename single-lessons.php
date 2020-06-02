@@ -120,7 +120,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
             <?php the_content(); ?>
         </div>
     </div>
-    <div class="player_wrapper" style="width:100%">
+    <div class="player_wrapper w-100">
         <div id="player" class="mb-5"></div>
     </div>
 </div>
