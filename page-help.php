@@ -17,7 +17,7 @@ document.location.href = '/';
 ?>
 <div class="container">
     <div class="row">
-        <div class="col-7">
+        <div class="col-12 col-md-7">
             <div class="shadow-lg accordion bottom_rounded bg-white p-5 border-top border-success" id="help_accord">
                 <div class="card border-0 bg-transparent">
                     <div class="card-header p-0 border-0 bg-transparent">
@@ -28,11 +28,11 @@ document.location.href = '/';
                     class="card py-3 bg-transparent border-dark border-bottom border-top-0 border-right-0 border-left-0">
                     <div class="row card-header px-0 border-0 bg-transparent" id="headingOne" data-toggle="collapse"
                         data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <p class="mb-0 h5 col-11">
+                        <p class="mb-0 h5 col-10 col-lg-11">
                             1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
                             Proin gravida dolor sit amet lacus accumsan et viverra justo commodo?
                         </p>
-                        <svg version="1.1" class="col-1 px-4" xmlns="http://www.w3.org/2000/svg"
+                        <svg version="1.1" class="col-2 col-lg-1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 451.847 451.847"
                             style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve" fill="currentColor">
                             <g>
@@ -64,11 +64,11 @@ document.location.href = '/';
                     <div class="row card-header px-0 border-0 bg-transparent" id="headingTwo" type="button"
                         data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
                         aria-controls="collapseTwo">
-                        <p class="mb-0 h5 col-11">
+                        <p class="mb-0 h5 col-10 col-lg-11">
                             2 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
                             Proin gravida dolor sit amet lacus accumsan et viverra justo commodo?
                         </p>
-                        <svg version="1.1" class="col-1 px-4" xmlns="http://www.w3.org/2000/svg"
+                        <svg version="1.1" class="col-2 col-lg-1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 451.847 451.847"
                             style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve" fill="currentColor">
                             <g>
@@ -98,11 +98,11 @@ document.location.href = '/';
                 <div class="card py-3 border-0">
                     <div class="row card-header px-0 border-0 bg-transparent" id="headingThree" data-toggle="collapse"
                         data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        <p class="mb-0 h5 col-11">
+                        <p class="mb-0 h5 col-10 col-lg-11">
                             3 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
                             Proin gravida dolor sit amet lacus accumsan et viverra justo commodo?
                         </p>
-                        <svg version="1.1" class="col-1 px-4" xmlns="http://www.w3.org/2000/svg"
+                        <svg version="1.1" class="col-2 col-lg-1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 451.847 451.847"
                             style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve" fill="currentColor">
                             <g>
@@ -133,7 +133,7 @@ document.location.href = '/';
 
 
 
-        <div class="col-5">
+        <div class="col-12 col-md-5 mt-5 mt-md-0">
             <div class="shadow-lg bottom_rounded bg-white p-5 border-top border-success">
                 <p class="h3 pb-4">Support Team</p>
             <p class="h4">

@@ -114,7 +114,7 @@ set_query_var( 'now_incTZ', $now_incTZ );
 </div>
 
 
-<section class="col-md-8 col-sm-12 pr-5">
+<section class="col-lg-8 col-12 pr-lg-5">
     <?php
     if (isset($timers) && $timers ) {
         get_template_part('theme-helpers/template-parts/account','new_lesson'); 
@@ -134,7 +134,7 @@ set_query_var( 'now_incTZ', $now_incTZ );
     ?>
 </section>
 
-<section class="col-md-4 col-sm-12 px-0">
+<section class="col-lg-4 col-12 px-lg-0">
     <div>
         <?php
         if( carbon_get_theme_option( 'teacher' ) ) {
