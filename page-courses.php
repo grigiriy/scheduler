@@ -29,7 +29,7 @@ document.location.href = '/';
 <div class="container-fluid bg-white shadow-lg main">
     <div class="container pt-5">
         <div class="row">
-            <div class="col-10 pr-5">
+            <div class="col-12 col-lg-10 col-md-9 order-md-1 order-2 px-0 pr-md-5 pl-md-3">
 
                 <div class="card-columns count_2 gap_3" id="courses_wrapper">
                     <?php
@@ -38,7 +38,7 @@ document.location.href = '/';
                     ?>
                 </div>
             </div>
-            <div class="col-2 px-0">
+            <div class="col-12 col-md-3 col-lg-2 order-md-2 order-1 px-0">
                 <?php
                 get_template_part( 'theme-helpers/template-parts/courses','filter' ); ?>
             </div>
