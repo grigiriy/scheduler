@@ -82,7 +82,7 @@ set_query_var( 'active_mode', $active_mode );
     <h1>Your profile</h1>
 </div>
 
-<div class="col-md-5 col-sm-12 pr-5">
+<div class="col-lg-6 col-sm-12 pr-lg-5 px-0 pl-lg-3">
     <div class="mb-5 border-top border-success">
         <?php
         if( carbon_get_theme_option( 'teacher' ) ) {
@@ -93,7 +93,7 @@ set_query_var( 'active_mode', $active_mode );
     </div>
 </div>
 
-<div class="col-md-7 col-sm-12 px-0 border-top border-success">
+<div class="col-lg-6 col-sm-12 px-0 border-top border-success">
     <?php if( carbon_get_theme_option( 'teacher' ) ) { ?>
     <div class="card shadow-lg bottom_rounded top_rounded py-3 mb-5">
         <?php
@@ -105,7 +105,7 @@ set_query_var( 'active_mode', $active_mode );
         <div class="card-header border-0 bg-transparent">
             <p class="h4 mb-0">Your lessons</p>
         </div>
-        <div class="col-8 mx-auto">
+        <div class="col-md-9 col-12 mx-auto">
             <?php get_template_part('theme-helpers/template-parts/account','dashboard'); ?>
         </div>
     <?php get_template_part('theme-helpers/template-parts/account','calendar'); ?>
