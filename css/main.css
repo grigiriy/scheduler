@@ -206,6 +206,7 @@ form input[type='submit'].um-button {
   margin: auto;
   max-width: 30px;
   width: 100%;
+  min-width: 30px;
 }
 
 .circle-bg {

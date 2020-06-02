@@ -115,7 +115,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 
 </div>
 <div class="row col-12 mx-0">
-    <div class="col-6 pl-0" style="display:none" id="text">
+    <div class="col-12 col-md-6 pl-0 mb-md-0 mb-5" style="display:none" id="text">
         <div class="bottom_rounded bg-white py-5 px-4">
             <?php the_content(); ?>
         </div>

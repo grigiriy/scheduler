@@ -8,7 +8,7 @@ let file;
 function showText(e) {
   $(e).toggleClass('active');
   $('#text').toggle(300);
-  $('#text+.player_wrapper').toggleClass('col-6');
+  $('#text+.player_wrapper').toggleClass('col-12 col-md-6');
   $(e)
     .find('span')
     .text($(e).hasClass('active') ? 'Hide text' : 'Show text');

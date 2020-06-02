@@ -1,4 +1,4 @@
-<div class="d-flex mt-3 mb-4">
+<div class="d-flex mt-3 mb-4 flex-wrap">
 
 
     <button class="btn btn-primary btn-round py-3 pl-5 px-4 mr-1" onclick="showText(this)" id="show_text">
