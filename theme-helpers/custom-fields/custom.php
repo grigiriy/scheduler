@@ -22,6 +22,7 @@ WpGraphQLCrbContainer::register(
     ->add_fields( [
         Field::make( 'text', 'avatar', 'Аватар' ),
         Field::make( 'text', 'phone', 'Телефон' ),
+        Field::make( 'text', 'onesignal_ids', 'One Signal ID (массив)' ),
         Field::make( 'text', 'skype', 'Skype' ),
         Field::make( 'text', 'notify_email', 'Имейл для уведомлений' ),
         Field::make( 'checkbox', 'notify_browser', 'Уведомления в браузере (может быть не корректно)' )

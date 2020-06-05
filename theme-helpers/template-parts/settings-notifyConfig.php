@@ -14,7 +14,7 @@
             Please write valid email
         </div>
     </p>
-    <p class="d-flex pseudocheckbox">
+    <p class="d-flex pseudocheckbox" onclick="os_toggle()">
         <span class="d-block mr-2"></span> Get notofications in browser.
     </p>
 </div>

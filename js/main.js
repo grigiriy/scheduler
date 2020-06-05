@@ -149,7 +149,7 @@ $(document).ready(function () {
 
   let $second = $($('.timer_input')[1]).find('input');
 
-  if ($first) {
+  if ($first.length) {
     $first.val(set_pmam($first.val()));
     $second.val(set_pmam($second.val()));
   }
@@ -469,3 +469,46 @@ function log_out() {
     },
   });
 }
+
+function os_toggle() {
+  console.log('handlerr is here');
+  OneSignal.push(function () {
+    OneSignal.showNativePrompt();
+  });
+}
+
+OneSignal.push(function () {
+  console.log($user_id);
+  $os_user_id = '';
+
+  OneSignal.getNotificationPermission().then(function (permission) {
+    if (permission === 'granted') {
+      OneSignal.getUserId().then(function (userId) {
+        $os_user_id = userId;
+        console.log('ok', permission, $os_user_id);
+
+        $.ajax({
+          url: '/wp-admin/admin-ajax.php',
+          type: 'POST',
+          data: {
+            action: 'update_os_cf',
+            os_user_id: $os_user_id,
+            user_id: $user_id,
+          },
+          success: function (data) {
+            console.log(data);
+          },
+          error: function (errorThrown) {
+            console.log(errorThrown);
+          },
+        });
+        // запускаю аякс для проверки наличия данного юзер_ид в массиве юзер_кф_ос
+        // и вешаю актив на псевдоселекторы
+      });
+      document.querySelector('.pseudocheckbox').classList.add('active');
+    } else {
+      console.log('SCHAßE! Permission:', permission);
+      os_toggle();
+    }
+  });
+});
