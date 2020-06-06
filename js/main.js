@@ -17,6 +17,8 @@ function showText(e) {
 $(document).ready(function () {
   $('[data-toggle="popover"]').popover();
 
+  $('[data-toggle="tooltip"]').tooltip();
+
   if (window.location.href.indexOf('#signin') != -1) {
     $('#signin').modal('show');
   }
