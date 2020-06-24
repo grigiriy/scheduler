@@ -34,9 +34,7 @@
                 echo $timer[0];
                 ?></td>
             </tr>
-            <?php
-            }
-        ?>
+            <?php } ?>
         </tbody>
     </table>
 </div>
