@@ -25,7 +25,7 @@ set_query_var( 'yt_code_2', $yt_code_2 );
             <div id="player_2" data-id="<?= $yt_code_2 ?>" class="mb-5"></div>
         </div>
         <div class="col-12 col-lg-5">
-            <p class="much-larger my-3">2. Log in</p>
+            <p class="much-larger my-3">2. Sign up</p>
             <div class="card shadow-lg bottom_rounded top_rounded py-3 mb-5">
                 <div class="px-sm-5 px-1">
                     <?= do_shortcode('[ultimatemember form_id="311"]'); ?>

@@ -148,7 +148,7 @@ set_query_var( 'active_mode', $active_mode );
                     <div class="invalid-feedback mb-3">
                         Please write valid email
                     </div>
-                <button class="btn btn-primary btn-round  py-3 px-4">Reset password</button>
+                <button class="btn btn-primary btn-round  py-3 px-4" data-toggle="modal" data-target="#reset">Reset password</button>
                 </p>
             </div>
             <div class="row card-body">
