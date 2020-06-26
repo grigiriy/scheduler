@@ -1,4 +1,5 @@
 <p class="h3 pb-3">Notofication settings</p>
+<p class="text-muted">Enable notifications to be always in touch with your schedule</p>
 <div id="configs">
     <p>Get on e-mail: <span><?= carbon_get_user_meta( $user_id, 'notify_email' ) ?></span>
         <span class="ml-3 text-primary edit" data-type="notify_email">

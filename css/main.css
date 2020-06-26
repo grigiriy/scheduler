@@ -323,24 +323,44 @@ img.rounded-image {
 .side_image {
   margin-bottom: -7.5em;
 }
+.side_image.small_side_image {
+  margin-top: -14em;
+  width: 80%;
+}
 @media (max-width: 1199px) {
   .side_image {
     margin-bottom: -6em;
+  }
+  .side_image.small_side_image {
+    width: 100%;
+    margin-top: -12em;
   }
 }
 @media (max-width: 991px) {
   .side_image {
     margin-bottom: -15em;
   }
+  .side_image.small_side_image {
+    margin-top: 0;
+    margin-bottom: -8em;
+    width: 80%;
+  }
 }
 @media (max-width: 768px) {
   .side_image {
     margin-bottom: -8em;
   }
+  .side_image.small_side_image {
+    margin-bottom: -4em;
+  }
 }
 @media (max-width: 450px) {
   .side_image {
     margin-bottom: -5em;
+  }
+  .side_image.small_side_image {
+    width: 100%;
+    margin-bottom: -3em;
   }
 }
 

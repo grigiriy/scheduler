@@ -14,6 +14,7 @@ document.location.href = '/';
 
 } else {
 $user_id = get_current_user_id();
+set_query_var( 'user_id', $user_id );
 $passed_lessons = get_passed_lessons_arr($user_id);
 
 $is_paid = is_paid($user_id);
@@ -81,13 +82,11 @@ set_query_var( 'active_mode', $active_mode );
 <div class="col-12 mb-3">
     <h1>Your profile</h1>
 </div>
-
+<?php if (carbon_get_theme_option( 'teacher' )) { ?>
 <div class="col-lg-6 col-sm-12 pr-lg-5 px-0 pl-lg-3">
     <div class="mb-5 border-top border-success">
         <?php
-        if( carbon_get_theme_option( 'teacher' ) ) {
         get_template_part('theme-helpers/template-parts/account','payment');
-        }
         get_template_part('theme-helpers/template-parts/personal','personal');
         ?>
     </div>
@@ -112,6 +111,58 @@ set_query_var( 'active_mode', $active_mode );
     </div>
 </div>
 
+
+<?php } else { ?>
+
+    <div class="col-12 mb-3">
+        <div class="card shadow-lg bottom_rounded top_rounded py-5 mb-5" id="configs">
+            <div class="card-header bg-transparent border-bottom-0 pl-5">
+                <p class="h3 mb-0">Registration lessons</p>
+                <div class="my-3 _not_set"
+                    style="<?= carbon_get_user_meta( $user_id, 'notify_email') ? 'display:none' :'' ?>">
+                    <div class="col-2">
+                        <div class="add_icon border-primary border text-primary py-2 text-center"
+                            data-type="notify_email" data-new="true">+
+                        </div>
+                    </div>
+                    <div class="col-10 smaller pl-0">
+                        <p class="mb-1">Add your email:</p>
+                        <p class="text-muted mb-1">Email for notofications</p>
+                    </div>
+                </div>
+                <p class="my-3 _set"
+                    style="<?= !carbon_get_user_meta( $user_id, 'notify_email') ? 'display:none' :'' ?>">
+                    E-mail:
+                    <span><?= carbon_get_user_meta( $user_id, 'notify_email' ) ?></span>
+                    <span class="ml-3 text-primary edit" data-type="notify_email">
+                        <svg viewBox="0 0 492.49284 492" width="0.8em" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#007bff"
+                                d="m304.140625 82.472656-270.976563 270.996094c-1.363281 1.367188-2.347656 3.09375-2.816406 4.949219l-30.035156 120.554687c-.898438 3.628906.167969 7.488282 2.816406 10.136719 2.003906 2.003906 4.734375 3.113281 7.527344 3.113281.855469 0 1.730469-.105468 2.582031-.320312l120.554688-30.039063c1.878906-.46875 3.585937-1.449219 4.949219-2.8125l271-270.976562zm0 0">
+                            </path>
+                            <path fill="#007bff"
+                                d="m476.875 45.523438-30.164062-30.164063c-20.160157-20.160156-55.296876-20.140625-75.433594 0l-36.949219 36.949219 105.597656 105.597656 36.949219-36.949219c10.070312-10.066406 15.617188-23.464843 15.617188-37.714843s-5.546876-27.648438-15.617188-37.71875zm0 0">
+                            </path>
+                            <!-- Icons made by Pixel perfect (https://www.flaticon.com/authors/pixel-perfect) for Flaticon (https://www.flaticon.com/) -->
+                        </svg>
+                        Edit</span>
+                    <div class="invalid-feedback mb-3">
+                        Please write valid email
+                    </div>
+                <button class="btn btn-primary btn-round  py-3 px-4">Reset password</button>
+                </p>
+            </div>
+            <div class="row card-body">
+                <div class="col-12 col-lg-7 ml-n1">
+                    <?php get_template_part('theme-helpers/template-parts/settings','times'); ?>
+                </div>
+                <div class="col-12 col-lg-5">
+                    <?php get_template_part('theme-helpers/template-parts/settings','sidebar'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php } ?>
 
 
 
