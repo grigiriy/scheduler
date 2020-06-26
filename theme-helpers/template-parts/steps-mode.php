@@ -1,8 +1,8 @@
 <div class="col-lg-6 col-12 mb-5">
     <div class="row mx-0 mb-5 step_header">
-        <h1 class="h1 pr-4">Step&nbsp;3</h1>
+        <h1 class="h1 pr-4"></h1>
         <div class="pl-4">
-            <p class="h5">Set reminders</p>
+            <p class="h5">Chose your mode of learning</p>
             <p class="text-muted">
                 You can change it any time in <span class="h6">Training Settings</span></p>
         </div>
@@ -19,17 +19,28 @@
             adipiscing elit. </p>
     </div>
 </div>
-<div class="col-lg-6 col-12 mb-5 card top_rounded bottom_rounded">
-    <div class="card-header border-0 pt-5 bg-transparent">
-        <p class="h5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.</p>
-    </div>
-    <div class="card-body d-block steps_view">
-        <?php
-        set_query_var('is_step',true);
-        get_template_part('theme-helpers/template-parts/settings','notifyConfig'); ?>
-    </div>
-    <div class="card-footer border-0 bg-transparent">
-        <button type="button" class="d-block btn btn-primary btn-round py-3 px-5 mb-4" onclick="fourth_step()">Finish!
-            <span class="arrow_symbol ml-3">⟶</span></button>
-    </div>
+<div class="col-lg-6 col-12 mb-5">
+    <div id="player" data-id="<?= $yt_code ?>" class="mb-5"></div>
 </div>
+
+
+<?php
+$modes_post = get_page_by_path('modes', '', 'page');
+
+$modes = carbon_get_post_meta($modes_post->ID, 'modes');
+
+$active_mode = 'medium';
+
+foreach ($modes as $key=>$mode){
+    set_query_var('mode',$mode);
+    set_query_var('key',$key);
+    ?>
+    <div class="col-lg-4 col-12 mb-lg-0 my-lg-3 my-5">
+    <?php
+    get_template_part('theme-helpers/template-parts/modes','offer');
+    ?>
+    </div>
+    <?php
+}
+
+?>

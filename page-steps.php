@@ -31,13 +31,13 @@ document.location.href = '/';
         set_query_var( 'yt_code', $yt_code );
         set_query_var( 'yt_code_2', $yt_code_2 );
 ?>
-<div class="container mt-5" id="steps">
+<div class="container mt-5" id="steps" data-teacher="<?= carbon_get_theme_option( 'teacher' ) ? 'true' : 'false'; ?>">
 
     <?php
     $role = get_userdata($user_id)->roles[0];
         if( $role === 'administrator' ) {
             ?>
-            <div class="row">
+            <div class="row my-5">
                 <button class="btn btn-light px-4 py-3" onclick="first_step()">1</button>
                 <button class="btn btn-light px-4 py-3" onclick="second_step()">2</button>
                 <button class="btn btn-light px-4 py-3" onclick="third_step()">3</button>
@@ -45,17 +45,17 @@ document.location.href = '/';
             </div>
         <?php } ?>
 
-    <div id="step_1" class="row">
-        <?php get_template_part('theme-helpers/template-parts/steps','first'); ?>
+    <div id="step_1" class="row" style="display:none">
+        <?php get_template_part('theme-helpers/template-parts/steps','mode'); ?>
     </div>
-    <div id="step_2" class="row">
-        <?php get_template_part('theme-helpers/template-parts/steps','second'); ?>
+    <div id="step_2" class="row" style="display:none">
+        <?php get_template_part('theme-helpers/template-parts/steps','time'); ?>
     </div>
-    <div id="step_3" class="row">
-        <?php get_template_part('theme-helpers/template-parts/steps','third'); ?>
+    <div id="step_3" class="row" style="display:none">
+        <?php get_template_part('theme-helpers/template-parts/steps','notify'); ?>
     </div>
-    <div id="step_4" class="row">
-        <?php get_template_part('theme-helpers/template-parts/steps','fourth'); ?>
+    <div id="step_4" class="row" style="display:none">
+        <?php get_template_part('theme-helpers/template-parts/steps','intro'); ?>
     </div>
 
 </div>
@@ -68,9 +68,22 @@ const step_1 = steps.querySelector('#step_1');
 const step_2 = steps.querySelector('#step_2');
 const step_3 = steps.querySelector('#step_3');
 const step_4 = steps.querySelector('#step_4');
+
+const show_modes = steps.getAttribute('data-teacher') === 'true' ? true : false;
+
 window.onload = function() {
-    first_step();
+    show_modes ? first_step() : second_step();
+    set_labels();
 };
+
+function set_labels(){
+    const steps_list = [step_1,step_2,step_3];
+    const n = show_modes ? 1 : 0;
+    for (let i = 0; i < steps_list.length; i++){
+        steps_list[i].querySelector('h1').innerHTML = 'Step&nbsp;'+(i+n);
+        console.log(steps_list[i].querySelector('h1'));
+    }
+}
 
 function first_step() {
     step_1.style.display = 'flex';

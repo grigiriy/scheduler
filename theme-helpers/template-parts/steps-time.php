@@ -1,6 +1,6 @@
 <div class="col-lg-6 col-12 mb-5">
     <div class="row mx-0 mb-5 step_header">
-        <h1 class="h1 pr-4">Step&nbsp;2</h1>
+        <h1 class="h1 pr-4"></h1>
         <div class="pl-4">
             <p class="h5">Set convenient time for learning</p>
             <p class="text-muted">
