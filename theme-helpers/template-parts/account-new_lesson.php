@@ -9,7 +9,7 @@
 
         <div class="card-body">
             <div class="card-title mb-0 ml-3 pl-5">
-                <p class="h3">Repeat this material</p>
+                <p class="h3">Repeat this lesson</p>
                 <div class="d-flex mb-3">
                     <p class="text-primary h5">
                         <?= getdate($next)['hours'] .':'.mins_trim(getdate($next)['minutes']) ?>

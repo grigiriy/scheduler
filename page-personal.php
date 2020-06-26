@@ -127,7 +127,7 @@ set_query_var( 'active_mode', $active_mode );
                     </div>
                     <div class="col-10 smaller pl-0">
                         <p class="mb-1">Add your email:</p>
-                        <p class="text-muted mb-1">Email for notofications</p>
+                        <p class="text-muted mb-1">Notofications email</p>
                     </div>
                 </div>
                 <p class="my-3 _set"
@@ -146,7 +146,7 @@ set_query_var( 'active_mode', $active_mode );
                         </svg>
                         Edit</span>
                     <div class="invalid-feedback mb-3">
-                        Please write valid email
+                        Please write valid e-mail
                     </div>
                 <button class="btn btn-primary btn-round  py-3 px-4" data-toggle="modal" data-target="#reset">Reset password</button>
                 </p>

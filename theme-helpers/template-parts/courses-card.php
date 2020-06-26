@@ -20,7 +20,7 @@ $is_course_checker = (
 ) ? true : false;
 
 if( $is_course_checker){
-    $launch_btn = ['href="'.get_the_permalink($_post->ID).'"','info','Go to lesson
+    $launch_btn = ['href="'.get_the_permalink($_post->ID).'"','info','Open this lesson
     <span class="arrow_symbol ml-3 d-none d-sm-inline">⟶</span>'];
 } else {
     $launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
@@ -43,6 +43,7 @@ if( $is_course_checker){
         <img style="width:100%" src="https://i.ytimg.com/vi/<?=$yt_code; ?>/maxresdefault.jpg">
     </div>
     <div class="card-body">
+    <?php if (carbon_get_theme_option( 'teacher' )) { ?>
         <p class="text-muted d-flex">
             <span>
                 <svg class="bi bi-flag-fill mr-1 mb-1" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
@@ -72,6 +73,7 @@ if( $is_course_checker){
                 <?= $course_duration[0]->name ?>
             </span>
         </p>
+        <?php } ?>
         <p class="h4"><?= get_the_title($_post->ID); ?></p>
         <p class="text-muted"><?= $_post->post_excerpt ?></p>
         <div class="d-flex mt-4 mb-3">

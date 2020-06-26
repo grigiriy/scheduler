@@ -1,5 +1,6 @@
 <form class="mb-5" id="course_filter">
-    <?php if( $terms = get_terms( 'course_level', 'orderby=name' ) ) : ?>
+<p class="h6 mb-4">Welcome to the<br>Learning library</p>
+<?php if (carbon_get_theme_option( 'teacher' )) { ?>
     <div>
         <label class="h6" for="select_level">
             <svg class="bi bi-flag-fill mr-1 mb-1" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
@@ -19,16 +20,11 @@
             <?php endforeach; ?>
         </select>
     </div>
-    <?php endif;
-    
-    
-    if( $terms = get_terms( 'course_duration', 'orderby=name' ) ) : ?>
     <div>
         <label class="h6 mt-5" for="select_duration">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" class="mr-1 mb-1" width="1em" height="1em" x="0px" y="0px"
                 viewBox="0 0 280.001 280.001" style="enable-background:new 0 0 280.001 280.001;" xml:space="preserve">
-                <!-- Icons made by Freepik (https://www.flaticon.com/authors/freepik) from Flaticon (https://www.flaticon.com/)  -->
                 <g id="XMLID_348_">
                     <path id="XMLID_350_" d="M140.001,60.083c-8.284,0-15,6.716-15,15v49.981H75.02c-8.284,0-15,6.716-15,15c0,8.284,6.716,15,15,15
 		                h64.981c8.284,0,15-6.716,15-15V75.083C155.001,66.799,148.285,60.083,140.001,60.083z" />
@@ -46,13 +42,13 @@
             <?php endforeach; ?>
         </select>
     </div>
-
+<?php } ?>
     <div class="d-flex flex-wrap justify-content-between">
-        <label class="h6 mt-5 d-block w-100">
+        <label class="h6 <?php carbon_get_theme_option( 'teacher' ) ? '' : 'mt-5' ;?> d-block w-100">
             <svg class="mr-1 mb-1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1em" height="1em"
                 viewBox="0 0 345.567 345.567" style="enable-background:new 0 0 345.567 345.567;" xml:space="preserve">
-                <!-- Icons made by Good Ware (https://www.flaticon.com/authors/good-ware) from Flaticon (https://www.flaticon.com/) -->
+                <!-- Icons made by Good Ware https://www.flaticon.com/authors/good-ware from Flaticon https://www.flaticon.com/ -->
                 <g>
                     <g>
                         <path d="M263.342,9.6c-5.98-5.995-14.092-9.375-22.56-9.4h-136V0c-8.481,0.015-16.61,3.396-22.6,9.4
@@ -69,7 +65,7 @@
             </svg>
 
             Themes</label>
-        <?php endif;
+        <?php
     
         $course_tags = get_terms( 'course_tag', [
         'hide_empty' => false,

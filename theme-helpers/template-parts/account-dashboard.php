@@ -8,7 +8,7 @@
         <p class="h3 text-center text-warning"><?= $current_lessons; ?></p>
     </div>
     <div class="col-6">
-        <a href="/account/passed/" class="btn btn-link d-block">Already passed</a>
+        <a href="/account/passed/" class="btn btn-link d-block">Passed Lessons</a>
     </div>
     <div class="col-6">
         <a href="/account/current/" class="btn btn-link d-block">Current Lessons</a>

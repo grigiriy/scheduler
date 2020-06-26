@@ -16,6 +16,8 @@ document.location.href = '/';
 
 global $now_incTZ;
 
+// $now_incTZ = $now_incTZ + (60*60*24);
+
 $user_id = get_current_user_id();
 
 
@@ -108,9 +110,8 @@ set_query_var( 'is_time_to_add', $is_time_to_add );
 set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 set_query_var( 'now_incTZ', $now_incTZ );
 ?>
-
 <div class="col-12 mb-3">
-    <h1>What do you have to do today?</h1>
+    <h1>What do you have for today?</h1>
 </div>
 
 
@@ -146,7 +147,7 @@ set_query_var( 'now_incTZ', $now_incTZ );
     <div class="d-flex flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
             <?php
-            set_query_var( 'calend_header', 'Schedule for next three days' );
+            set_query_var( 'calend_header', 'Your schedule for the next three days' );
             set_query_var( 'calend_days', 3 );
 
             get_template_part('theme-helpers/template-parts/account','dashboard'); 
