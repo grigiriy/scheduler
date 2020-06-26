@@ -16,6 +16,9 @@
         </svg>
     </button>
 
+
+<?php
+ if (carbon_get_theme_option( 'teacher' )) { ?>
     <button class="btn bg-light m-2">
         <svg class="bi bi-flag-fill mr-1 mb-1" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
             xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +46,7 @@
         </svg>
         <?= get_the_terms( $post_id, 'course_duration' )[0]->name; ?>
     </button>
-
+ <?php } ?>
     <?php foreach( get_the_terms( $post_id, 'course_tag' ) as $tag){ ?>
     <button class="btn">
         <svg class="mr-1 mb-1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
