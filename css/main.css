@@ -22,8 +22,17 @@ body {
     rgb(217, 246, 245) 100%
   );
 }
+.larger{
+  font-size: 1.2em;
+}
+.much-larger{
+  font-size: 1.5em;
+}
 .smaller {
   font-size: 0.8em;
+}
+.much-smaller {
+  font-size: 0.5em;
 }
 .text-underline {
   text-decoration: underline;

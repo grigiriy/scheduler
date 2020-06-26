@@ -15,6 +15,8 @@ $args = array(
 
 $wp_posts = get_posts($args);
 
+global $now_incTZ;
+
 if( count($wp_posts) ) {
 
     $timers=[];
@@ -46,7 +48,11 @@ if( count($wp_posts) ) {
         set_query_var( 'now_incTZ', $now_incTZ );
         set_query_var( 'timers', $timers );
 ?>
-    <div class="col-12 h1">Now: <?= $now_incTZ; ?></div>
+    <div class="col-12 h1">Now: <?= $now_incTZ; ?> - <?= getdate($now_incTZ)['hours'].':'.mins_trim(getdate($now_incTZ)['minutes']); ?></div>
+    <div class="col-12 h2">yesterday: <?= $now_incTZ-(60*60*24); ?> - <?= display_day($now_incTZ-(60*60*24)); ?></div>
+    <div class="col-12 h2">before yesterday: <?= $now_incTZ-(60*60*24*2); ?> - <?= display_day($now_incTZ-(60*60*24*2)); ?></div>
+    <div class="col-12 h2">tomorrow: <?= $now_incTZ+(60*60*24); ?> - <?= display_day($now_incTZ+(60*60*24)); ?></div>
+    <div class="col-12 h2">aftertomorrow: <?= $now_incTZ+(60*60*24*2); ?> - <?= display_day($now_incTZ+(60*60*24*2)); ?></div>
     <div class="col-12 flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
 <?php get_template_part('theme-helpers/template-parts/admin','calendar'); ?>
