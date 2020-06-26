@@ -19,8 +19,8 @@ $(document).ready(function () {
 
   $('[data-toggle="tooltip"]').tooltip();
 
-  if (window.location.href.indexOf('#signin') != -1) {
-    $('#signin').modal('show');
+  if (window.location.href.indexOf('#signup') != -1) {
+    $('#signup').modal('show');
   }
   if (window.location.href.indexOf('#login') != -1) {
     $('#login').modal('show');
@@ -35,7 +35,7 @@ $(document).ready(function () {
     $.post({
       url: '/wp-admin/admin-ajax.php',
       data: {
-        action: 'myfilter',
+        action: 'course_filter',
         post_id: $post_id,
         data: JSON.stringify(filter.serializeArray()),
       },
@@ -56,6 +56,9 @@ $(document).ready(function () {
   });
 
   $('#_file').change(function () {
+    $('#ava_img')[0].src = (window.URL ? URL : webkitURL).createObjectURL(
+      this.files[0]
+    );
     $('#ava_img')[0].src = (window.URL ? URL : webkitURL).createObjectURL(
       this.files[0]
     );
