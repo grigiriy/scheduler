@@ -18,7 +18,7 @@
             <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9 d-flex mt-3 mt-md-1">
                 <div class="ml-md-auto mr-3">
                     <a href="/personal/" class="d-block p-2">
-                        <?php if ( carbon_get_user_meta(get_current_user_id(),'avatar') ) { ?>
+                        <?php if ( carbon_get_theme_option( 'teacher' ) && carbon_get_user_meta(get_current_user_id(),'avatar') ) { ?>
                         <img class="ava" id="ava_header" src="<?= carbon_get_user_meta(get_current_user_id(),'avatar'); ?>" alt="">
                         <?php } else { ?>
                         <img class="ava" id="ava_header" src="/wp-content/themes/scheduler_mvp/img/ava-default.svg" alt="">

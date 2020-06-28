@@ -18,19 +18,19 @@ set_query_var( 'yt_code_2', $yt_code_2 );
 ?>
     
 <div class="container pt-5">
-    <h1>Let’s learn English easily!</h1>
+    <h1>Welcome to RealLife English!</h1>
     <div class="row">
         <div class="col-12 col-lg-7">
-            <p class="much-larger my-3">1. Watch the video tutorial and sign up</p>
+            <p class="much-larger my-3">Watch the video about the method and log in</p>
             <div id="player_2" data-id="<?= $yt_code_2 ?>" class="mb-5"></div>
         </div>
         <div class="col-12 col-lg-5">
-            <p class="much-larger my-3">2. Sign up</p>
+            <p class="much-larger my-3">Log in</p>
             <div class="card shadow-lg bottom_rounded top_rounded py-3 mb-5">
                 <div class="px-sm-5 px-1">
-                    <?= do_shortcode('[ultimatemember form_id="311"]'); ?>
-                    <p class="text-center">Already have an account?<span class="arrow_symbol mx-3">⟶</span>
-                        <a href="javascript:void(0)" data-target="#login" data-toggle="modal" onclick="push_hash(this)">Log in.</a></p>
+                    <?= do_shortcode('[ultimatemember form_id="312"]'); ?>
+                    <p class="text-center">New to magicEnglish?<span class="arrow_symbol mx-3">⟶</span>
+                        <a href="javascript:void(0)" data-target="#signup" data-toggle="modal" onclick="push_hash(this)">Sign up.</a></p>
                 </div>
             </div>
         </div>

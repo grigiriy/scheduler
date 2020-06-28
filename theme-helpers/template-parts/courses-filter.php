@@ -43,7 +43,7 @@
         </select>
     </div>
 <?php } ?>
-    <div class="d-flex flex-wrap justify-content-between">
+    <div class="d-flex flex-wrap">
         <label class="h6 <?php carbon_get_theme_option( 'teacher' ) ? '' : 'mt-5' ;?> d-block w-100">
             <svg class="mr-1 mb-1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1em" height="1em"
@@ -72,7 +72,7 @@
         ] );
         
         foreach ($course_tags as $course_tag) {?>
-        <label class="btn-checkbox" for="<?= $course_tag->slug ?>">
+        <label class="btn-checkbox mr-2" for="<?= $course_tag->slug ?>">
 
             <input name="course_tag" id="<?= $course_tag->slug ?>" type="checkbox" value="<?= $course_tag->term_id?>" />
             <span class="btn rounded-0 btn-shadow my-2"><?= $course_tag->name?></span>
@@ -82,7 +82,7 @@
     </div>
 
     <div class="mt-5 d-flex">
-        <input type="submit" class="mx-auto btn btn-warning btn-round px-4 py-3" value="Show lessons">
+        <input type="submit" class=" btn btn-warning btn-round px-4 py-3" value="Show lessons">
     </div>
 
 </form>
