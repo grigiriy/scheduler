@@ -1,11 +1,11 @@
 <div id="calend"
-    class="card-header <?= $calend_days === '0' ? 'bg-transparent p-4' : 'bg-light p-3' ?>  border-bottom-0 border-top-0">
-    <h4><?= $calend_header; ?></h4>
+    class="card-header <?= $calend_days === '0' ? 'bg-transparent py-4 px-5' : 'bg-light p-3' ?>  border-bottom-0 border-top-0">
+    <h4 class="px-2"><?= $calend_header; ?></h4>
 </div>
 
 <?php if(isset($timers) && $timers ){ ?>
 
-<div class="card-body <?= $calend_days === '0' ? 'p-3 pb-4' : 'p-0 px-1 pb-2' ?> border-bottom-0 border-top-0">
+<div class="card-body <?= $calend_days === '0' ? 'pt-3 px-5 pb-4' : 'p-0 px-1 pb-2' ?> border-bottom-0 border-top-0">
     <table class="trans_borders table m-0">
         <thead>
             <tr>
@@ -53,7 +53,7 @@
 <?php } 
 
 } else { ?>
-<div class="m-3">
+<div class="my-3 mx-5 px-2">
     <p class="h4">No courses yet</p>
     <?php if ($is_time_to_add ) {
         if($is_paid){

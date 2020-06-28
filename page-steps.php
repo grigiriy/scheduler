@@ -111,6 +111,8 @@ function fourth_step() {
     step_2.style.display = 'none';
     step_3.style.display = 'none';
     step_4.style.display = 'flex';
+
+    finish_reg($user_id);
 }
 
 

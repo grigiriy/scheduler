@@ -30,7 +30,7 @@ if( $is_course_checker){
     <span class="arrow_symbol ml-3 d-none d-sm-inline">⟶</span>'];
 }
 ?>
-<div class="card mb-3 shadow-lg p-0" id="<?= $_post->ID; ?>">
+<div class="card mb-5 shadow-lg p-0" id="<?= $_post->ID; ?>">
     <div class="card-head video_wrapper" onclick="preview_video(this,'<?=$yt_code; ?>')">
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
         width="36px" height="36px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">

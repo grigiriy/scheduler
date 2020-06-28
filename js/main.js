@@ -219,7 +219,7 @@ $(document).ready(function () {
 
 function set_pmam(val) {
   if (val !== '') {
-    if (val.indexOf('pm') === -1 || val.indexOf('am') === -1) {
+    if (val.indexOf('m') === -1) {
       val = val.split(':');
       is_pm = parseInt(val[0]) > 12 ? true : false;
       val[0] = is_pm ? parseInt(val[0]) - 12 : parseInt(val[0]);
@@ -343,7 +343,6 @@ function finish_reg($user_id) {
     }, // можно также передать в виде объекта
     success: function (data) {
       console.log(data);
-      location.href = '/courses/';
     },
     error: function (errorThrown) {
       console.log(errorThrown);
