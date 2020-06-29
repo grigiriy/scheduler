@@ -28,33 +28,22 @@ document.location.href = '/';
 </div>
 <div class="container-fluid bg-white shadow-lg main">
     <div class="container pt-5">
-        <div class="row ml-0">
+        <div class="row">
             <div class="col-12 col-md-3 col-lg-2 px-0">
                 <?php
                 get_template_part( 'theme-helpers/template-parts/courses','filter' ); ?>
             </div>
             <div class="col-12 col-lg-10 col-md-9 px-0 pr-md-3 pl-md-5">
+                <div class="mb-5">
+                    <p class="h4 mb-4">Welcome to the Learning library</p>
+                    <?= the_content(); ?>
+                </div>
                 <div class="card-columns count_2 gap_3" id="courses_wrapper">
                     <?php
                     $args = set_course_loop($post->ID);
                     render_courses( $args );
                     ?>
                 </div>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-12 col-lg-9 ml-auto my-5">
-                <p>All the lessons include 2 videos and the script of the episode. The first video is the original videos 20 minutes long. The second one is a full explanation of the script. </p>
-                <p>
-                    <ul>
-                        <li>Choose Themes you are most interested in</li>
-                        <li>Check out the preview</li>
-                        <li>Press hearts on the episodes you want to add to the Wishlist</li>
-                        <li>Start learning English in a fun way straight ahead!</li>
-                    </ul>
-                </p>
             </div>
         </div>
     </div>

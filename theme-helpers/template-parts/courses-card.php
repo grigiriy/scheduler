@@ -20,14 +20,11 @@ $is_course_checker = (
 ) ? true : false;
 
 if( $is_course_checker){
-    $launch_btn = ['href="'.get_the_permalink($_post->ID).'"','info','Open this lesson
-    <span class="arrow_symbol ml-3 d-none d-sm-inline">⟶</span>'];
+    $launch_btn = ['href="'.get_the_permalink($_post->ID).'"','info','Open this lesson'];
 } else {
     $launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
-    ['href="javascript:void(0)" onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary','Choose this lesson
-    <span class="arrow_symbol ml-3 d-none d-sm-inline">⟶</span>'] :
-    ['href="javascript:void(0)" data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day($next_lesson_adding_time).'"','secondary','Choose this lesson
-    <span class="arrow_symbol ml-3 d-none d-sm-inline">⟶</span>'];
+    ['href="javascript:void(0)" onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary','Choose this lesson'] :
+    ['href="javascript:void(0)" data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day($next_lesson_adding_time).'"','secondary','Choose this lesson'];
 }
 ?>
 <div class="card mb-5 shadow-lg p-0" id="<?= $_post->ID; ?>">

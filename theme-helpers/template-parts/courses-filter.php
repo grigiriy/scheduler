@@ -1,5 +1,4 @@
 <form class="mb-5" id="course_filter">
-<p class="h6 mb-4">Welcome to the<br>Learning library</p>
 <?php if (carbon_get_theme_option( 'teacher' )) { ?>
     <div>
         <label class="h6" for="select_level">
