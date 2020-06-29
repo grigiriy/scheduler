@@ -58,7 +58,12 @@ nav a[aria-current='page'] {
   color: #fff;
   background: #67a880;
 }
-
+nav > .d-flex > strong:first-child > a {
+  margin-left: -25px;
+}
+nav > .d-flex > strong:first-child > a[aria-current='page'] {
+  margin-left: 0;
+}
 .bg-mainSche {
   background: #67a880;
   color: #fff;
