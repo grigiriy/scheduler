@@ -28,7 +28,7 @@ document.location.href = '/';
 </div>
 <div class="container-fluid bg-white shadow-lg main">
     <div class="container pt-5">
-        <div class="row">
+        <div class="row ml-0">
             <div class="col-12 col-md-3 col-lg-2 px-0">
                 <?php
                 get_template_part( 'theme-helpers/template-parts/courses','filter' ); ?>

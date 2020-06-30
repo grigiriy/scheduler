@@ -33,6 +33,7 @@ $active_mode = carbon_get_user_meta($user_id, 'mode');
 $is_paid = is_paid($user_id);
 
 set_query_var( 'is_paid', $is_paid );
+set_query_var( 'active_mode', $active_mode );
 
 $args = array(
     'post_type'  => 'lessons',
@@ -86,6 +87,7 @@ if (isset($timers) ) {
 }
 $next_lesson_adding_time = carbon_get_user_meta( $user_id, 'next_lesson' ) ? carbon_get_user_meta( $user_id, 'next_lesson' ) : strtotime(get_userdata( $user_id )->user_registered);
 $is_time_to_add = is_time_to_add($next_lesson_adding_time);
+set_query_var( 'next_lesson_adding_time', $next_lesson_adding_time );
 set_query_var( 'is_time_to_add', $is_time_to_add );
 set_query_var( 'now_incTZ', $now_incTZ );
 
