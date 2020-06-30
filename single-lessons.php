@@ -120,11 +120,14 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
             <?php the_content(); ?>
         </div>
     </div>
-    <div class="player_wrapper w-100">
-        <div id="player" class="mb-5"></div>
+    <div class="player_wrap w-100">
+        <div class="player_wrapper">
+            <div id="player" class="mb-5"></div>
+        </div>
     </div>
 </div>
 </div>
+
 <script>
 var tag = document.createElement('script');
 
@@ -140,6 +143,7 @@ function onYouTubeIframeAPIReady() {
         width: '100%',
         height: '100%',
         videoId: yt_code,
+        startSeconds: '25',
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
