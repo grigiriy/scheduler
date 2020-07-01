@@ -30,7 +30,7 @@ function set_text($post_id){
       case 'starter':
         $title = 'Hey there! It`s a new lesson day!';
         $text = 'Greetings! You can chose a new lesson today!';
-        $link = 'https://snackers.ru/courses/';
+        $link = 'https://snackers.ru/catalog/';
         $link_title = 'Start learning';
         break;
       case 'finish':

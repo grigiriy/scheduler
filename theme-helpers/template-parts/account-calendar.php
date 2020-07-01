@@ -58,7 +58,7 @@
     <?php if ($is_time_to_add ) {
         if($is_paid){
         ?>
-        <p class="h4">Click <a href="/courses/">here</a> to start learning!</p>
+        <p class="h4">Click <a href="/catalog/">here</a> to start learning!</p>
         <?php
         }
     } else { ?>

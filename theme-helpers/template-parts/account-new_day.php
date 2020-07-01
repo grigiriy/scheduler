@@ -10,7 +10,7 @@
             </div>
 
             <div class="d-flex justify-content-around pt-5 my-5">
-                <a href="/courses/" class="btn btn-warning btn-round py-3 px-5">Add next video</a>
+                <a href="/catalog/" class="btn btn-warning btn-round py-3 px-5">Add next video</a>
             </div>
         </div>
     </div>

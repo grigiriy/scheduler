@@ -34,15 +34,17 @@ document.location.href = '/';
                 get_template_part( 'theme-helpers/template-parts/courses','filter' ); ?>
             </div>
             <div class="col-12 col-lg-10 col-md-9 px-0 pr-md-3 pl-md-5">
+                <?php
+                $args = set_course_loop($post->ID);
+                $lessons_query = get_posts($args);
+                if(count($lessons_query) ){?>
                 <div class="mb-5">
                     <p class="h4 mb-4">Welcome to the Learning library</p>
                     <?= the_content(); ?>
                 </div>
+                <?php } ?>
                 <div class="card-columns count_2 gap_3" id="courses_wrapper">
-                    <?php
-                    $args = set_course_loop($post->ID);
-                    render_courses( $args );
-                    ?>
+                    <?php render_courses( $args ); ?>
                 </div>
             </div>
         </div>
@@ -73,7 +75,7 @@ document.location.href = '/';
 let navList = document.querySelector('nav').querySelectorAll('a');
 
 navList.forEach(function(item){
-    if(item.getAttribute('href').indexOf('courses') != -1 ){
+    if(item.getAttribute('href').indexOf('catalog') != -1 ){
         item.setAttribute('aria-current','page');
     }
 }) 
