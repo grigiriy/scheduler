@@ -2,9 +2,10 @@
 add_action('wp_ajax_add_to_favor', 'add_to_favor'); 
 add_action('wp_ajax_remove_favor', 'remove_favor'); 
 
-function remove_favor(){
-    $post_id = intval($_POST['post_id']);
-    $user_id = intval($_POST['user_id']);
+function remove_favor($has_post_id = false,$has_user_id = false){
+    $post_id = !$has_post_id ? intval($_POST['post_id']) : $has_post_id;
+    $user_id = !$has_user_id ? intval($_POST['user_id']) : $has_user_id;
+    
     $fav = explode(",",carbon_get_user_meta( intval($user_id), 'favor_lessons' ));
   
     foreach ($fav as $key=>$ar) {

@@ -7,6 +7,8 @@ function add_lesson() {
   $user_id = intval($_POST['user_id']);
   $post_id = intval($_POST['post_id']);
 
+  remove_favor($post_id, $user_id);
+
   if (is_paid($user_id) && !is_post_exist($post_id,$user_id)){
     $my_postarr = array(
       'post_name'    => get_the_author_meta('user_login', $user_id),
