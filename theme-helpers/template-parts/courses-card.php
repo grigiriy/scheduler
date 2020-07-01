@@ -77,10 +77,10 @@ if( $is_course_checker){
 
             <a class="btn btn-<?= $launch_btn[1] ?> btn-round px-4 py-3" <?= $launch_btn[0] ?>><?= $launch_btn[2] ?></a>
 
-
+            <?php if(!$is_course_checker){ ?>
             <span class="favorite_btn ml-auto my-2 <?= $in_fav === true ? 'active' : '' ?>"
                 onclick="to_favorite_before(this)"></span>
-
+            <?php } ?>
         </div>
     </div>
 </div>
