@@ -14,6 +14,17 @@ function showText(e) {
     .text($(e).hasClass('active') ? 'Hide text' : 'Show text');
 }
 
+function toggleVideo(e) {
+  $(e).toggleClass('_second');
+  $(e).hasClass('_second')
+    ? $(e).find('span').text('Show first video')
+    : $(e).find('span').text('Show second video');
+
+  let _video = $(e).hasClass('_second') ? yt_code_2 : 1;
+
+  new_video(_video);
+}
+
 $(document).ready(function () {
   $('[data-toggle="popover"]').popover();
 

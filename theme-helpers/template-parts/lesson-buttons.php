@@ -16,6 +16,10 @@
         </svg>
     </button>
 
+    <button class="btn btn-link btn-round py-3 pl-5 px-4 mr-1" onclick="toggleVideo(this)" id="toggle_video">
+        <span class="mr-4">Show second video</span>
+    </button>
+
 
 <?php
  if (carbon_get_theme_option( 'teacher' )) { ?>

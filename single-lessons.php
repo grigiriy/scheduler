@@ -40,6 +40,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
     $yt_code = carbon_get_post_meta($post_id,'yt_code');
     preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $yt_code, $matches);
     $yt_code = $matches[0];
+    $yt_code_2 = carbon_get_post_meta($post_id,'yt_code_2');
 
 
     $passed_lessons = get_passed_lessons_arr($user_id);
@@ -79,7 +80,7 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 
 <div data-can_add="<?= is_time_to_add($next_lesson_adding_time) === true ? 'true' : '' ;?>"
     data-learning="<?= $is_learning === true ? 'true' : '' ;?>" class="col-12">
-    <h1 class="d-flex" data-id="<?= $yt_code ?>">
+    <h1 class="d-flex" data-id="<?= $yt_code ?>" data-time="<?= $yt_code_2 ?>">
         <div class="single-chart mr-2 align-self-center">
             <svg viewBox="0 0 40 40" class="circular-chart green">
                 <path class="circle-bg" d="M18 2.0845
@@ -133,23 +134,36 @@ var tag = document.createElement('script');
 
 tag.src = "https://www.youtube.com/iframe_api";
 
-var player_place = document.getElementById('player');
+var player_place = document.querySelector('#player');
 player_place.parentNode.insertBefore(tag, player_place);
 var player;
 var yt_code = document.querySelector('h1').getAttribute('data-id');
+var yt_code_2 = document.querySelector('h1').getAttribute('data-time');
+
+let args = {
+    width: '100%',
+    height: '100%',
+    videoId: yt_code,
+    playerVars: {
+        'start': 1,
+        // 'controls': 0
+    },
+    events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+    }
+};
 
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        width: '100%',
-        height: '100%',
-        videoId: yt_code,
-        startSeconds: '25',
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
+    player = new YT.Player('player', args);
     console.log('cc -> ', player.getOptions('cc'));
+}
+
+function new_video(_video){
+    args.playerVars.start = parseInt(_video);
+    console.log(_video);
+    player.destroy();
+    player = new YT.Player('player', args);
 }
 
 function onApiChange(event) {

@@ -54,7 +54,8 @@ Container::make( 'post_meta', 'Course details' )
     //     Field::make('textarea', 'note_1', 'Note')
     //     ->set_width( 50 ),
     // ])
-    Field::make('text', 'yt_code', 'YouTube code')
+    Field::make('text', 'yt_code', 'First video YouTube code'),
+    Field::make('text', 'yt_code_2', 'Second video start time')
 ])
 ->add_tab( 'lesson schedule', [
     Field::make('text', 'course_author_id', 'Teacher')
