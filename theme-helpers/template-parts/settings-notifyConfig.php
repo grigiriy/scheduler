@@ -1,4 +1,5 @@
-<p class="h3 pb-3">Notofication settings</p>
+<p class="h3">Notification settings</p>
+<p class="h6 pb-3">What type of reminders do you want to use?</p>
 <p class="text-muted">Enable reminders to be in time with your schedule.</p>
 <div id="configs">
     <p>Get on e-mail: <span><?= carbon_get_user_meta( $user_id, 'notify_email' ) ?></span>
@@ -16,6 +17,6 @@
         </div>
     </p>
     <p class="d-flex pseudocheckbox" onclick="os_toggle()">
-        <span class="d-block mr-2"></span> Get notofications in browser.
+        <span class="d-block mr-2"></span> Get notifications in browser.
     </p>
 </div>

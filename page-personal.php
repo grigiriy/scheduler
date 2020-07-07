@@ -117,7 +117,7 @@ set_query_var( 'active_mode', $active_mode );
     <div class="col-12 mb-3">
         <div class="card shadow-lg bottom_rounded top_rounded py-5 mb-5" id="configs">
             <div class="card-header bg-transparent border-bottom-0 pl-5">
-                <p class="h3 mb-0">Registration lessons</p>
+                <p class="h3 mb-0">Account</p>
                 <div class="my-3 _not_set"
                     style="<?= carbon_get_user_meta( $user_id, 'notify_email') ? 'display:none' :'' ?>">
                     <div class="col-2">
@@ -127,7 +127,7 @@ set_query_var( 'active_mode', $active_mode );
                     </div>
                     <div class="col-10 smaller pl-0">
                         <p class="mb-1">Add your email:</p>
-                        <p class="text-muted mb-1">Notofications email</p>
+                        <p class="text-muted mb-1">Notification email</p>
                     </div>
                 </div>
                 <p class="my-3 _set"
