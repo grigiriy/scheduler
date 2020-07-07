@@ -81,7 +81,6 @@ wp_reset_postdata();
 while ( have_posts() ) :
     the_post();
 
-
 if (isset($timers) ) {
     set_query_var( 'timers', $timers );
 }
@@ -94,15 +93,10 @@ set_query_var( 'now_incTZ', $now_incTZ );
 $passed_lessons = get_passed_lessons_arr($user_id);
 set_query_var( 'passed_lessons', $passed_lessons );
 set_query_var( 'current_lessons', $current_lessons );
-
-
 ?>
 <div class="col-12 mb-3">
     <h1>Calendar</h1>
 </div>
-
-
-
 <section class="col-12 col-lg-7">
     <div class="d-flex flex-column border-top border-success">
         <div class="card shadow-lg bottom_rounded">
@@ -114,7 +108,7 @@ set_query_var( 'current_lessons', $current_lessons );
         </div>
     </div>
 </section>
-<section class="col-12 col-lg-5">
+<section class="col-12 col-lg-5 mt-4 mt-lg-0">
     <div class="card shadow-lg bottom_rounded top_rounded">
     <?php get_template_part('theme-helpers/template-parts/account','dashboard'); ?>
     </div>

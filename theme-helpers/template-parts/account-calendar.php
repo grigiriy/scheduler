@@ -1,12 +1,18 @@
 <div id="calend"
     class="card-header <?= $calend_days === '0' ? 'bg-transparent py-4 px-5' : 'bg-light p-3' ?>  border-bottom-0 border-top-0">
-    <h4 class="px-2"><?= $calend_header; ?></h4>
+    <h4><?= $calend_header; ?></h4>
 </div>
 
-<?php if(isset($timers) && $timers ){ ?>
-
+<?php if(isset($timers) && $timers ){
+    if ($calend_days === '0'){ ?>
+        <p class="px-5">
+        Calendar shows how many videos you are currently reviewing and when you can add new
+        lessons.
+        If you want to have a lighter schedule you can skip adding new videos.
+        </p>
+    <?php } ?>
 <div class="card-body <?= $calend_days === '0' ? 'pt-3 px-5 pb-4' : 'p-0 px-1 pb-2' ?> border-bottom-0 border-top-0">
-    <table class="trans_borders table m-0">
+    <table class="trans_borders table mx-n2">
         <thead>
             <tr>
                 <th scope="col">Lesson</th>
@@ -38,10 +44,8 @@
                 <td><?= display_day($timer[0]); ?></td>
                 <td><?= getdate($timer[0])['hours'].':'.mins_trim(getdate($timer[0])['minutes']) ?></td>
             </tr>
-            <?php
-                }
-            }
-        ?>
+            <?php }
+            } ?>
         </tbody>
     </table>
 </div>
@@ -53,19 +57,18 @@
 <?php } 
 
 } else { ?>
-<div class="my-3 mx-5 px-2">
+<div class="my-3 <?= $calend_days === '0' ? 'mx-5' : 'mx-2' ?> px-2">
     <p class="h4">No courses yet</p>
-    <?php if ($is_time_to_add ) {
-        if($is_paid){
-        ?>
-        <p class="h4">Click <a href="/catalog/">here</a> to start learning!</p>
-        <?php
-        }
-    } else { ?>
+    <?php if($calend_days === '0'){ ?>
+        <p class="px-1">
+        You have no plans for English now. Let’s learn English fun.
+        Pick the most engaging video from the <a href="/catalog/">Catalog</a> and press “Choose this lesson” button to start
+        learning English with native speakers now!
+        </p>
+    <?php }
+    if (!$is_time_to_add ) { ?>
     <p class="h3">You can add new lesson on
-        <?=
-        display_day($next_lesson_adding_time);
-        ?>
+        <?= display_day($next_lesson_adding_time); ?>
     </p>
     <?php } ?>
 </div>
