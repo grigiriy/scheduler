@@ -41,7 +41,7 @@
                         <a href="<?= get_the_permalink($timer[1]);?>"><?= get_the_title($timer[1]) ?></a>
                     </div>
                 </td>
-                <td><?= display_day($timer[0]); ?></td>
+                <td class="text-capitalize"><?= display_day($timer[0]); ?></td>
                 <td><?= getdate($timer[0])['hours'].':'.mins_trim(getdate($timer[0])['minutes']) ?></td>
             </tr>
             <?php }

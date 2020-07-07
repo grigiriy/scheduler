@@ -7,11 +7,11 @@
                 </button>
             </div>
             <div class="modal-body pt-0">
-                <div class="h4 text-center text-dark pb-3">Start learning!</div>
-                <p class="text-center pb-3">Are you sure you want to choose this lesson?<br>There're two days before you can new one.</p>
+                <div class="h4 text-center text-dark pb-3">You can add only one lesson in 2 days.</div>
+                <p class="text-center pb-3">Are you sure you want to start learning and reviewing this lesson?</p>
                 <div class="d-flex flex-wrap justify-content-around my-4">
-                    <button class="btn btn-success btn-round px-4 py-3 mb-3 mb-sm-0" data-action="start_lesson">Yes, I am sure!</button>
-                    <button class="btn btn-secondary btn-round px-4 py-3 mb-3 mb-sm-0" data-dismiss="modal" aria-label="Close">No, go back to the library</button>
+                    <button class="btn btn-success btn-round px-4 py-3 mb-3 mb-sm-0" data-action="start_lesson">Yes, I want to start</button>
+                    <button class="btn btn-secondary btn-round px-4 py-3 mb-3 mb-sm-0" data-dismiss="modal" aria-label="Close">No, return to the selection</button>
                 </div>
             </div>
         </div>

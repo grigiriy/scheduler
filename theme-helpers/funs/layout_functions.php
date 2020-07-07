@@ -29,16 +29,19 @@ function display_day($next_lesson_adding_time) {
     $next_formated = getdate($next_lesson_adding_time);
     global $now_incTZ;
       if($now_incTZ > $next_lesson_adding_time){
-        $next = 'Today';
+        $next = 'today';
         goto fin;
       } else if(getdate($now_incTZ)['mday'] === $next_formated['mday']){
-        $next = 'Today';
+        $next = 'today';
         goto fin;
       } else if($next_formated['mday'] - getdate($now_incTZ)['mday'] == 1) {
-        $next = 'Tomorrow';
+        $next = 'tomorrow';
+        goto fin;
+      } else if($next_formated['mday'] - getdate($now_incTZ)['mday'] == 2) {
+        $next = 'the day after tomorrow';
         goto fin;
       } else if($next_formated['mday'] - getdate($now_incTZ)['mday'] == 7){
-        $next = 'In a week';
+        $next = 'in a week';
         goto fin;
       } else {
         $next = $next_formated['weekday'];

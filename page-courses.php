@@ -39,7 +39,6 @@ document.location.href = '/';
                 $lessons_query = get_posts($args);
                 if(count($lessons_query) ){?>
                 <div class="mb-5">
-                    <p class="h4 mb-4">Welcome to the Learning library</p>
                     <?= the_content(); ?>
                 </div>
                 <?php } ?>

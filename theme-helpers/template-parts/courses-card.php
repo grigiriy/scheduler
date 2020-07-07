@@ -24,9 +24,8 @@ if( $is_course_checker){
 } else {
     $launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
     ['href="javascript:void(0)" onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary','Choose this lesson'] :
-    ['href="javascript:void(0)" data-toggle="popover" data-placement="right" title="Wait a bit" data-content="You can add new lesson on '. display_day($next_lesson_adding_time).'"','secondary','Choose this lesson'];
-}
-?>
+    ['href="javascript:void(0)" data-toggle="popover" data-placement="right" title="Sorry, you cannot add a new lesson today" data-html="true" data-content="Return '. display_day($next_lesson_adding_time).'. Read <a href=\'/help/\'>Help</a> for more information."','secondary','Choose this lesson'];
+} ?>
 <div class="card mb-5 shadow-lg p-0" id="<?= $_post->ID; ?>">
     <div class="card-head video_wrapper" onclick="preview_video(this,'<?=$yt_code; ?>')">
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
