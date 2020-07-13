@@ -16,7 +16,11 @@
             Please write valid email
         </div>
     </p>
-    <p class="d-flex pseudocheckbox" onclick="os_toggle()">
+    <p
+    class="d-none d-sm-flex pseudocheckbox"
+    onclick="os_toggle()"
+    data-placement="top"
+    title="Make sure you enable notifications" tabindex="0" data-trigger="focus" data-html="true" data-html="true" data-content="<img style='max-width:250px' src='/wp-content/themes/scheduler_mvp/img/notify.jpg'/><p>At the address bar you can find the lock icon. Click it :)</p>">
         <span class="d-block mr-2"></span> Get notifications in browser.
     </p>
 </div>

@@ -521,6 +521,8 @@ OneSignal.push(function () {
         // и вешаю актив на псевдоселекторы
       });
       document.querySelector('.pseudocheckbox').classList.add('active');
+    } else if (permission === 'denied') {
+      $('#configs').find('.pseudocheckbox').popover();
     } else {
       console.log('SCHAßE! Permission:', permission);
       os_toggle();
