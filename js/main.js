@@ -25,6 +25,10 @@ function toggleVideo(e) {
   new_video(_video);
 }
 
+function rerenderPopovers() {
+  $('[data-toggle="popover"]').popover();
+}
+
 $(document).ready(function () {
   $('[data-toggle="popover"]').popover();
 
@@ -57,6 +61,7 @@ $(document).ready(function () {
         filter.find('input[type="submit"]').val('Show lessons'); // возвращаеи текст кнопки
         $('#courses_wrapper').html(data);
         rerenderImages();
+        rerenderPopovers();
       },
       error: function (errorThrown) {
         filter.find('input[type="submit"]').val('error...');

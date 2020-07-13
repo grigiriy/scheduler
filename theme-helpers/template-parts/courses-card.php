@@ -22,7 +22,7 @@ $is_course_checker = (
 if( $is_course_checker){
     $launch_btn = ['href="'.get_the_permalink($_post->ID).'"','info','Open this lesson'];
 } else {
-    $launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
+    $launch_btn = is_time_to_add($next_lesson_adding_time) ?
     ['href="javascript:void(0)" onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary','Choose this lesson'] :
     ['href="javascript:void(0)" data-toggle="popover" data-placement="right" title="Sorry, you cannot add a new lesson today" data-html="true" data-content="Return '. display_day($next_lesson_adding_time).'. Read <a href=\'/help/\'>Help</a> for more information."','secondary','Choose this lesson'];
 } ?>
