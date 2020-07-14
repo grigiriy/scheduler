@@ -15,17 +15,17 @@ $course_level = get_the_terms($_post->ID,'course_level');
 $course_duration = get_the_terms($_post->ID,'course_duration');
 
 $is_course_checker = (
-    get_the_title($post_id) === 'Current lessons' ||
-    get_the_title($post_id) === 'Already passed'
-) ? true : false;
+    has_term('Started', 'course_status',$_post->ID) || has_term('Finished', 'course_status',$_post->ID)
+    ) ? true : false;
 
 if( $is_course_checker){
     $launch_btn = ['href="'.get_the_permalink($_post->ID).'"','info','Open this lesson'];
 } else {
-    $launch_btn = (is_time_to_add($next_lesson_adding_time) && $is_paid) ?
+    $launch_btn = is_time_to_add($next_lesson_adding_time) ?
     ['href="javascript:void(0)" onclick="start_course_before(this)" data-href="'.get_the_permalink($_post->ID).'"','primary','Choose this lesson'] :
     ['href="javascript:void(0)" data-toggle="popover" data-placement="right" title="Sorry, you cannot add a new lesson today" data-html="true" data-content="Return '. display_day($next_lesson_adding_time).'. Read <a href=\'/help/\'>Help</a> for more information."','secondary','Choose this lesson'];
 } ?>
+
 <div class="card mb-5 shadow-lg p-0" id="<?= $_post->ID; ?>">
     <div class="card-head video_wrapper" onclick="preview_video(this,'<?=$yt_code; ?>')">
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -50,7 +50,7 @@ if( $is_course_checker){
                         d="M3.762 2.558C4.735 1.909 5.348 1.5 6.5 1.5c.653 0 1.139.325 1.495.562l.032.022c.391.26.646.416.973.416.168 0 .356-.042.587-.126a8.89 8.89 0 00.593-.25c.058-.027.117-.053.18-.08.57-.255 1.278-.544 2.14-.544a.5.5 0 01.5.5v6a.5.5 0 01-.5.5c-.638 0-1.18.21-1.734.457l-.159.07c-.22.1-.453.205-.678.287A2.719 2.719 0 019 9.5c-.653 0-1.139-.325-1.495-.562l-.032-.022c-.391-.26-.646-.416-.973-.416-.833 0-1.218.246-2.223.916A.5.5 0 013.5 9V3a.5.5 0 01.223-.416l.04-.026z"
                         clip-rule="evenodd" />
                 </svg>
-                <?= $course_level[0]->name ?>
+                <?= $course_level[0]->name; ?>
             </span>
             <span class="ml-4">
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -66,7 +66,7 @@ if( $is_course_checker){
                         s110,49.346,110,110.001C250.001,200.655,200.655,250.001,140.001,250.001z" />
                     </g>
                 </svg>
-                <?= $course_duration[0]->name ?>
+                <?= $course_duration[0]->name; ?>
             </span>
         </p>
         <?php } ?>
