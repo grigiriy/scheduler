@@ -30,12 +30,11 @@ document.location.href = '/';
     <div class="container pt-5">
         <div class="row ml-0">
             <div class="col-12 col-md-3 col-lg-2 px-0">
-                <?php
-                get_template_part( 'theme-helpers/template-parts/courses','filter' ); ?>
+                <?php get_template_part( 'theme-helpers/template-parts/courses','filter' ); ?>
             </div>
             <div class="col-12 col-lg-10 col-md-9 px-0 pr-md-3 pl-md-5">
                 <?php
-                $args = set_course_loop($post->ID);
+                $args = set_course_loop(preFilter_gettingPage($post->ID));
                 $lessons_query = get_posts($args);
                 if(count($lessons_query) ){?>
                 <div class="mb-5">

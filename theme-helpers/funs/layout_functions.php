@@ -5,21 +5,33 @@ add_action('wp_ajax_nopriv_course_filter', 'course_filter');
 
 function course_filter() {
     $post_id = intval($_POST['post_id']);
-    $args = set_course_loop($post_id);
+    $args = set_course_loop(preFilter_gettingPage($post_id));
+
     $data = json_decode(stripcslashes($_POST['data']));
-  
-    $args['tax_query'] = [ 'relation'=>'OR' ];
-  
+
+    $is_course_checker = (
+      get_the_title($post->ID) === 'Current lessons' ||
+      get_the_title($post->ID) === 'Already passed'
+      ) ? true : false;
+    set_query_var( 'is_course_checker', $is_course_checker );
+
+    $_params=[];
     foreach ($data as $param){
       if($param->value !== 'any'){
-        $args['tax_query'][]=[
-          'taxonomy' => $param->name,
-          'field' => 'id',
-          'terms' => $param->value
-        ];
+        array_push($_params,$param->value);
+      } else {
+        $_params = 0;
       }
     }
-  
+    
+    $args['tax_query'][] = [ 'relation'=>'AND' ];
+    $args['tax_query'][]=[
+      'taxonomy' => 'course_tag',
+      'field' => 'id',
+      'terms' => $_params,
+      'operator' => $_params ? 'IN' : 'NOT_IN'
+    ];
+
     render_courses($args);
     
   //нужно будет делать проверку и писать в пост__нот_ин как на сет_курс_луп. пока на паузу (не помню зачем - надо будет разобраться)
@@ -60,8 +72,8 @@ function display_day($next_lesson_adding_time) {
   wp_reset_postdata();
   return count(get_posts($args));
   }
-  function set_course_loop($post_id){
 
+  function preFilter_gettingPage($post_id){
     if (get_the_title($post_id) === 'Current lessons') {
       $this_page = 'current';
     } else if (get_the_title($post_id) === 'Already passed') {
@@ -71,13 +83,22 @@ function display_day($next_lesson_adding_time) {
     } else {
         $this_page = 'courses';
     }
+    return($this_page);
+  }
+
+  function set_course_loop($this_page){
   
+    if($this_page){
     $args = array(
       'orderby' => 'post_date',
       'post_type' => 'lessons',
-      'numberposts' => -1
+      'numberposts' => -1,
+        'tax_query'=>[
+          'taxonomy' => 'course_status',
+          'field' => 'slug',
+          'terms' => $this_page === 'courses' ? 'any' : $this_page
+        ],
     );
-    if($this_page){
   
       $user_id = get_current_user_id();
       set_query_var('user_id',$user_id);
@@ -116,6 +137,7 @@ function display_day($next_lesson_adding_time) {
     }
     return ($args);
   }
+
   function render_courses($args) {
     $lessons_query = get_posts($args);
     if(count($lessons_query) ){
