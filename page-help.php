@@ -197,10 +197,12 @@ document.location.href = '/';
                 <input type="submit" class="mt-3 mr-auto d-flex align-self-center btn btn-primary btn-round px-5 py-3"
                     value="Send" />
             </form>
+            <?php if(1 > 2){ //temporary exclude socblock ?>
             <div class="card my-5 p-5 top_rounded bottom_rounded border-0 shadow-lg">
                 <p class="h3 pb-4">Write us here</p>
-                <?php  get_template_part('/theme-helpers/template-parts/footer','social'); ?>
+                <?php get_template_part('/theme-helpers/template-parts/footer','social'); ?>
             </div>
+            <?php } ?>
         </div>
     </div>
 </div>

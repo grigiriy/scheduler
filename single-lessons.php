@@ -118,7 +118,11 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 <div class="row col-12 mx-0">
     <div class="col-12 col-md-6 pl-0 mb-md-0 mb-5" style="display:none" id="text">
         <div class="bottom_rounded bg-white py-5 px-4">
-            <?php the_content(); ?>
+            <?php
+            the_content();
+            print_r(get_post($post_id));
+            ?>
+            
         </div>
     </div>
     <div class="player_wrap w-100">

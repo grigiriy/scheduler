@@ -222,7 +222,8 @@ form input[type='submit'].um-button {
   background: url(/wp-content/themes/scheduler_mvp/img/new_day.png);
   background-repeat: no-repeat;
   background-size: 40%;
-  background-position: 55%;
+  background-position-x: 55%;
+  background-position-y: 50px;
 }
 .new_day_card.not_payed {
   background-image: url(/wp-content/themes/scheduler_mvp/img/passed_icon.png);
@@ -618,4 +619,13 @@ textarea.resize_none {
   left: 0;
   width: 100%;
   height: 100% !important;
+}
+.no-hover:hover {
+  text-decoration: none;
+}
+.no-hover:hover span {
+  text-decoration: underline;
+}
+.no-user-select {
+  user-select: none;
 }

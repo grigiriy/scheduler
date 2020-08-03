@@ -64,6 +64,10 @@
             </svg>
 
             Themes</label>
+            <code class="bg-light">
+            <h3>CSS</h3>
+            .course_tag span{}
+            </code>
         <?php
     
         $course_tags = get_terms( 'course_tag', [
@@ -71,10 +75,10 @@
         ] );
         
         foreach ($course_tags as $course_tag) {?>
-        <label class="btn-checkbox mr-2" for="<?= $course_tag->slug ?>">
+        <label class="btn-checkbox mr-2 course_tag" for="<?= $course_tag->slug ?>">
 
             <input name="course_tag" id="<?= $course_tag->slug ?>" type="checkbox" value="<?= $course_tag->term_id?>" />
-            <span class="btn rounded-0 btn-shadow my-2"><?= $course_tag->name?></span>
+            <span class="btn rounded-0"><?= $course_tag->name?></span>
 
         </label>
         <?php } ?>

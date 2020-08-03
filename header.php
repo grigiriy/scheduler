@@ -17,7 +17,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9 d-flex mt-3 mt-md-1">
                 <div class="ml-md-auto mr-3">
-                    <a href="/profile/" class="d-block p-2">
+                    <a href="/profile/" class="d-block p-2 no-hover">
                         <?php if ( carbon_get_theme_option( 'teacher' ) && carbon_get_user_meta(get_current_user_id(),'avatar') ) { ?>
                         <img class="ava" id="ava_header" src="<?= carbon_get_user_meta(get_current_user_id(),'avatar'); ?>" alt="">
                         <?php } else { ?>
@@ -28,7 +28,7 @@
                 </div>
             <?php if( carbon_get_theme_option( 'teacher' ) ) { ?>
                 <div class="mr-2">
-                    <a href="/payment/" class="d-block p-2">
+                    <a href="/payment/" class="d-block p-2 no-hover">
                         <svg version="1.1" class="ava w-100 text-dark" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink"
                             enable-background="new 0 0 512 512" fill="currentColor">
@@ -42,13 +42,12 @@
                                 </g>
                             </g>
                         </svg>
-
                         <span class="ml-2 h5 text-dark align-middle">Payment</span>
                     </a>
                 </div>
             <?php } ?>
                 <div>
-                    <a href="/help/" class="d-block p-2">
+                    <a href="/help/" class="d-block p-2 no-hover">
                         <svg version="1.1" class="ava w-100 text-dark" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
                             style="enable-background:new 0 0 512 512;" xml:space="preserve" fill="currentColor">
@@ -64,7 +63,6 @@
                                 </g>
                             </g>
                         </svg>
-
                         <span class="ml-2 h5 text-dark align-middle">Help</span>
                     </a>
                 </div>

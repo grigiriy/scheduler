@@ -13,7 +13,7 @@ function add_lesson() {
     $my_postarr = array(
       'post_name'    => get_the_author_meta('user_login', $user_id),
       'post_title'    => get_the_title($post_id),
-      'post_content'  => '', // контент
+      'post_content'  => get_post($post_id)->post_content, // контент
       'post_parent'   => $post_id,
       'post_type'   => 'lessons',
       'post_author'   => $user_id,

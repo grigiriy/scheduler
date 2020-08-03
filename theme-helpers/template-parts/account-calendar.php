@@ -1,5 +1,5 @@
 <div id="calend"
-    class="card-header <?= $calend_days === '0' ? 'bg-transparent py-4 px-5' : 'bg-light p-3' ?>  border-bottom-0 border-top-0">
+    class="card-header <?= $calend_days === '0' ? 'bg-transparent py-4 px-5' : 'bg-light p-4' ?>  border-bottom-0 border-top-0">
     <h4><?= $calend_header; ?></h4>
 </div>
 
@@ -11,7 +11,7 @@
         If you want to have a lighter schedule you can skip adding new videos.
         </p>
     <?php } ?>
-<div class="card-body <?= $calend_days === '0' ? 'pt-3 px-5 pb-4' : 'p-0 px-1 pb-2' ?> border-bottom-0 border-top-0">
+<div class="card-body <?= $calend_days === '0' ? 'pt-3 px-5 pb-4' : 'p-0 px-4 pb-2' ?> border-bottom-0 border-top-0">
     <table class="trans_borders table mx-n2">
         <thead>
             <tr>
@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             <?php
-            foreach($timers as $key=>$timer){
+            foreach($timers as $key=>$timer) {
                 $timer = explode(',',$timer);
                     if( $calend_days === '0' || ($now_incTZ + (24*60*60*$calend_days) >= $timer[0]) ){
                 ?>
@@ -51,13 +51,13 @@
 </div>
 <?php if($calend_days !== '0'){ ?>
 
-<div class="card-footer text-left bg-white pb-4 border-top-0">
+<div class="card-footer text-left bg-white pb-4 px-4 border-top-0">
     <a href="/calendar/" class="btn btn-outline-primary btn-round py-3 px-4">Go to calendar</a>
 </div>
 <?php } 
 
 } else { ?>
-<div class="my-3 <?= $calend_days === '0' ? 'mx-5' : 'mx-2' ?> px-2">
+<div class="my-3 <?= $calend_days === '0' ? 'mx-5' : 'mx-2' ?> px-3">
     <p class="h4">No courses yet</p>
     <?php if($calend_days === '0'){ ?>
         <p class="px-1">
