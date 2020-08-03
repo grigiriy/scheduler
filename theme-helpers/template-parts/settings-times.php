@@ -1,4 +1,4 @@
-<div class="card-body row bd-callout__no_bs bd-callout-warning">
+<div class="px-4 row bd-callout__no_bs bd-callout-warning">
     <div class="col-sm-6 col-12">
         <p class="h5">Convenient time to study</p>
         <p class="text-muted">

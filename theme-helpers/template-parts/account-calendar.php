@@ -52,7 +52,7 @@
 <?php if($calend_days !== '0'){ ?>
 
 <div class="card-footer text-left bg-white pb-4 px-4 border-top-0">
-    <a href="/calendar/" class="btn btn-outline-primary btn-round py-3 px-4">Go to calendar</a>
+    <a href="/calendar/" class="btn btn-outline-primary btn-round py-2 px-4">Go to calendar</a>
 </div>
 <?php } 
 

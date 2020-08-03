@@ -145,11 +145,11 @@ set_query_var( 'active_mode', $active_mode );
                             <!-- Icons made by Pixel perfect (https://www.flaticon.com/authors/pixel-perfect) for Flaticon (https://www.flaticon.com/) -->
                         </svg>
                         Edit</span>
-                    <div class="invalid-feedback mb-3">
-                        Please write valid e-mail
-                    </div>
-                <button class="btn btn-primary btn-round  py-3 px-4" data-toggle="modal" data-target="#reset">Reset password</button>
                 </p>
+                <div class="invalid-feedback mb-3">
+                    Please write valid e-mail
+                </div>
+                <button class="btn btn-outline-primary btn-round py-2 px-4" data-toggle="modal" data-target="#reset">Reset password</button>
             </div>
             <div class="row card-body">
                 <div class="col-12 col-lg-7 ml-n1">

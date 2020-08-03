@@ -12,8 +12,8 @@ function add_lesson() {
   if (is_paid($user_id) && !is_post_exist($post_id,$user_id)){
     $my_postarr = array(
       'post_name'    => get_the_author_meta('user_login', $user_id),
-      'post_title'    => get_the_title($post_id),
-      'post_content'  => get_post($post_id)->post_content, // контент
+      'post_title'    => get_post($post_id)->post_title,
+      'post_content'  => get_post($post_id)->post_content . ' ', // контент IDK WTF
       'post_parent'   => $post_id,
       'post_type'   => 'lessons',
       'post_author'   => $user_id,
