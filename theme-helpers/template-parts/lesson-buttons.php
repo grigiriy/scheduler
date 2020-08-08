@@ -16,8 +16,8 @@
         </svg>
     </button>
 
-    <button class="btn btn-link btn-round py-3 pl-5 px-4 mr-1" onclick="toggleVideo(this)" id="toggle_video">
-        <span class="mr-4">Show second video</span>
+    <button class="btn btn-outline-primary btn-round py-3 pl-5 px-4 mr-auto ml-2" onclick="toggleVideo(this)" id="toggle_video">
+        <span class="mr-4">Show video with explanations</span>
     </button>
 
 
@@ -51,6 +51,7 @@
         <?= get_the_terms( $post_id, 'course_duration' )[0]->name; ?>
     </button>
  <?php } ?>
+ 
     <?php foreach( get_the_terms( $post_id, 'course_tag' ) as $tag){ ?>
     <button class="btn">
         <svg class="mr-1 mb-1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"

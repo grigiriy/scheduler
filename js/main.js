@@ -17,8 +17,8 @@ function showText(e) {
 function toggleVideo(e) {
   $(e).toggleClass('_second');
   $(e).hasClass('_second')
-    ? $(e).find('span').text('Show first video')
-    : $(e).find('span').text('Show second video');
+    ? $(e).find('span').text('Just video')
+    : $(e).find('span').text('Show video with explanations');
 
   let _video = $(e).hasClass('_second') ? yt_code_2 : 1;
 
