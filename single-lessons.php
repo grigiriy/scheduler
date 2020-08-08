@@ -115,20 +115,21 @@ document.location.href = '<?= array_shift($childrens)->guid; ?>';
 
 
 </div>
-<div class="row col-12 mx-0">
-    <div class="col-12 col-md-6 pl-0 mb-md-0 mb-5" style="display:none" id="text">
-        <div class="bottom_rounded bg-white py-5 px-4">
-            <?php the_content(); ?>
-            
-        </div>
-    </div>
-    <div class="player_wrap w-100">
-        <div class="player_wrapper">
-            <div id="player" class="mb-5"></div>
+<div class="col-12">
+    <div class="row">
+        <main class="col-12 col-md-6 pl-0 mb-md-0 mb-5" style="display:none" id="text">
+            <section class="bottom_rounded bg-white py-5 px-4">
+                <?= get_the_content(); ?>
+            </section>
+        </main>
+        <div class="player_wrap w-100">
+            <div class="player_wrapper">
+                <div id="player" class="mb-5"></div>
+            </div>
         </div>
     </div>
 </div>
-</div>
+
 
 <script>
 var tag = document.createElement('script');
