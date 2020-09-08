@@ -52,7 +52,9 @@
     </button>
  <?php } ?>
  
-    <?php foreach( get_the_terms( $post_id, 'course_tag' ) as $tag){ ?>
+    <?php
+    if( get_the_terms($post_id, 'course_tag')) {
+    foreach( get_the_terms( $post_id, 'course_tag' ) as $tag){ ?>
     <button class="btn">
         <svg class="mr-1 mb-1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1em" height="1em"
@@ -75,6 +77,7 @@
         <?= $tag->name; ?>
     </button>
     <?php
+    }
 }
 ?>
 </div>

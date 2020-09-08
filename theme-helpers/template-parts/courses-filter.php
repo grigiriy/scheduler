@@ -43,7 +43,7 @@
     </div>
 <?php } ?>
     <div class="d-flex flex-wrap">
-        <label class="h6 <?php carbon_get_theme_option( 'teacher' ) ? '' : 'mt-5' ;?> d-block w-100">
+        <label class="h6 <?php carbon_get_theme_option( 'teacher' ) ? '' : 'my-5' ;?> d-block w-100">
             <svg class="mr-1 mb-1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1em" height="1em"
                 viewBox="0 0 345.567 345.567" style="enable-background:new 0 0 345.567 345.567;" xml:space="preserve">
@@ -64,10 +64,6 @@
             </svg>
 
             Themes</label>
-            <code class="bg-light">
-            <h3>CSS</h3>
-            .course_tag span{}
-            </code>
         <?php
     
         $course_tags = get_terms( 'course_tag', [
