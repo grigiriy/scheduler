@@ -10,3 +10,6 @@
 <div class="col-12 mx-0">
     <div id="player_2" data-id="<?= $yt_code_2 ?>" class="mb-5"></div>
 </div>
+<div class="col-12 mx-0">
+    <button class="btn btn-outline-secondary btn-round py-3 px-5" onclick="third_step(this)"><span class="arrow_symbol mr-3">⟵</span>Previous step</button>
+</div>

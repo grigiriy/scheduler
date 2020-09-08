@@ -1,8 +1,10 @@
+<?php if(!is_page_template('page-steps.php')){ ?>
 <p class="h3">Notification settings</p>
 <p class="h6 pb-3">What type of reminders do you want to use?</p>
 <p class="text-muted">Enable reminders to be in time with your schedule.</p>
+<?php } ?>
 <div id="configs">
-    <p>Get on e-mail: <span><?= carbon_get_user_meta( $user_id, 'notify_email' ) ?></span>
+    <p>E-mail: <span><?= carbon_get_user_meta( $user_id, 'notify_email' ) ?></span>
         <span class="ml-3 text-primary edit" data-type="notify_email">
             <svg viewBox="0 0 492.49284 492" width="0.8em" xmlns="http://www.w3.org/2000/svg">
                 <path fill="#007bff"
@@ -21,6 +23,6 @@
     onclick="os_toggle()"
     data-placement="top"
     title="Make sure you enable notifications" tabindex="0" data-trigger="focus" data-html="true" data-html="true" data-content="<img style='max-width:250px' src='/wp-content/themes/scheduler_mvp/img/notify.jpg'/><p>At the address bar you can find the lock icon. Click it :)</p>">
-        <span class="d-block mr-2"></span> Get notifications in browser.
+        <span class="d-block mr-2"></span> Notifications in browser.
     </p>
 </div>
