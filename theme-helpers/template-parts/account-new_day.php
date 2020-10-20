@@ -4,7 +4,7 @@
 
             <p class="card-title h3 mb-0 ml-3 pl-5">Are you ready to add a new lesson?</p>
 
-            <div class="ml-auto mr-4 mb-lg-5">
+            <div class="ml-auto mr-4">
                 <p class="h1">Yeee!</p>
                 <p>Something new!</p>
             </div>
