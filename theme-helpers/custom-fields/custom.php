@@ -46,14 +46,16 @@ Container::make( 'post_meta', 'Video' )
 WpGraphQLCrbContainer::register(
 Container::make( 'post_meta', 'Course details' )
 ->where( 'post_type', '=', 'lessons' )
+->add_tab( 'tooltips', [
+    Field::make( 'complex', 'tooltips', 'Tooltips' )
+    ->add_fields( [
+        Field::make('text', 'name', 'Tooltip name')
+        ->set_width( 20 ),
+        Field::make('rich_text', 'content', 'Tooltip content')
+        ->set_width( 80 ),
+    ])
+])
 ->add_tab( 'course info', [
-    // Field::make( 'complex', 'detailed_sentences', 'Detailed sentences' )
-    // ->add_fields( [
-    //     Field::make('rich_text', 'sentence', 'Sentence')
-    //     ->set_width( 50 ),
-    //     Field::make('textarea', 'note_1', 'Note')
-    //     ->set_width( 50 ),
-    // ])
     Field::make('text', 'yt_code', 'First video YouTube code'),
     Field::make('text', 'yt_code_2', 'Second video start time')
 ])

@@ -24,7 +24,8 @@ function create_posttype() {
                 'editor',
                 'title',
                 'thumbnail',
-                'excerpt'
+                'excerpt',
+                'custom-fields'
                 )
  
         )

@@ -24,7 +24,7 @@
 .smaller {
   font-size: 0.8em;
 }
-.border-success {#00f237!important}
+.border-success {border-color:#00f237!important}
 
 .much-smaller {
   font-size: 0.5em;
@@ -622,4 +622,10 @@ textarea.resize_none {
 }
 .no-user-select {
   user-select: none;
+}
+.popover-body {
+  display: flex;
+}
+.popover img{
+  max-width: 50px;
 }

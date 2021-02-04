@@ -83,6 +83,7 @@ function special_nav_class($classes, $item){
 add_action( 'carbon_fields_register_fields', 'crb_register_custom_fields' );
 function crb_register_custom_fields() {
   include_once __DIR__ . '/theme-helpers/custom-fields/custom.php';
+  include_once __DIR__ . '/theme-helpers/custom-fields/gutenberg.php';
 }
 
 add_action( 'after_setup_theme', 'crb_load' );
